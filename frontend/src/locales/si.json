@@ -1,0 +1,25 @@
+{
+  "login": {
+    "title": "එක්ස්ප්‍රස් බුක්",
+    "subtitle": "ඔබගේ එකතුවට නැවත සාදරයෙන් පිළිගනිමු.",
+    "emailPlaceholder": "විද්‍යුත් තැපෑල",
+    "passwordPlaceholder": "මුරපදය",
+    "button": "ඇතුල් වන්න",
+    "noAccount": "ගිණුමක් නැද්ද?",
+    "signupLink": "දැන් ලියාපදිංචි වන්න"
+  },
+  "signup": {
+    "title": "ගිණුමක් සාදන්න",
+    "subtitle": "Express Book සමඟ ඔබේ කියවීමේ ගමන අරඹන්න.",
+    "nameLabel": "සම්පූර්ණ නම",
+    "namePlaceholder": "ඔබේ නම",
+    "emailLabel": "විද්‍යුත් තැපෑල",
+    "emailPlaceholder": "jane@example.com",
+    "passwordPlaceholder": "බලවත් මුරපදයක් සාදන්න",
+    "passwordLabel": "මුරපදය",
+    "passwordHint": "අවම වශයෙන් අක්ෂර 8 ක් විය යුතුය.",
+    "button": "ගිණුමක් සාදන්න",
+    "haveAccount": "දැනටමත් ගිණුමක් තිබේද?",
+    "loginLink": "ඇතුල් වන්න"
+  }
+}

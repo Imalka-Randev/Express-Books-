@@ -1,0 +1,25 @@
+{
+  "login": {
+    "title": "Express Book",
+    "subtitle": "Welcome back to your curated collection.",
+    "emailPlaceholder": "Email address",
+    "passwordPlaceholder": "Password",
+    "button": "Log In",
+    "noAccount": "Not a member?",
+    "signupLink": "Sign up now"
+  },
+  "signup": {
+    "title": "Create Account",
+    "subtitle": "Start your reading journey with Express Book.",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Jane Doe",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "jane@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "make strong Password",
+    "passwordHint": "Must be at least 8 characters.",
+    "button": "Create Account",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Log in"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "login": {
+    "title": "எக்ஸ்பிரஸ் புக்",
+    "subtitle": "உங்கள் தொகுப்பிற்கு மீண்டும் வருக.",
+    "emailPlaceholder": "மின்னஞ்சல் முகவரி",
+    "passwordPlaceholder": "கடவுச்சொல்",
+    "button": "உள்நுழைக",
+    "noAccount": "உறுப்பினர் இல்லையா?",
+    "signupLink": "இப்போது பதிவு செய்யவும்"
+  },
+  "signup": {
+    "title": "கணக்கை உருவாக்கு",
+    "subtitle": "எக்ஸ்பிரஸ் புக்கின் மூலம் உங்கள் வாசிப்பு பயணத்தை தொடங்குங்கள்.",
+    "nameLabel": "முழு பெயர்",
+    "namePlaceholder": "உங்கள் பெயர்",
+    "emailLabel": "மின்னஞ்சல் முகவரி",
+    "emailPlaceholder": "jane@example.com",
+    "passwordLabel": "கடவுச்சொல்",
+    "passwordPlaceholder": "வலுவான கடவுச்சொல்லை உருவாக்கவும்",
+    "passwordHint": "குறைந்தது 8 எழுத்துகள் இருக்க வேண்டும்.",
+    "button": "கணக்கை உருவாக்கு",
+    "haveAccount": "ஏற்கனவே கணக்கு உள்ளதா?",
+    "loginLink": "உள்நுழைக"
+  }
+}
