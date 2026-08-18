@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../../store/authSlice';
+import { logoutUser } from '../../store/authSlice';
 
 export type ProfileTab = 'overview' | 'library' | 'rented' | 'notifications' | 'community';
 
@@ -16,7 +16,7 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutUser());
     navigate('/');
   };
 

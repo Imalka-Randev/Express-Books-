@@ -2,7 +2,7 @@ import { type FC, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { type RootState, type AppDispatch } from '../store/store';
-import { logout } from '../store/authSlice';
+import { logoutUser } from '../store/authSlice';
 import { fetchLibrary } from '../store/librarySlice';
 
 import ProfileSidebar, { type ProfileTab } from '../components/profile/ProfileSidebar';
@@ -35,7 +35,7 @@ const Profile: FC = () => {
   // Token exists but user not in store (stale session before user persistence was added)
   // Auto-redirect to login to re-authenticate and populate user
   if (!user) {
-    dispatch(logout());
+    dispatch(logoutUser());
     navigate('/login');
     return null;
   }

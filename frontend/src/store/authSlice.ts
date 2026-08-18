@@ -1,4 +1,5 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
+import apiClient from '../api/axiosConfig';
 
 // 1. Define the shape of our User data using TypeScript
 interface User {
@@ -22,6 +23,21 @@ const initialState: AuthState = {
   token: localStorage.getItem('token') || null,
   isAuthenticated: !!localStorage.getItem('token'),
 };
+
+// Async Thunk for logging out and revoking the refresh token
+export const logoutUser = createAsyncThunk(
+  'auth/logoutUser',
+  async (_, { dispatch }) => {
+    try {
+      await apiClient.post('/auth/logout');
+    } catch (error) {
+      console.error("Failed to hit logout endpoint", error);
+    } finally {
+      // Regardless of server success, clean up local state
+      dispatch(authSlice.actions.logout());
+    }
+  }
+);
 
 // 4. Create the Slice
 const authSlice = createSlice({

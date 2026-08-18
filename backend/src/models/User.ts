@@ -20,6 +20,7 @@ export interface IUser extends Document {
     book: mongoose.Types.ObjectId;
     dueDate: Date;
   }[];
+  refreshToken?: string;
 }
 
 const userSchema: Schema = new Schema({
@@ -35,7 +36,8 @@ const userSchema: Schema = new Schema({
   rentedBooks: [{
     book: { type: Schema.Types.ObjectId, ref: 'Book' },
     dueDate: { type: Date }
-  }]
+  }],
+  refreshToken: { type: String }
 }, {
   timestamps: true 
 });

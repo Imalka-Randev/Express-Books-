@@ -1,5 +1,6 @@
 import express, { type Express, type Request, type Response } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
 
@@ -16,8 +17,9 @@ const app: Express = express();
 
 
 // 3. Setup Middleware (Request Handling Code)
-app.use(cors()); // Allows our React frontend to communicate with this API
+app.use(cors({ origin: 'http://localhost:5173', credentials: true })); // Allows secure cookies from React
 app.use(express.json()); // Tells Express to parse incoming requests as JSON
+app.use(cookieParser()); // Parses cookies attached to incoming requests
 
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
