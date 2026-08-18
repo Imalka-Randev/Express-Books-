@@ -2,6 +2,7 @@ import { type FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../store/authSlice';
+import type { AppDispatch } from '../../store/store';
 
 export type ProfileTab = 'overview' | 'library' | 'rented' | 'notifications' | 'community';
 
@@ -12,7 +13,7 @@ interface ProfileSidebarProps {
 }
 
 const ProfileSidebar: FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
