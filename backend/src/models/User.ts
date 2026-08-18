@@ -12,7 +12,7 @@ export interface IUser extends Document {
   passwordHash: string; // We NEVER save plain text passwords, only hashes!
   role: string; // e.g., "Elite Librarian"
   avatarUrl: string;
-  preferredFormats: string; // e.g., "Physical & Digital"
+  preferredFormats: string; // e.g., "E-Book", "Audiobook"
   location: string;
   reputationScore: number;
 }
@@ -23,7 +23,7 @@ const userSchema: Schema = new Schema({
   passwordHash: { type: String, required: true },
   role: { type: String, default: "Reader" },
   avatarUrl: { type: String },
-  preferredFormats: { type: String, default: "Physical & Digital" },
+  preferredFormats: { type: String, default: "E-Book" },
   location: { type: String },
   reputationScore: { type: Number, default: 0 }
 }, {

@@ -1,20 +1,27 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AuthPage from './pages/AuthPage';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import BookDetailPage from './pages/BookDetailPage';
+import Layout from './components/layout/Layout';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="font-body-md">
         <Routes>
-          {/* This means if the user goes to localhost:5173/login, show the Login page */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<AuthPage />} />
+          <Route path="/signup" element={<AuthPage />} />
           
-          {/* If they go to /signup, show the Signup page */}
-          <Route path="/signup" element={<Signup />} />
+          {/* Main App Routes wrapped in Layout (Navbar included) */}
+          <Route path="/" element={<Layout><Home /></Layout>} />
+          <Route path="/book/:id" element={<Layout><BookDetailPage /></Layout>} />
           
-          {/* For now, if they go to the root URL, we will redirect them to Login */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Fallback routes for other nav items for now */}
+          <Route path="/search" element={<Layout><div className="text-center mt-24">Search Coming Soon</div></Layout>} />
+          <Route path="/library" element={<Layout><div className="text-center mt-24">Library Coming Soon</div></Layout>} />
+          <Route path="/community" element={<Layout><div className="text-center mt-24">Community Coming Soon</div></Layout>} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </BrowserRouter>

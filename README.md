@@ -1,6 +1,6 @@
 # Express Books
 
-A full-stack MERN application connecting a global community of readers to share stories, discover new worlds, and experience curated speed.
+A full-stack MERN application connecting a global community of readers to share stories, discover new worlds, and instantly access a curated collection of E-Books and Audiobooks.
 
 ## Project Structure
 

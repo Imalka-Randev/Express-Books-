@@ -21,5 +21,25 @@
     "button": "Create Account",
     "haveAccount": "Already have an account?",
     "loginLink": "Log in"
+  },
+  "nav": {
+    "home": "Home",
+    "search": "Search",
+    "library": "Library",
+    "community": "Community"
+  },
+  "home": {
+    "heroTitle": "Your Private Library,",
+    "heroSubtitle": "Instant Access, Anywhere.",
+    "heroDesc": "Build your ultimate digital collection. Curated E-Books and Audiobooks for the sophisticated reader, available instantly on any device.",
+    "heroBtnPrimary": "Join the Club",
+    "heroBtnSecondary": "Browse Library",
+    "searchPlaceholder": "Search by title, author, or genre...",
+    "noBooks": "No books found. Try a different search.",
+    "byAuthor": "by {{author}}",
+    "rentButton": "Rent"
+  },
+  "common": {
+    "loading": "Loading..."
   }
 }

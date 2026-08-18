@@ -16,7 +16,9 @@ export interface IBook extends Document {
   synopsis: string;
   buyPrice: number;
   rentPrice: number;
-  formatsAvailable: string[]; // e.g., ["Physical", "PDF", "Rent"]
+  formatsAvailable: string[]; // e.g., ["E-Book", "Rent"]
+  genres: string[];
+  publishedDate: Date;
   deliveryInfo: string;
   coverImageUrl: string;
   spineImageUrl: string;
@@ -47,6 +49,8 @@ const bookSchema: Schema = new Schema({
   buyPrice: { type: Number, required: true },
   rentPrice: { type: Number, required: true },
   formatsAvailable: [{ type: String }], 
+  genres: [{ type: String }],
+  publishedDate: { type: Date, required: true },
   deliveryInfo: { type: String },
   coverImageUrl: { type: String, required: true },
   spineImageUrl: { type: String },

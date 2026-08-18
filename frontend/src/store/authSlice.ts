@@ -16,10 +16,11 @@ interface AuthState {
 }
 
 // 3. Set the default values when the app first opens
+const storedUser = localStorage.getItem('user');
 const initialState: AuthState = {
-  user: null,
-  token: localStorage.getItem('token') || null, // Check if they already logged in before!
-  isAuthenticated: !!localStorage.getItem('token'), 
+  user: storedUser ? JSON.parse(storedUser) : null,
+  token: localStorage.getItem('token') || null,
+  isAuthenticated: !!localStorage.getItem('token'),
 };
 
 // 4. Create the Slice
@@ -33,6 +34,7 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isAuthenticated = true;
       localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('user', JSON.stringify(action.payload.user));
     },
     
     // REDUCER: The logic that runs when the 'logout' action ticket arrives
@@ -41,6 +43,7 @@ const authSlice = createSlice({
       state.token = null;
       state.isAuthenticated = false;
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
     },
   },
 });

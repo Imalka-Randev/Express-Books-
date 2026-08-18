@@ -1,9 +1,10 @@
-import {type Request, type Response } from 'express';
+import { type Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import type { AuthRequest } from '../middleware/auth.middleware.js';
 
-export const signup = async (req: Request, res: Response): Promise<void> => {
+export const signup = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { fullName, email, password } = req.body;
 
@@ -50,7 +51,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
 
 
 
-export const login = async (req: Request, res: Response): Promise<void> => {
+export const login = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
 
@@ -87,5 +88,41 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     console.error("Login Error:", error);
     res.status(500).json({ message: "Server error during login." });
+  }
+};
+
+export const updatePassword = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    
+    if (!req.user) {
+      res.status(401).json({ message: "Not authorized." });
+      return;
+    }
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      res.status(404).json({ message: "User not found." });
+      return;
+    }
+
+    // Compare old password
+    const isMatch = await bcrypt.compare(oldPassword, user.passwordHash);
+    if (!isMatch) {
+      res.status(400).json({ message: "Incorrect old password." });
+      return;
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    user.passwordHash = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully." });
+  } catch (error) {
+    console.error("Update Password Error:", error);
+    res.status(500).json({ message: "Server error during password update." });
   }
 };

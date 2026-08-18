@@ -3,7 +3,7 @@ import axios from 'axios';
 // 1. Create a custom Axios instance
 const apiClient = axios.create({
   // This is the URL of our Express backend!
-  baseURL: 'http://localhost:5000/api', 
+  baseURL: 'http://localhost:5001/api', 
   headers: {
     'Content-Type': 'application/json',
   },
