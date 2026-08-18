@@ -15,6 +15,11 @@ export interface IUser extends Document {
   preferredFormats: string; // e.g., "E-Book", "Audiobook"
   location: string;
   reputationScore: number;
+  purchasedBooks: mongoose.Types.ObjectId[];
+  rentedBooks: {
+    book: mongoose.Types.ObjectId;
+    dueDate: Date;
+  }[];
 }
 
 const userSchema: Schema = new Schema({
@@ -25,7 +30,12 @@ const userSchema: Schema = new Schema({
   avatarUrl: { type: String },
   preferredFormats: { type: String, default: "E-Book" },
   location: { type: String },
-  reputationScore: { type: Number, default: 0 }
+  reputationScore: { type: Number, default: 0 },
+  purchasedBooks: [{ type: Schema.Types.ObjectId, ref: 'Book' }],
+  rentedBooks: [{
+    book: { type: Schema.Types.ObjectId, ref: 'Book' },
+    dueDate: { type: Date }
+  }]
 }, {
   timestamps: true 
 });

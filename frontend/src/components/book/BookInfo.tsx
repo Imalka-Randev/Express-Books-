@@ -1,28 +1,13 @@
 import { type FC } from 'react';
 import { type Book } from '../../store/bookSlice';
-import { ShoppingCart } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addItem, removeItem } from '../../store/cartSlice';
-import { type RootState } from '../../store/store';
+import CartButton from '../ui/CartButton';
 
 interface BookInfoProps {
   book: Book;
 }
 
 const BookInfo: FC<BookInfoProps> = ({ book }) => {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.items);
   const totalReviews = (book as any).totalReviews || Math.floor(Math.random() * 500) + 50;
-  
-  const isInCart = cartItems.some(item => item.book._id === book._id);
-  
-  const handleAddToCart = () => {
-    if (isInCart) {
-      dispatch(removeItem(book._id));
-    } else {
-      dispatch(addItem({ book, type: 'buy' }));
-    }
-  };
 
   return (
     <div className="lg:col-span-7 flex flex-col h-full gap-6">
@@ -36,13 +21,12 @@ const BookInfo: FC<BookInfoProps> = ({ book }) => {
             by {book.author}
           </p>
         </div>
-        <button 
-          onClick={handleAddToCart}
-          className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-white dark:bg-[#112240] border border-gray-200 dark:border-white/10 rounded-full shadow-md hover:scale-110 active:scale-95 transition-all mt-1"
-          title="Add to Cart"
-        >
-          <ShoppingCart size={22} strokeWidth={2.5} className={isInCart ? 'text-yellow-500 dark:text-yellow-400' : 'text-gray-700 dark:text-gray-300'} />
-        </button>
+        <CartButton 
+          book={book} 
+          type="buy" 
+          iconSize={22}
+          className="w-12 h-12 flex-shrink-0 bg-white dark:bg-[#112240] border border-gray-200 dark:border-white/10 rounded-full shadow-md hover:scale-110 active:scale-95 mt-1" 
+        />
       </div>
 
       {/* Ratings */}

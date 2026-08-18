@@ -1,8 +1,9 @@
 import { type FC, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { type RootState } from '../store/store';
+import { type RootState, type AppDispatch } from '../store/store';
 import { logout } from '../store/authSlice';
+import { fetchLibrary } from '../store/librarySlice';
 
 import ProfileSidebar, { type ProfileTab } from '../components/profile/ProfileSidebar';
 import ProfileOverview from '../components/profile/ProfileOverview';
@@ -14,16 +15,18 @@ import ProfileNotifications from '../components/profile/ProfileNotifications';
 const Profile: FC = () => {
   const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const { purchasedBooks, rentedBooks } = useSelector((state: RootState) => state.library);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<ProfileTab>('overview');
 
-  // Redirect if not authenticated
+  // Redirect if not authenticated, fetch library if authenticated
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
+    } else {
+      dispatch(fetchLibrary());
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, dispatch]);
 
   if (!isAuthenticated) {
     return null; // Will redirect in useEffect

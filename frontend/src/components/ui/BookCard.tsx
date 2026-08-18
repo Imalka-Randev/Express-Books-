@@ -2,10 +2,10 @@ import { useState, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { type Book } from '../../store/bookSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from '../../store/cartSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import { type RootState } from '../../store/store';
-import { ShoppingCart } from 'lucide-react';
+import { addItem } from '../../store/cartSlice';
+import CartButton from './CartButton';
 
 interface BookCardProps {
   book: Book;
@@ -14,25 +14,38 @@ interface BookCardProps {
 const BookCard: FC<BookCardProps> = ({ book }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showBuyPrice, setShowBuyPrice] = useState(false);
   const publishedYear = book?.publishedDate ? new Date(book.publishedDate).getFullYear() : '';
-  const dispatch = useDispatch();
+  const { purchasedBooks, rentedBooks } = useSelector((state: RootState) => state.library);
   const cartItems = useSelector((state: RootState) => state.cart.items);
   
-  const isInCart = cartItems.some(item => item.book._id === book._id);
+  const isOwned = purchasedBooks.some(p => p._id === book._id || (p.book && p.book._id === book._id));
+  const rentedItem = rentedBooks.find(r => r.book._id === book._id);
+  const isRented = !!rentedItem;
+  
+  let daysLeft = 0;
+  if (isRented && rentedItem?.dueDate) {
+    const dueDate = new Date(rentedItem.dueDate);
+    const now = new Date();
+    const timeDiff = dueDate.getTime() - now.getTime();
+    daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  }
 
   const handleTogglePrice = (type: 'buy' | 'rent', e: React.MouseEvent) => {
     e.stopPropagation();
     setShowBuyPrice(type === 'buy');
-  };
-
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    dispatch(addItem({ book, type: showBuyPrice ? 'buy' : 'rent' }));
+    
+    // Auto-update cart item type if it's already in the cart
+    if (cartItems.some(item => item.book._id === book._id)) {
+      dispatch(addItem({ book, type }));
+    }
   };
 
   const handleCardClick = () => {
-    navigate(`/book/${book._id}`);
+    navigate(`/book/${book._id}`, { 
+      state: { defaultPaymentType: showBuyPrice ? 'buy' : 'rent' } 
+    });
   };
 
   return (
@@ -47,12 +60,28 @@ const BookCard: FC<BookCardProps> = ({ book }) => {
           src={book.coverImageUrl} 
         />
         <div className="absolute top-3 left-3 z-10">
-          <button 
-            onClick={handleAddToCart}
-            className="w-9 h-9 flex items-center justify-center bg-white/90 dark:bg-[#112240]/90 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-full shadow-lg hover:scale-110 active:scale-95 transition-all"
-          >
-            <ShoppingCart size={18} strokeWidth={2.5} className={isInCart ? 'text-yellow-500 dark:text-yellow-400' : 'text-gray-700 dark:text-gray-300'} />
-          </button>
+          <CartButton 
+            book={book} 
+            type={showBuyPrice ? 'buy' : 'rent'} 
+            className="w-9 h-9 bg-white/90 dark:bg-[#112240]/90 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-full shadow-lg hover:scale-110 active:scale-95" 
+          />
+        </div>
+
+        {/* Ownership Tags */}
+        <div className="absolute top-2 right-2 z-10 flex flex-col gap-1 items-end">
+          {isOwned && (
+            <span className="bg-green-500 text-white px-2 py-0.5 text-[10px] font-bold rounded-sm uppercase shadow-sm">
+              Owned
+            </span>
+          )}
+          {isRented && !isOwned && (
+            <div className="flex items-center bg-blue-500/90 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-sm shadow-md">
+              <span className="material-symbols-outlined text-[12px] mr-0.5 animate-pulse">hourglass_empty</span>
+              <span className="text-[9px] font-bold uppercase tracking-wider whitespace-nowrap">
+                {daysLeft > 0 ? `${daysLeft}d Left` : 'Overdue'}
+              </span>
+            </div>
+          )}
         </div>
 
       </div>

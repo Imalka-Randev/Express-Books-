@@ -1,11 +1,22 @@
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import HeroImages from '../ui/HeroImages';
 import TrustedPartners from '../ui/TrustedPartners';
 import ExpressLogo from '../ui/ExpressLogo';
 
 const HeroSection: FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate(`/?scrollTo=${id}`);
+    }
+  };
 
   return (
     <section id="home" className="h-screen flex flex-col items-center justify-between overflow-hidden" style={{ paddingBottom: '2.5rem' }}>
@@ -31,10 +42,16 @@ const HeroSection: FC = () => {
               {t('home.heroDesc', 'Build your ultimate digital collection. Curated E-Books and Audiobooks for the sophisticated reader, available instantly on any device.')}
             </p>
             <div className="flex flex-wrap gap-4 pt-2">
-              <button className="px-8 py-4 bg-primary-container text-black font-bold rounded-xl shadow-lg hover:bg-inverse-primary transition-all active:scale-95">
+              <button 
+                onClick={() => scrollToSection('community')}
+                className="px-8 py-4 bg-primary-container text-black font-bold rounded-xl shadow-lg hover:shadow-primary-container/40 hover:-translate-y-1 hover:bg-inverse-primary transition-all duration-300 active:scale-95"
+              >
                 {t('home.heroBtnPrimary', 'Join the Club')}
               </button>
-              <button className="px-8 py-4 border-2 border-primary dark:border-secondary text-primary dark:text-secondary-fixed-dim font-bold rounded-xl hover:bg-primary/10 dark:hover:bg-secondary/10 transition-all active:scale-95">
+              <button 
+                onClick={() => scrollToSection('library')}
+                className="px-8 py-4 border-2 border-primary dark:border-secondary text-primary dark:text-secondary-fixed-dim font-bold rounded-xl hover:bg-primary/10 dark:hover:bg-secondary/10 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 active:scale-95"
+              >
                 {t('home.heroBtnSecondary', 'Browse Library')}
               </button>
             </div>

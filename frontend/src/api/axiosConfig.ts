@@ -2,8 +2,8 @@ import axios from 'axios';
 
 // 1. Create a custom Axios instance
 const apiClient = axios.create({
-  // This is the URL of our Express backend!
-  baseURL: 'http://localhost:5001/api', 
+  // This is the URL of our Express backend, loaded from the .env file
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api', 
   headers: {
     'Content-Type': 'application/json',
   },

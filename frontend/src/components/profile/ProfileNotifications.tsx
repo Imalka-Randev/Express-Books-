@@ -1,5 +1,6 @@
 import { type FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import apiClient from '../../api/axiosConfig';
 import { type RootState } from '../../store/store';
 
 interface Notification {
@@ -20,15 +21,10 @@ const ProfileNotifications: FC = () => {
     const fetchNotifications = async () => {
       if (!token) return;
       try {
-        const response = await fetch('http://localhost:5000/api/notifications', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+        const response = await apiClient.get('/notifications', {
+          headers: { Authorization: `Bearer ${token}` }
         });
-        if (response.ok) {
-          const data = await response.json();
-          setNotifications(data);
-        }
+        setNotifications(response.data);
       } catch (error) {
         console.error('Failed to fetch notifications', error);
       } finally {
@@ -41,11 +37,8 @@ const ProfileNotifications: FC = () => {
 
   const markAsRead = async (id: string) => {
     try {
-      await fetch(`http://localhost:5000/api/notifications/${id}/read`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+      await apiClient.put(`/notifications/${id}/read`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       setNotifications(prev => prev.map(n => n._id === id ? { ...n, isRead: true } : n));
     } catch (error) {
@@ -55,11 +48,8 @@ const ProfileNotifications: FC = () => {
 
   const markAllAsRead = async () => {
     try {
-      await fetch(`http://localhost:5000/api/notifications/read-all`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+      await apiClient.put('/notifications/read-all', {}, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
     } catch (error) {

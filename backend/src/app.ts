@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes.js';
 import bookRoutes from './routes/book.routes.js';
 import notificationRoutes from './routes/notification.routes.js';
+import libraryRoutes from './routes/library.routes.js';
 
 // 1. Load environment variables
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(express.json()); // Tells Express to parse incoming requests as JSON
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/library', libraryRoutes);
 
 // 4. Basic Route to test the server
 app.get('/', (req: Request, res: Response) => {

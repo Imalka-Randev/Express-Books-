@@ -1,5 +1,9 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RentedBookCard from '../ui/RentedBookCard';
+import RentExtensionPayment from '../payment/RentExtensionPayment';
+import { useSelector } from 'react-redux';
+import { type RootState } from '../../store/store';
 
 interface ProfileRentedBooksProps {
   rentedBooks: any[];
@@ -7,6 +11,38 @@ interface ProfileRentedBooksProps {
 
 const ProfileRentedBooks: FC<ProfileRentedBooksProps> = ({ rentedBooks }) => {
   const navigate = useNavigate();
+  const [extendingBookId, setExtendingBookId] = useState<string | null>(null);
+  const { purchasedBooks } = useSelector((state: RootState) => state.library);
+
+  const activeRentals: any[] = [];
+  const rentalHistory: any[] = [];
+
+  const isOwned = (bookId: string) => purchasedBooks.some(p => (p._id || p.book?._id) === bookId);
+
+  rentedBooks.forEach(item => {
+    const bookId = item.book._id || item.book;
+    if (isOwned(bookId)) return;
+
+    if (!item.dueDate) {
+      rentalHistory.push(item);
+      return;
+    }
+    const dueDate = new Date(item.dueDate);
+    if (isNaN(dueDate.getTime())) {
+      rentalHistory.push(item);
+      return;
+    }
+    
+    const now = new Date();
+    const timeDiff = dueDate.getTime() - now.getTime();
+    const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    if (daysLeft > 0) {
+      activeRentals.push({ ...item, daysLeft, dueDate });
+    } else {
+      rentalHistory.push({ ...item, daysLeft, dueDate });
+    }
+  });
 
   return (
     <div className="w-full">
@@ -15,8 +51,8 @@ const ProfileRentedBooks: FC<ProfileRentedBooksProps> = ({ rentedBooks }) => {
         <p className="text-gray-400">Track your active rentals, due dates, and return books.</p>
       </header>
 
-      {rentedBooks.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-400 bg-[#112240]/40 rounded-2xl border border-white/5">
+      {activeRentals.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 text-gray-400 bg-[#112240]/40 rounded-2xl border border-white/5 mb-12">
           <span className="material-symbols-outlined text-6xl mb-4 opacity-50">history_edu</span>
           <p className="text-lg font-bold text-white mb-2">No active rentals</p>
           <p className="text-sm max-w-md text-center mb-6">You don't have any books currently rented. Need something to read for a short time?</p>
@@ -28,51 +64,44 @@ const ProfileRentedBooks: FC<ProfileRentedBooksProps> = ({ rentedBooks }) => {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {rentedBooks.map((item) => {
-            // Mock a due date based on the rent period logic
-            const dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + (item.rentDays || 7));
-            
-            return (
-              <div key={item.book._id} className="bg-[#112240] rounded-xl p-4 shadow-sm flex gap-4 items-start group border border-white/10 relative overflow-hidden">
-                <div className="w-24 h-36 flex-shrink-0 shadow-lg rounded-sm overflow-hidden cursor-pointer" onClick={() => navigate(`/book/${item.book._id}`)}>
-                  <img 
-                    alt={item.book.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                    src={item.book.coverImageUrl}
+        <div className="flex flex-wrap gap-6 mb-12">
+          {activeRentals.map((item) => (
+            <div key={item.book._id} className="flex flex-col gap-4">
+              <RentedBookCard 
+                item={item} 
+                onExtend={(bookId) => setExtendingBookId(extendingBookId === bookId ? null : bookId)} 
+              />
+              {extendingBookId === item.book._id && (
+                <div className="w-full max-w-[450px]">
+                  <RentExtensionPayment 
+                    bookId={item.book._id}
+                    onSuccess={() => setExtendingBookId(null)}
+                    onCancel={() => setExtendingBookId(null)}
                   />
                 </div>
-                <div className="flex-1 flex flex-col h-full justify-between">
-                  <div>
-                    <div className="flex justify-between items-start mb-1">
-                      <span className="bg-primary-container text-black text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
-                        Rented
-                      </span>
-                      <span className="text-xs font-bold text-gray-400">{item.rentDays || 7} Days</span>
-                    </div>
-                    <h4 
-                      className="font-bold text-[16px] leading-tight text-white mb-1 group-hover:text-primary-container transition-colors cursor-pointer line-clamp-2"
-                      onClick={() => navigate(`/book/${item.book._id}`)}
-                    >
-                      {item.book.title}
-                    </h4>
-                    <p className="text-[13px] text-gray-400 mb-2 line-clamp-1">{item.book.author}</p>
-                  </div>
-                  
-                  <div className="mt-auto">
-                    <div className="flex items-center gap-2 mb-3 bg-red-500/10 text-red-400 px-3 py-1.5 rounded-lg border border-red-500/20">
-                      <span className="material-symbols-outlined text-[16px]">schedule</span>
-                      <span className="text-xs font-bold">Due: {dueDate.toLocaleDateString()}</span>
-                    </div>
-                    <button className="w-full text-center py-2 bg-white/5 hover:bg-white/10 text-white text-sm font-bold rounded-lg transition-colors border border-white/10">
-                      Extend Rental
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Rented History Section */}
+      {rentalHistory.length > 0 && (
+        <div className="mt-12">
+          <header className="mb-6 flex items-center gap-2">
+            <span className="material-symbols-outlined text-gray-400">history</span>
+            <h2 className="text-2xl font-bold text-white font-display-lg">Rental History</h2>
+          </header>
+          <div className="flex flex-wrap gap-6 opacity-70">
+            {rentalHistory.map((item, idx) => (
+              <RentedBookCard 
+                key={`${item.book._id}-${idx}`} 
+                item={item} 
+                onExtend={(bookId) => navigate(`/book/${bookId}`)} 
+                isHistory={true}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>

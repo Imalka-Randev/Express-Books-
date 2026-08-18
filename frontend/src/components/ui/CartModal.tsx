@@ -2,15 +2,16 @@ import { useState, type FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store/store';
 import { setCartOpen, toggleItemType, removeItem, updateRentDays, clearCart } from '../../store/cartSlice';
-import { addItemsToLibrary } from '../../store/librarySlice';
+import { checkoutLibrary, fetchLibrary } from '../../store/librarySlice';
 import { X, Search, Trash2, Plus, Minus, CheckSquare, Square, ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import PaymentCard from './PaymentCard';
+import PaymentCard from '../payment/PaymentCard';
 
 const CartModal: FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { items, isOpen } = useSelector((state: RootState) => state.cart);
+  const { rentedBooks } = useSelector((state: RootState) => state.library);
   const [searchTerm, setSearchTerm] = useState('');
   
   // State for toggling sections
@@ -62,8 +63,20 @@ const CartModal: FC = () => {
     return bookPrice + (extraDays * 0.5);
   };
 
+  const getBuyPriceInfo = (item: any) => {
+    const isRented = rentedBooks.some((r: any) => {
+      const rId = r.book?._id || r.book;
+      return rId === item.book._id;
+    });
+
+    const discountAmount = isRented ? item.book.rentPrice * 0.5 : 0;
+    const finalPrice = item.book.buyPrice - discountAmount;
+
+    return { isRented, discountAmount, finalPrice };
+  };
+
   const rentTotal = rentItems.reduce((acc, item) => acc + getRentPrice(item.book.rentPrice, item.rentDays || 7), 0);
-  const buyTotal = buyItems.reduce((acc, item) => acc + item.book.buyPrice, 0);
+  const buyTotal = buyItems.reduce((acc, item) => acc + getBuyPriceInfo(item).finalPrice, 0);
 
   const finalTotal = (rentChecked ? rentTotal : 0) + (buyChecked ? buyTotal : 0);
 
@@ -73,10 +86,19 @@ const CartModal: FC = () => {
       if (rentChecked) itemsToPurchase.push(...rentItems);
       if (buyChecked) itemsToPurchase.push(...buyItems);
       
-      dispatch(addItemsToLibrary(itemsToPurchase));
-      dispatch(clearCart());
-      setIsCheckout(false);
-      dispatch(setCartOpen(false));
+      dispatch(checkoutLibrary(itemsToPurchase) as any)
+        .unwrap()
+        .then(() => {
+          dispatch(fetchLibrary() as any);
+          dispatch(clearCart());
+          setIsCheckout(false);
+          dispatch(setCartOpen(false));
+          alert("Payment successful! Your books have been added to your library.");
+        })
+        .catch((error: any) => {
+          console.error("Checkout failed:", error);
+          alert("Checkout failed: " + (error.message || error));
+        });
     }
   };
 
@@ -244,34 +266,45 @@ const CartModal: FC = () => {
                   <p className="text-gray-500 dark:text-gray-400 italic text-sm py-4">No books selected to buy.</p>
                 )}
 
-                {buyItems.map(item => (
-                  <div key={item.book._id} className="flex gap-4 p-4 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                    <img src={item.book.coverImageUrl} alt={item.book.title} className="w-16 h-24 object-cover rounded-lg" />
-                    <div className="flex-1 flex flex-col justify-between">
-                      <div>
-                        <h4 className="font-bold text-gray-900 dark:text-white line-clamp-1">{item.book.title}</h4>
-                        <p className="text-sm text-gray-500">{item.book.author}</p>
-                        <p className="text-lg font-bold text-primary dark:text-primary-fixed-dim mt-4">${item.book.buyPrice.toFixed(2)}</p>
-                      </div>
-                      <div className="flex justify-between items-center mt-2">
-                        <button 
-                          disabled={!buyChecked}
-                          onClick={() => handleToggle(item.book._id)}
-                          className="text-xs font-bold text-secondary hover:underline disabled:opacity-50 disabled:no-underline cursor-pointer"
-                        >
-                          Switch to Rent
-                        </button>
-                        <button 
-                          disabled={!buyChecked}
-                          onClick={() => handleRemove(item.book._id)} 
-                          className="text-red-500 p-1 hover:bg-red-500/10 rounded-md disabled:opacity-50 disabled:bg-transparent cursor-pointer"
-                        >
-                          <Trash2 size={16} />
-                        </button>
+                {buyItems.map(item => {
+                  const { isRented, discountAmount, finalPrice } = getBuyPriceInfo(item);
+                  
+                  return (
+                    <div key={item.book._id} className="flex gap-4 p-4 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                      <img src={item.book.coverImageUrl} alt={item.book.title} className="w-16 h-24 object-cover rounded-lg" />
+                      <div className="flex-1 flex flex-col justify-between">
+                        <div>
+                          <h4 className="font-bold text-gray-900 dark:text-white line-clamp-1">{item.book.title}</h4>
+                          <p className="text-sm text-gray-500">{item.book.author}</p>
+                          <p className="text-lg font-bold text-primary dark:text-primary-fixed-dim mt-4 flex items-center gap-2 flex-wrap">
+                            ${finalPrice.toFixed(2)}
+                            {isRented && (
+                              <span className="text-[10px] bg-green-500/10 text-green-600 dark:text-green-400 px-2 py-0.5 rounded-md border border-green-500/20 font-bold whitespace-nowrap">
+                                50% Rent Rebate (-${discountAmount.toFixed(2)})
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex justify-between items-center mt-2">
+                          <button 
+                            disabled={!buyChecked}
+                            onClick={() => handleToggle(item.book._id)}
+                            className="text-xs font-bold text-secondary hover:underline disabled:opacity-50 disabled:no-underline cursor-pointer"
+                          >
+                            Switch to Rent
+                          </button>
+                          <button 
+                            disabled={!buyChecked}
+                            onClick={() => handleRemove(item.book._id)} 
+                            className="text-red-500 p-1 hover:bg-red-500/10 rounded-md disabled:opacity-50 disabled:bg-transparent cursor-pointer"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
             </div>
@@ -304,9 +337,15 @@ const CartModal: FC = () => {
                 <h4 className="font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2 text-sm">
                   <span className="material-symbols-outlined text-[18px]">verified_user</span> Refund Policy
                 </h4>
-                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-3">
                   You can return these e-books for a full refund within 7 days of purchase, provided you have read less than 20% of the book. Audio books are non-refundable once downloaded.
                 </p>
+                <div className="bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 p-3 rounded-lg text-xs font-medium">
+                  <p className="font-bold mb-1 flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[14px]">sell</span> Rent-to-Own Rebate
+                  </p>
+                  <p>If you purchase a book you are currently renting, 50% of the rental price is automatically deducted from your purchase price!</p>
+                </div>
               </div>
 
               {rentChecked && rentItems.length > 0 && (

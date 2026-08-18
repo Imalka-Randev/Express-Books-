@@ -18,7 +18,7 @@ const AboutSection: FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
         {/* Mission */}
         <div className="group bg-white/50 dark:bg-black/20 backdrop-blur-sm p-8 rounded-3xl border border-gray-200 dark:border-white/5 shadow-xl transition-all duration-300 hover:scale-105 hover:bg-primary dark:hover:bg-primary-container">
-          <div className="w-14 h-14 bg-primary-container text-black rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-primary/20 group-hover:bg-white dark:group-hover:bg-black group-hover:text-primary dark:group-hover:text-primary-container transition-colors">
+          <div className="w-14 h-14 bg-white text-black rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-white/20 group-hover:bg-black group-hover:text-white transition-colors">
             <span className="material-symbols-outlined text-3xl">rocket_launch</span>
           </div>
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-white dark:group-hover:text-black transition-colors">Our Mission</h3>
@@ -28,7 +28,7 @@ const AboutSection: FC = () => {
           <ul className="space-y-2 mb-6">
             {['Zero delivery wait time', 'Available on all devices', 'Curated for every reader', 'Affordable memberships'].map(item => (
               <li key={item} className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 group-hover:text-white/80 dark:group-hover:text-black/70 transition-colors">
-                <span className="material-symbols-outlined text-[16px] text-primary-container group-hover:text-white dark:group-hover:text-black">check_circle</span>
+                <span className="material-symbols-outlined text-[16px] text-blue-500/75 group-hover:text-white dark:group-hover:text-black">check_circle</span>
                 {item}
               </li>
             ))}
@@ -41,7 +41,7 @@ const AboutSection: FC = () => {
 
         {/* Vision */}
         <div className="group bg-white/50 dark:bg-black/20 backdrop-blur-sm p-8 rounded-3xl border border-gray-200 dark:border-white/5 shadow-xl transition-all duration-300 hover:scale-105 hover:bg-primary dark:hover:bg-primary-container">
-          <div className="w-14 h-14 bg-secondary text-white rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-secondary/20 group-hover:bg-white dark:group-hover:bg-black group-hover:text-secondary dark:group-hover:text-secondary-container transition-colors">
+          <div className="w-14 h-14 bg-white text-black rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-white/20 group-hover:bg-black group-hover:text-white transition-colors">
             <span className="material-symbols-outlined text-3xl">visibility</span>
           </div>
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-white dark:group-hover:text-black transition-colors">Our Vision</h3>
@@ -51,7 +51,7 @@ const AboutSection: FC = () => {
           <ul className="space-y-2 mb-6">
             {['Global reader community', 'Multilingual support', 'Decentralized library system', 'AI-powered recommendations'].map(item => (
               <li key={item} className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 group-hover:text-white/80 dark:group-hover:text-black/70 transition-colors">
-                <span className="material-symbols-outlined text-[16px] text-primary-container group-hover:text-white dark:group-hover:text-black">check_circle</span>
+                <span className="material-symbols-outlined text-[16px] text-blue-500/75 group-hover:text-white dark:group-hover:text-black">check_circle</span>
                 {item}
               </li>
             ))}
@@ -64,7 +64,7 @@ const AboutSection: FC = () => {
 
         {/* Terms & Conditions */}
         <div className="group bg-white/50 dark:bg-black/20 backdrop-blur-sm p-8 rounded-3xl border border-gray-200 dark:border-white/5 shadow-xl transition-all duration-300 hover:scale-105 hover:bg-primary dark:hover:bg-primary-container">
-          <div className="w-14 h-14 bg-gray-900 text-white dark:bg-white dark:text-black rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-gray-900/20 group-hover:bg-white dark:group-hover:bg-black group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+          <div className="w-14 h-14 bg-[#FFD700] text-black rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-[#FFD700]/20 group-hover:bg-white dark:group-hover:bg-black group-hover:text-[#FFD700] transition-colors">
             <span className="material-symbols-outlined text-3xl">gavel</span>
           </div>
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-white dark:group-hover:text-black transition-colors">Terms & Conditions</h3>
@@ -74,7 +74,7 @@ const AboutSection: FC = () => {
           <ul className="space-y-2 mb-6">
             {['Fair usage policy', 'No hidden charges', 'Your data stays private', 'Cancel anytime, no fees'].map(item => (
               <li key={item} className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 group-hover:text-white/80 dark:group-hover:text-black/70 transition-colors">
-                <span className="material-symbols-outlined text-[16px] text-primary-container group-hover:text-white dark:group-hover:text-black">check_circle</span>
+                <span className="material-symbols-outlined text-[16px] text-blue-500/75 group-hover:text-white dark:group-hover:text-black">check_circle</span>
                 {item}
               </li>
             ))}

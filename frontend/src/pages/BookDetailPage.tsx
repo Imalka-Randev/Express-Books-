@@ -1,5 +1,5 @@
-import { type FC, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { type FC, useEffect, useState } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { type AppDispatch, type RootState } from '../store/store';
 import { fetchBookById, fetchBooks } from '../store/bookSlice';
@@ -8,16 +8,24 @@ import BookGallery from '../components/book/BookGallery';
 import BookInfo from '../components/book/BookInfo';
 import BookReviews from '../components/book/BookReviews';
 import RelatedBooks from '../components/book/RelatedBooks';
-import PaymentSection from '../components/ui/PaymentSection';
+import StandardPayment from '../components/payment/StandardPayment';
+import RentExtensionPayment from '../components/payment/RentExtensionPayment';
 
 const BookDetailPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
+
+  const defaultPaymentType = location.state?.defaultPaymentType || 'rent';
 
   const { currentBook, isCurrentBookLoading, error, books } = useSelector(
     (state: RootState) => state.books
   );
+  
+  const { purchasedBooks, rentedBooks } = useSelector((state: RootState) => state.library);
+  
+  const [showExtension, setShowExtension] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -90,8 +98,59 @@ const BookDetailPage: FC = () => {
         <BookInfo book={currentBook} />
       </section>
 
-      {/* Payment Section Always Visible */}
-      <PaymentSection book={currentBook} />
+      {/* Payment Section Conditionally Rendered */}
+      {(() => {
+        const isOwned = purchasedBooks.some(p => p._id === currentBook._id || (p.book && p.book._id === currentBook._id));
+        const rentedItem = rentedBooks.find(r => r.book._id === currentBook._id);
+        const isRented = !!rentedItem;
+
+        if (isOwned) {
+          return (
+            <div className="bg-green-500/10 border border-green-500/20 text-green-700 dark:text-green-400 p-6 rounded-2xl flex items-center justify-center gap-3">
+              <span className="material-symbols-outlined text-3xl">check_circle</span>
+              <div>
+                <h3 className="font-bold text-lg">You own this book!</h3>
+                <p className="text-sm opacity-80">It is available in your private library.</p>
+              </div>
+            </div>
+          );
+        }
+
+        if (isRented) {
+          const dueDate = new Date(rentedItem.dueDate);
+          return (
+            <div className="flex flex-col gap-4">
+              <div className="bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-400 p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-3xl">hourglass_empty</span>
+                  <div>
+                    <h3 className="font-bold text-lg">You are currently renting this book.</h3>
+                    <p className="text-sm opacity-80">Due date: {dueDate.toLocaleDateString()}</p>
+                  </div>
+                </div>
+                {!showExtension && (
+                  <button 
+                    onClick={() => setShowExtension(true)}
+                    className="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-colors"
+                  >
+                    Extend Due Date
+                  </button>
+                )}
+              </div>
+              
+              {showExtension && (
+                <RentExtensionPayment 
+                  bookId={currentBook._id} 
+                  onSuccess={() => setShowExtension(false)} 
+                  onCancel={() => setShowExtension(false)}
+                />
+              )}
+            </div>
+          );
+        }
+
+        return <StandardPayment book={currentBook} defaultPaymentType={defaultPaymentType} />;
+      })()}
 
       <BookReviews />
       <RelatedBooks books={relatedBooks} />

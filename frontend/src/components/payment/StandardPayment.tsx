@@ -1,23 +1,22 @@
 import { type FC, useState } from 'react';
-import PaymentCard from './PaymentCard';
 import { type Book } from '../../store/bookSlice';
+import PaymentForm from './PaymentForm';
+import { useDispatch } from 'react-redux';
+import { checkoutLibrary, fetchLibrary } from '../../store/librarySlice';
+import { type AppDispatch } from '../../store/store';
 
-interface PaymentSectionProps {
+interface StandardPaymentProps {
   book: Book;
+  onSuccess?: () => void;
+  defaultPaymentType?: 'buy' | 'rent';
 }
 
-const PaymentSection: FC<PaymentSectionProps> = ({ book }) => {
-  const [purchaseMode, setPurchaseMode] = useState<'buy' | 'rent'>('buy');
-  const [focusedField, setFocusedField] = useState<'number' | 'name' | 'expiry' | 'cvv' | null>(null);
-  const [cardData, setCardData] = useState({
-    number: '',
-    name: '',
-    expiry: '',
-    cvv: ''
-  });
-
+const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPaymentType = 'rent' }) => {
+  const [purchaseMode, setPurchaseMode] = useState<'buy' | 'rent'>(defaultPaymentType);
   const [addAudioBook, setAddAudioBook] = useState(false);
   const [extraRentDays, setExtraRentDays] = useState(0);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   let totalPrice = 0;
   if (purchaseMode === 'buy') {
@@ -27,9 +26,26 @@ const PaymentSection: FC<PaymentSectionProps> = ({ book }) => {
     totalPrice = book.rentPrice + (extraRentDays * 0.50);
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCardData(prev => ({ ...prev, [name]: value }));
+  const handlePaySecurely = async () => {
+    if (window.confirm(`Confirm payment of $${totalPrice.toFixed(2)}?`)) {
+      setIsProcessing(true);
+      
+      const itemToPurchase = {
+        book: book as any,
+        type: purchaseMode,
+        rentDays: purchaseMode === 'rent' ? 7 + extraRentDays : undefined
+      };
+
+      try {
+        await dispatch(checkoutLibrary([itemToPurchase])).unwrap();
+        await dispatch(fetchLibrary()).unwrap();
+        if (onSuccess) onSuccess();
+      } catch (error) {
+        alert("Failed to process payment.");
+      } finally {
+        setIsProcessing(false);
+      }
+    }
   };
 
   const copyrightNotice = (
@@ -57,16 +73,16 @@ const PaymentSection: FC<PaymentSectionProps> = ({ book }) => {
         {/* Toggle Buy / Rent */}
         <div className="flex bg-gray-100 dark:bg-black/20 p-1 rounded-lg">
           <button 
-            onClick={() => setPurchaseMode('buy')}
-            className={`flex-1 py-3 font-bold rounded-md transition-colors ${purchaseMode === 'buy' ? 'bg-white dark:bg-white/10 shadow text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}
-          >
-            Buy New
-          </button>
-          <button 
             onClick={() => setPurchaseMode('rent')}
             className={`flex-1 py-3 font-bold rounded-md transition-colors ${purchaseMode === 'rent' ? 'bg-white dark:bg-white/10 shadow text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}
           >
             Rent
+          </button>
+          <button 
+            onClick={() => setPurchaseMode('buy')}
+            className={`flex-1 py-3 font-bold rounded-md transition-colors ${purchaseMode === 'buy' ? 'bg-white dark:bg-white/10 shadow text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}
+          >
+            Buy Now
           </button>
         </div>
 
@@ -150,81 +166,12 @@ const PaymentSection: FC<PaymentSectionProps> = ({ book }) => {
 
       </div>
 
-      {/* Right Column: Card Visual, Form & Pay Button */}
-      <div className="flex-1 w-full flex flex-col justify-start gap-8 perspective-1000 order-1 md:order-2 md:pl-12 mt-12 md:mt-0 pt-12 md:pt-0 border-t md:border-t-0 border-gray-200 dark:border-white/10">
-        <div className="flex justify-center w-full">
-          <PaymentCard 
-            focusedField={focusedField}
-            cardNumber={cardData.number}
-            cardName={cardData.name}
-            cardExpiry={cardData.expiry}
-            cardCvv={cardData.cvv}
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-5 w-full">
-          <div className="col-span-2">
-            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">Card Number</label>
-            <input 
-              type="text" 
-              name="number"
-              placeholder="0000 0000 0000 0000" 
-              maxLength={19}
-              className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all font-mono"
-              onFocus={() => setFocusedField('number')}
-              onBlur={() => setFocusedField(null)}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="col-span-2">
-            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">Cardholder Name</label>
-            <input 
-              type="text" 
-              name="name"
-              placeholder="JOHN DOE" 
-              className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all uppercase font-mono"
-              onFocus={() => setFocusedField('name')}
-              onBlur={() => setFocusedField(null)}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">Expiry</label>
-            <input 
-              type="text" 
-              name="expiry"
-              placeholder="MM/YY" 
-              maxLength={5}
-              className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all font-mono"
-              onFocus={() => setFocusedField('expiry')}
-              onBlur={() => setFocusedField(null)}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">CVV</label>
-            <input 
-              type="text" 
-              name="cvv"
-              placeholder="123" 
-              maxLength={3}
-              className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all font-mono"
-              onFocus={() => setFocusedField('cvv')}
-              onBlur={() => setFocusedField(null)}
-              onChange={handleInputChange}
-            />
-          </div>
-        </div>
-        
-        <div className="flex justify-end mt-4">
-          <button className="w-full sm:w-auto px-12 bg-primary hover:bg-primary/90 dark:bg-primary-fixed text-white dark:text-gray-900 font-bold py-4 rounded-xl transition-all active:scale-[0.98] shadow-md flex justify-center items-center gap-2 text-lg">
-            <span className="material-symbols-outlined text-[20px]">lock</span> Pay Securely
-          </button>
-        </div>
+      <div className="md:pl-12 flex-1 w-full order-1 md:order-2 flex flex-col justify-center">
+        <PaymentForm onPaySecurely={handlePaySecurely} isProcessing={isProcessing} />
       </div>
 
     </section>
   );
 };
 
-export default PaymentSection;
+export default StandardPayment;

@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { type RootState } from '../../store/store';
-import axios from 'axios';
+import apiClient from '../../api/axiosConfig';
 
 interface ProfileOverviewProps {
   user: any;
@@ -31,9 +31,9 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
     setMessage({ type: '', text: '' });
 
     try {
-      const response = await axios.put('http://localhost:5000/api/auth/update-password', {
-        oldPassword,
-        newPassword
+      const response = await apiClient.put('/auth/update-password', {
+        oldPassword: oldPassword,
+        newPassword: newPassword
       }, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -63,24 +63,40 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
         </header>
 
         {/* Stats Bento Grid */}
-        <section className="grid grid-cols-2 gap-6">
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {/* Stat Card 1 */}
           <div className="bg-[#112240]/70 backdrop-blur-md rounded-xl p-6 flex flex-col justify-between items-start relative overflow-hidden group hover:-translate-y-1 transition-transform border border-white/10 shadow-lg">
-            <div className="absolute -right-4 -top-4 w-20 h-20 bg-primary-container/20 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
             <span className="material-symbols-outlined text-primary-container mb-4 text-3xl">shopping_bag</span>
             <div>
-              <p className="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Books Purchased</p>
-              <p className="text-4xl font-bold text-white">{booksPurchased}</p>
+              <p className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Books Purchased</p>
+              <p className="text-3xl sm:text-4xl font-bold text-white">{booksPurchased}</p>
             </div>
           </div>
 
           {/* Stat Card 2 */}
           <div className="bg-[#112240]/70 backdrop-blur-md rounded-xl p-6 flex flex-col justify-between items-start relative overflow-hidden group hover:-translate-y-1 transition-transform border border-white/10 shadow-lg">
-            <div className="absolute -right-4 -top-4 w-20 h-20 bg-blue-500/20 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
             <span className="material-symbols-outlined text-blue-400 mb-4 text-3xl">book</span>
             <div>
-              <p className="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Books Rented</p>
-              <p className="text-4xl font-bold text-white">{booksRented}</p>
+              <p className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Books Rented</p>
+              <p className="text-3xl sm:text-4xl font-bold text-white">{booksRented}</p>
+            </div>
+          </div>
+
+          {/* Stat Card 3 (Placeholder) */}
+          <div className="bg-[#112240]/70 backdrop-blur-md rounded-xl p-6 flex flex-col justify-between items-start relative overflow-hidden group hover:-translate-y-1 transition-transform border border-white/10 shadow-lg">
+            <span className="material-symbols-outlined text-green-400 mb-4 text-3xl">schedule</span>
+            <div>
+              <p className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Reading Time</p>
+              <p className="text-3xl sm:text-4xl font-bold text-white">0h</p>
+            </div>
+          </div>
+
+          {/* Stat Card 4 (Placeholder) */}
+          <div className="bg-[#112240]/70 backdrop-blur-md rounded-xl p-6 flex flex-col justify-between items-start relative overflow-hidden group hover:-translate-y-1 transition-transform border border-white/10 shadow-lg">
+            <span className="material-symbols-outlined text-purple-400 mb-4 text-3xl">task_alt</span>
+            <div>
+              <p className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Completed</p>
+              <p className="text-3xl sm:text-4xl font-bold text-white">0</p>
             </div>
           </div>
         </section>

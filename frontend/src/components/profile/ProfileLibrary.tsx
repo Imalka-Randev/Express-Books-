@@ -30,32 +30,37 @@ const ProfileLibrary: FC<ProfileLibraryProps> = ({ purchasedBooks }) => {
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-          {ownedBooks.map((item) => (
-            <div key={item.book._id} className="group flex flex-col gap-3 cursor-pointer" onClick={() => navigate(`/book/${item.book._id}`)}>
-              <div className="relative aspect-[2/3] rounded-xl overflow-hidden shadow-lg border border-white/10 group-hover:border-primary-container/50 transition-colors">
-                <img
-                  src={item.book.coverImageUrl}
-                  alt={item.book.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-2 right-2 flex gap-1">
-                  <span className="bg-green-500 text-white px-2 py-0.5 text-[10px] font-bold rounded-sm uppercase shadow-sm">
-                    Owned
-                  </span>
+          {ownedBooks.map((item) => {
+            const book = item.book || item;
+            if (!book || !book._id) return null; // Safe fallback
+
+            return (
+              <div key={book._id} className="group flex flex-col gap-3 cursor-pointer" onClick={() => navigate(`/book/${book._id}`)}>
+                <div className="relative aspect-[2/3] rounded-xl overflow-hidden shadow-lg border border-white/10 group-hover:border-primary-container/50 transition-colors">
+                  <img
+                    src={book.coverImageUrl}
+                    alt={book.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2 right-2 flex gap-1">
+                    <span className="bg-green-500 text-white px-2 py-0.5 text-[10px] font-bold rounded-sm uppercase shadow-sm">
+                      Owned
+                    </span>
+                  </div>
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <button className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-full p-3 transition-colors">
+                      <span className="material-symbols-outlined text-[24px]">menu_book</span>
+                    </button>
+                  </div>
                 </div>
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <button className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-full p-3 transition-colors">
-                    <span className="material-symbols-outlined text-[24px]">menu_book</span>
-                  </button>
+                <div>
+                  <p className="font-bold text-sm text-gray-200 group-hover:text-primary-container transition-colors line-clamp-1">{book.title}</p>
+                  <p className="text-xs text-gray-500 line-clamp-1">{book.author}</p>
                 </div>
               </div>
-              <div>
-                <p className="font-bold text-sm text-gray-200 group-hover:text-primary-container transition-colors line-clamp-1">{item.book.title}</p>
-                <p className="text-xs text-gray-500 line-clamp-1">{item.book.author}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
