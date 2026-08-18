@@ -42,11 +42,7 @@ const ProfileLibrary: FC<ProfileLibraryProps> = ({ purchasedBooks }) => {
                     alt={book.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-2 right-2 flex gap-1">
-                    <span className="bg-green-500 text-white px-2 py-0.5 text-[10px] font-bold rounded-sm uppercase shadow-sm">
-                      Owned
-                    </span>
-                  </div>
+                  {/* Removed Owned tag as per request */}
                   {/* Hover overlay */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <button className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-full p-3 transition-colors">

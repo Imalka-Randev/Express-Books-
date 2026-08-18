@@ -30,16 +30,17 @@ const RentedBookCard: FC<RentedBookCardProps> = ({ item, onExtend, isHistory = f
   });
 
   return (
-    <div className="relative flex p-4 rounded-xl border transition-all bg-[#112240] border-white/10 shadow-lg group hover:border-primary-container/30 w-full md:w-[450px]">
+    <div className="relative flex p-4 rounded-xl border transition-all bg-white dark:bg-[#112240] border-gray-200 dark:border-white/10 shadow-lg group hover:border-primary/30 dark:hover:border-primary-container/30 w-full md:w-[450px]">
       
       {/* Extend Rental Button (Top Right) */}
       {!isHistory && (
         <div className="absolute top-4 right-4">
           <button 
             onClick={() => onExtend(book._id)}
-            className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white text-sm font-bold rounded-lg transition-colors"
+            className="px-3 md:px-4 py-1.5 md:py-2 bg-[#FFD700] hover:bg-[#FFC000] text-black text-xs md:text-sm font-bold rounded-lg transition-colors shadow-md"
           >
-            Extend Rental
+            <span className="md:hidden">Extend</span>
+            <span className="hidden md:inline">Extend Rental</span>
           </button>
         </div>
       )}
@@ -61,51 +62,34 @@ const RentedBookCard: FC<RentedBookCardProps> = ({ item, onExtend, isHistory = f
       </div>
 
       {/* Book Details */}
-      <div className="flex-1 flex flex-col justify-center">
-        {/* Rented Tag */}
-        <div className="mb-2">
-          <span className={`px-2 py-0.5 text-[10px] font-bold rounded-sm uppercase ${
-            isHistory 
-              ? 'bg-gray-500/20 text-gray-400'
-              : 'bg-[#FFD700] text-black'
-          }`}>
-            {isHistory ? 'Returned' : 'Rented'}
+      <div className="flex-1 flex flex-col justify-center min-w-0 pr-2 md:pr-0 mt-1 md:mt-0">
+        {/* Due Date (Moved up to replace Rented tag) */}
+        <div className="mb-1">
+          <span className="text-xs font-bold text-gray-500 dark:text-gray-400">
+            {isHistory ? 'Returned:' : 'Due:'} {formattedDate}
           </span>
         </div>
         
         {/* Title & Author */}
         <h3 
-          className="font-bold text-lg text-[#FFD700] cursor-pointer hover:underline line-clamp-1"
+          className="font-bold text-lg text-gray-900 dark:text-white cursor-pointer hover:underline line-clamp-1 pr-16 md:pr-0"
           onClick={() => navigate(`/book/${book._id}`)}
         >
           {book.title}
         </h3>
-        <p className="text-sm text-gray-400 mb-4">{book.author}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-1 pr-16 md:pr-0">{book.author}</p>
 
-        {/* Due Date Section */}
-        <div className={`inline-flex items-center gap-4 px-4 py-2.5 rounded-lg border w-fit ${
-          isHistory 
-            ? 'bg-white/5 border-white/5 text-gray-400' 
-            : daysLeft <= 3 
-              ? 'bg-red-500/10 border-red-500/20 text-red-400'
-              : 'bg-[#FFD700]/10 border-[#FFD700]/20 text-[#FFD700]'
-        }`}>
-          <div className="flex items-center gap-2 font-bold text-sm">
-            <span className="material-symbols-outlined text-[18px]">
-              {isHistory ? 'history' : 'schedule'}
-            </span>
-            <span>{isHistory ? 'Returned:' : 'Due:'} {formattedDate}</span>
+        {/* Remaining Time Section */}
+        {!isHistory && (
+          <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border w-fit mt-auto ${
+            daysLeft <= 3 
+              ? 'bg-red-500/10 border-red-500/20 text-red-600 dark:text-red-400' 
+              : 'bg-primary/10 border-primary/20 text-primary-fixed-dim dark:bg-[#FFD700]/10 dark:border-[#FFD700]/20 dark:text-[#FFD700]'
+          } font-bold text-xs md:text-sm`}>
+            <span className="material-symbols-outlined text-[14px] md:text-[16px]">hourglass_empty</span>
+            {daysLeft > 0 ? `${daysLeft}D LEFT` : 'OVERDUE'}
           </div>
-
-          {!isHistory && (
-            <div className={`flex items-center gap-1.5 pl-4 border-l ${
-              daysLeft <= 3 ? 'border-red-500/20 text-red-400' : 'border-[#FFD700]/20 text-[#FFD700]'
-            } font-bold text-sm`}>
-              <span className="material-symbols-outlined text-[16px]">hourglass_empty</span>
-              {daysLeft > 0 ? `${daysLeft}D LEFT` : 'OVERDUE'}
-            </div>
-          )}
-        </div>
+        )}
       </div>
 
     </div>

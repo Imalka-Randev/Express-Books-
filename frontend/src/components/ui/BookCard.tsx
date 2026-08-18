@@ -53,7 +53,7 @@ const BookCard: FC<BookCardProps> = ({ book }) => {
       onClick={handleCardClick}
       className="group relative bg-white dark:bg-[#112240] rounded-xl overflow-hidden shadow-xl hover:shadow-primary-container/10 transition-all duration-300 transform hover:-translate-y-2 border border-gray-200 dark:border-white/10 cursor-pointer"
     >
-      <div className="h-[320px] relative overflow-hidden bg-gray-100 dark:bg-black/20">
+      <div className="h-[240px] sm:h-[280px] md:h-[320px] relative overflow-hidden bg-gray-100 dark:bg-black/20">
         <img 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
           alt={book.title} 
@@ -85,8 +85,8 @@ const BookCard: FC<BookCardProps> = ({ book }) => {
         </div>
 
       </div>
-      <div className="p-6">
-        <h3 className="font-headline-lg text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-primary dark:group-hover:text-primary-container transition-colors line-clamp-1">
+      <div className="p-4 sm:p-6">
+        <h3 className="font-headline-lg text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-primary dark:group-hover:text-primary-container transition-colors line-clamp-1">
           {book.title}
         </h3>
         <p className="text-sm text-gray-600 dark:text-white-dim mb-4 italic line-clamp-1">

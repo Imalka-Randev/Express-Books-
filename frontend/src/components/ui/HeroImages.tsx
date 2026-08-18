@@ -35,7 +35,7 @@ const HeroImages: FC = () => {
     // diff === 1 : Right Book (Next in sequence, visually behind and to the right)
     else if (diff === 1) {
       return {
-        transform: 'translateX(160px) scale(0.8) rotateY(-15deg)',
+        transform: 'translateX(clamp(100px, 25vw, 160px)) scale(0.8) rotateY(-15deg)',
         zIndex: 20,
         opacity: 0.5,
         className: 'border-l-[10px] border-l-gray-300 dark:border-l-gray-800 shadow-[20px_0_30px_rgba(0,0,0,0.5)] brightness-75 hover:brightness-100 hover:-translate-y-2'
@@ -44,7 +44,7 @@ const HeroImages: FC = () => {
     // diff === 4 : Left Book (Previous in sequence, visually behind and to the left)
     else if (diff === books.length - 1) {
       return {
-        transform: 'translateX(-160px) scale(0.8) rotateY(15deg)',
+        transform: 'translateX(clamp(-160px, -25vw, -100px)) scale(0.8) rotateY(15deg)',
         zIndex: 20,
         opacity: 0.5,
         className: 'border-l-[10px] border-l-gray-300 dark:border-l-gray-800 shadow-[-20px_0_30px_rgba(0,0,0,0.5)] brightness-75 hover:brightness-100 hover:-translate-y-2'
@@ -55,7 +55,7 @@ const HeroImages: FC = () => {
       // Determine if it should hide to the right or left based on its distance
       const isRightSide = diff === 2;
       return {
-        transform: `translateX(${isRightSide ? '240px' : '-240px'}) scale(0.6) rotateY(${isRightSide ? '-30deg' : '30deg'})`,
+        transform: `translateX(clamp(${isRightSide ? '160px' : '-240px'}, ${isRightSide ? '40vw' : '-40vw'}, ${isRightSide ? '240px' : '-160px'})) scale(0.6) rotateY(${isRightSide ? '-30deg' : '30deg'})`,
         zIndex: 10,
         opacity: 0,
         className: 'border-l-[10px] border-l-gray-800 pointer-events-none'
@@ -65,15 +65,15 @@ const HeroImages: FC = () => {
 
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="relative w-full max-w-lg h-[450px] md:h-[550px] flex items-center justify-center [perspective:1200px] select-none">
+      <div className="relative w-full max-w-lg h-[260px] sm:h-[350px] md:h-[450px] flex items-center justify-center [perspective:1200px] select-none">
         {books.map((book, index) => {
           const style = getCardStyle(index);
           
           return (
-            <div
+              <div
               key={book.id}
               onClick={() => setActiveIndex(index)}
-              className={`absolute w-56 md:w-72 aspect-[2/3] transition-all duration-[1000ms] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer rounded-r-lg rounded-l-sm bg-gray-900 overflow-hidden ${style.className}`}
+              className={`absolute w-32 sm:w-48 md:w-64 lg:w-72 aspect-[2/3] transition-all duration-[1000ms] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer rounded-r-lg rounded-l-sm bg-gray-900 overflow-hidden ${style.className}`}
               style={{
                 transform: style.transform,
                 zIndex: style.zIndex,

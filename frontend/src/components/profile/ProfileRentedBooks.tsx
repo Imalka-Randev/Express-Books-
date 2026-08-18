@@ -66,7 +66,7 @@ const ProfileRentedBooks: FC<ProfileRentedBooksProps> = ({ rentedBooks }) => {
       ) : (
         <div className="flex flex-wrap gap-6 mb-12">
           {activeRentals.map((item) => (
-            <div key={item.book._id} className="flex flex-col gap-4">
+            <div key={item.book._id} className="flex flex-col gap-4 w-full md:w-auto">
               <RentedBookCard 
                 item={item} 
                 onExtend={(bookId) => setExtendingBookId(extendingBookId === bookId ? null : bookId)} 
@@ -94,12 +94,13 @@ const ProfileRentedBooks: FC<ProfileRentedBooksProps> = ({ rentedBooks }) => {
           </header>
           <div className="flex flex-wrap gap-6 opacity-70">
             {rentalHistory.map((item, idx) => (
-              <RentedBookCard 
-                key={`${item.book._id}-${idx}`} 
-                item={item} 
-                onExtend={(bookId) => navigate(`/book/${bookId}`)} 
-                isHistory={true}
-              />
+              <div key={`${item.book._id}-${idx}`} className="w-full md:w-auto">
+                <RentedBookCard 
+                  item={item} 
+                  onExtend={(bookId) => navigate(`/book/${bookId}`)} 
+                  isHistory={true}
+                />
+              </div>
             ))}
           </div>
         </div>

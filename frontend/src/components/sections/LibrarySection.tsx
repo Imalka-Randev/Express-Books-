@@ -92,7 +92,7 @@ const LibrarySection: FC = () => {
                   >
                     <div className="flex overflow-x-auto gap-6 pb-8 px-4 snap-x snap-mandatory custom-scrollbar hide-scrollbar">
                       {genreBooks.map((book) => (
-                        <div key={book._id} className="min-w-[280px] sm:min-w-[320px] max-w-[320px] snap-start shrink-0">
+                        <div key={book._id} className="w-[240px] sm:w-[280px] md:w-[320px] snap-start shrink-0">
                           <BookCard book={book} />
                         </div>
                       ))}

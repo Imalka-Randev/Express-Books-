@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../store/authSlice';
@@ -14,6 +14,7 @@ interface ProfileSidebarProps {
 const ProfileSidebar: FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -55,8 +56,49 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab
           >
             <span className="material-symbols-outlined">home</span>
           </button>
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-gray-200 hover:text-white transition-colors scale-95 active:scale-90 transition-transform"
+          >
+            <span className="material-symbols-outlined">{isMobileMenuOpen ? 'close' : 'menu'}</span>
+          </button>
         </div>
       </header>
+
+      {/* Slide-down Mobile Menu (Hidden on md+) */}
+      <div
+        className={`md:hidden fixed top-16 left-0 right-0 bg-[#0f172a]/95 backdrop-blur-xl border-b border-white/10 shadow-2xl transition-all duration-300 ease-in-out overflow-hidden z-40 ${
+          isMobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+        }`}
+      >
+        <nav className="flex flex-col px-6 py-4 gap-1">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => {
+                setActiveTab(item.id);
+                setIsMobileMenuOpen(false);
+              }}
+              className={`flex items-center gap-3 py-3 px-4 rounded-xl text-base font-medium transition-all ${
+                activeTab === item.id
+                  ? 'text-black bg-primary-fixed font-bold'
+                  : 'text-gray-300 hover:bg-white/5 hover:text-primary-fixed'
+              }`}
+            >
+              <span className={`material-symbols-outlined ${activeTab === item.id ? 'icon-fill' : ''}`}>{item.icon}</span>
+              {item.label}
+            </button>
+          ))}
+          <div className="my-2 border-t border-white/10" />
+          <button 
+            onClick={handleLogout}
+            className="flex items-center gap-3 py-3 px-4 rounded-xl text-base font-medium text-red-400 hover:bg-white/5 hover:text-red-500 transition-all"
+          >
+            <span className="material-symbols-outlined">logout</span>
+            Logout
+          </button>
+        </nav>
+      </div>
 
       {/* SideNavBar (Hidden on Mobile) */}
       <nav className="hidden md:flex flex-col h-screen py-8 px-4 border-r border-white/10 bg-[#0f172a] shadow-md w-64 fixed left-0 top-0 z-40">
