@@ -21,7 +21,8 @@ const app: Express = express();
 
 
 // 3. Setup Middleware (Request Handling Code)
-app.use(cors({ origin: 'http://localhost:5173', credentials: true })); // Allows secure cookies from React
+const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:5173';
+app.use(cors({ origin: allowedOrigin, credentials: true })); // Allows secure cookies from React
 app.use(express.json()); // Tells Express to parse incoming requests as JSON
 app.use(cookieParser()); // Parses cookies attached to incoming requests
 
