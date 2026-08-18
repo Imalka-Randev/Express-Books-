@@ -12,6 +12,10 @@ import libraryRoutes from './routes/library.routes.js';
 // 1. Load environment variables
 dotenv.config();
 
+// Import and connect to DB for Serverless compatibility
+import connectDB from './config/db.js';
+connectDB();
+
 // 2. Initialize the Express application
 const app: Express = express();
 
