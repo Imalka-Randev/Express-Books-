@@ -14,10 +14,15 @@ dotenv.config();
 
 // Import and connect to DB for Serverless compatibility
 import connectDB from './config/db.js';
-connectDB();
 
 // 2. Initialize the Express application
 const app: Express = express();
+
+// Vercel Serverless Middleware: Ensure DB connects before any route runs
+app.use(async (req: Request, res: Response, next) => {
+  await connectDB();
+  next();
+});
 
 
 // 3. Setup Middleware (Request Handling Code)
