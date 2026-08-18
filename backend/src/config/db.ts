@@ -10,7 +10,7 @@ const connectDB = async () => {
     console.log('✅ Successfully connected to MongoDB');
   } catch (error) {
     console.error('❌ MongoDB connection failed:', error);
-    process.exit(1); // Stop the server if the database doesn't connect
+    // process.exit(1); -> Removed because it crashes Serverless functions
   }
 };
 
