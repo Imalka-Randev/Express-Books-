@@ -65,7 +65,7 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
     <section id="checkout-section" className="bg-white dark:bg-[#112240] p-6 md:p-12 rounded-3xl border border-gray-200 dark:border-white/10 shadow-2xl w-full flex flex-col md:flex-row my-12">
       
       {/* Left Column: Toggle & Info */}
-      <div className="flex-1 w-full order-2 md:order-1 flex flex-col gap-6 md:pr-12 md:border-r border-gray-200 dark:border-white/10">
+      <div className="flex-1 w-full flex flex-col gap-6 md:pr-12 md:border-r border-gray-200 dark:border-white/10">
         <h3 className="font-headline-md text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <span className="material-symbols-outlined text-primary dark:text-primary-fixed">lock</span> Secure Checkout
         </h3>
@@ -166,7 +166,7 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
 
       </div>
 
-      <div className="md:pl-12 flex-1 w-full order-1 md:order-2 flex flex-col justify-center">
+      <div className="md:pl-12 flex-1 w-full flex flex-col justify-center mt-8 md:mt-0">
         <PaymentForm onPaySecurely={handlePaySecurely} isProcessing={isProcessing} />
       </div>
 
