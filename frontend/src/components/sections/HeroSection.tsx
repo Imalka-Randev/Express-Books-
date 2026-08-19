@@ -49,13 +49,13 @@ const HeroSection: FC = () => {
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 sm:gap-4 pt-2 max-w-[280px] sm:max-w-[380px] lg:max-w-none mx-auto lg:mx-0 w-full">
               <button 
                 onClick={() => scrollToSection('community')}
-                className="w-full sm:flex-1 lg:flex-none px-4 md:px-8 py-3 md:py-4 text-[14px] sm:text-sm md:text-base bg-primary-container text-black font-bold rounded-xl shadow-lg hover:shadow-primary-container/40 hover:-translate-y-1 hover:bg-inverse-primary transition-all duration-300 active:scale-95 whitespace-nowrap"
+                className="w-full sm:flex-1 lg:flex-none lg:w-auto px-4 md:px-8 py-3 md:py-4 text-[14px] sm:text-sm md:text-base bg-primary-container text-black font-bold rounded-xl shadow-lg hover:shadow-primary-container/40 hover:-translate-y-1 hover:bg-inverse-primary transition-all duration-300 active:scale-95 whitespace-nowrap"
               >
                 {t('home.heroBtnPrimary', 'Join the Club')}
               </button>
               <button 
                 onClick={() => scrollToSection('library')}
-                className="w-full sm:flex-1 lg:flex-none px-4 md:px-8 py-3 md:py-4 text-[14px] sm:text-sm md:text-base border-2 border-primary dark:border-secondary text-primary dark:text-secondary-fixed-dim font-bold rounded-xl hover:bg-primary/10 dark:hover:bg-secondary/10 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 active:scale-95 whitespace-nowrap"
+                className="w-full sm:flex-1 lg:flex-none lg:w-auto px-4 md:px-8 py-3 md:py-4 text-[14px] sm:text-sm md:text-base border-2 border-primary dark:border-secondary text-primary dark:text-secondary-fixed-dim font-bold rounded-xl hover:bg-primary/10 dark:hover:bg-secondary/10 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 active:scale-95 whitespace-nowrap"
               >
                 {t('home.heroBtnSecondary', 'Browse Library')}
               </button>
