@@ -71,7 +71,7 @@ const Navbar: FC = () => {
           to="/"
           className="font-headline-lg text-xl md:text-2xl font-bold text-black dark:text-white hover:opacity-80 transition-opacity"
         >
-          Express Book
+          Express Books
         </Link>
       </div>
 
