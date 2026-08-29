@@ -5,6 +5,7 @@ import { setCartOpen, toggleItemType, removeItem, updateRentDays, clearCart } fr
 import { checkoutLibrary, fetchLibrary } from '../../store/librarySlice';
 import { X, Search, Trash2, Plus, Minus, CheckSquare, Square, ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import PaymentCard from '../payment/PaymentCard';
 
 const CartModal: FC = () => {
@@ -12,6 +13,7 @@ const CartModal: FC = () => {
   const dispatch = useDispatch();
   const { items, isOpen } = useSelector((state: RootState) => state.cart);
   const { rentedBooks } = useSelector((state: RootState) => state.library);
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [searchTerm, setSearchTerm] = useState('');
   
   // State for toggling sections
@@ -320,13 +322,19 @@ const CartModal: FC = () => {
                   {(rentChecked ? rentItems.length : 0) + (buyChecked ? buyItems.length : 0)} Items
                 </span>
               </div>
-              <button 
-                onClick={() => setIsCheckout(true)}
-                disabled={finalTotal === 0}
-                className="px-8 py-4 bg-primary-container text-black font-bold text-lg rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center gap-2"
-              >
-                Checkout <span className="opacity-80">(${finalTotal.toFixed(2)})</span>
-              </button>
+              {isAuthenticated ? (
+                <button 
+                  onClick={() => setIsCheckout(true)}
+                  disabled={finalTotal === 0}
+                  className="px-8 py-4 bg-primary-container text-black font-bold text-lg rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center gap-2"
+                >
+                  Checkout <span className="opacity-80">(${finalTotal.toFixed(2)})</span>
+                </button>
+              ) : (
+                <div className="px-6 py-4 bg-gray-100 dark:bg-black/20 rounded-xl text-gray-700 dark:text-gray-300 font-medium border border-gray-200 dark:border-white/10">
+                  Please <Link to="/login" onClick={handleClose} className="text-yellow-500 hover:underline font-bold mx-1">log in</Link> to checkout your cart.
+                </div>
+              )}
             </div>
           </>
         ) : (

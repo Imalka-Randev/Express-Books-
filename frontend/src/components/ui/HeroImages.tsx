@@ -73,7 +73,7 @@ const HeroImages: FC = () => {
               <div
               key={book.id}
               onClick={() => setActiveIndex(index)}
-              className={`absolute w-32 sm:w-48 md:w-64 lg:w-72 aspect-[2/3] transition-all duration-[1000ms] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer rounded-r-lg rounded-l-sm bg-gray-900 overflow-hidden ${style.className}`}
+              className={`absolute w-32 sm:w-48 md:w-56 lg:w-64 xl:w-64 2xl:w-72 aspect-[2/3] transition-all duration-[1000ms] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer rounded-r-lg rounded-l-sm bg-gray-900 overflow-hidden ${style.className}`}
               style={{
                 transform: style.transform,
                 zIndex: style.zIndex,

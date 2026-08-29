@@ -81,7 +81,12 @@ const MobileNav: FC<MobileNavProps> = ({
           menuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
         }`}
       >
-        <nav className="flex flex-col px-6 py-4 gap-1">
+        {/* Top center: theme & language */}
+        <div className="flex items-center justify-center pt-6 pb-2">
+          <ThemeLanguageToggle className="flex gap-2 items-center" />
+        </div>
+
+        <nav className="flex flex-col px-6 pb-6 pt-2 gap-1">
           {navLinks.map((link) => (
             <button
               key={link.id}
@@ -96,12 +101,6 @@ const MobileNav: FC<MobileNavProps> = ({
             </button>
           ))}
         </nav>
-
-        {/* Bottom row: theme & language */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 dark:border-white/5">
-          <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Settings</span>
-          <ThemeLanguageToggle className="flex gap-2 items-center" />
-        </div>
       </div>
     </>
   );

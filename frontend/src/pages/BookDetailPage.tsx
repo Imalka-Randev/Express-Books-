@@ -80,7 +80,7 @@ const BookDetailPage: FC = () => {
     .slice(0, 6);
 
   return (
-    <main className="flex-1 p-4 md:p-12 max-w-7xl mx-auto w-full flex flex-col gap-12">
+    <main className="flex-1 p-4 pt-24 md:p-12 md:pt-28 max-w-7xl mx-auto w-full flex flex-col gap-12">
       
       {/* Back Button */}
       <div className="w-full flex items-center mb-[-24px]">

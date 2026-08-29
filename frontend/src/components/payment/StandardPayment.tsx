@@ -1,9 +1,10 @@
 import { type FC, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { type Book } from '../../store/bookSlice';
 import PaymentForm from './PaymentForm';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { checkoutLibrary, fetchLibrary } from '../../store/librarySlice';
-import { type AppDispatch } from '../../store/store';
+import { type AppDispatch, type RootState } from '../../store/store';
 
 interface StandardPaymentProps {
   book: Book;
@@ -12,6 +13,7 @@ interface StandardPaymentProps {
 }
 
 const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPaymentType = 'rent' }) => {
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [purchaseMode, setPurchaseMode] = useState<'buy' | 'rent'>(defaultPaymentType);
   const [addAudioBook, setAddAudioBook] = useState(false);
   const [extraRentDays, setExtraRentDays] = useState(0);
@@ -167,7 +169,17 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
       </div>
 
       <div className="md:pl-12 flex-1 w-full flex flex-col justify-center mt-8 md:mt-0">
-        <PaymentForm onPaySecurely={handlePaySecurely} isProcessing={isProcessing} />
+        {isAuthenticated ? (
+          <PaymentForm onPaySecurely={handlePaySecurely} isProcessing={isProcessing} />
+        ) : (
+          <div className="bg-gray-50 dark:bg-black/20 p-8 rounded-2xl border border-gray-200 dark:border-white/10 text-center flex flex-col items-center justify-center gap-4 h-full">
+            <span className="material-symbols-outlined text-5xl text-gray-400 dark:text-gray-500">lock_person</span>
+            <h4 className="text-xl font-bold text-gray-900 dark:text-white">Authentication Required</h4>
+            <p className="text-gray-600 dark:text-gray-400 max-w-sm">
+              You are not logged in. Please <Link to="/login" className="text-primary hover:underline font-bold text-yellow-500 dark:text-yellow-400">log in</Link> or, if you don't have an account, <Link to="/signup" className="text-primary hover:underline font-bold text-yellow-500 dark:text-yellow-400">sign up</Link> to make a payment.
+            </p>
+          </div>
+        )}
       </div>
 
     </section>
