@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store/store';
 import { setCartOpen, toggleItemType, removeItem, updateRentDays, clearCart } from '../../store/cartSlice';
 import { checkoutLibrary, fetchLibrary } from '../../store/librarySlice';
-import { X, Search, Trash2, Plus, Minus, CheckSquare, Square, ArrowLeft, ArrowRight, ArrowRightLeft } from 'lucide-react';
+import { X, Search, Trash2, Plus, Minus, CheckSquare, Square, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import PaymentCard from '../payment/PaymentCard';
@@ -54,9 +54,7 @@ const CartModal: FC = () => {
     dispatch(toggleItemType(id));
   };
 
-  const handleRemove = (id: string) => {
-    dispatch(removeItem(id));
-  };
+
 
   const handleUpdateDays = (id: string, currentDays: number, increment: number) => {
     const newDays = Math.max(7, currentDays + increment); // Minimum 7 days

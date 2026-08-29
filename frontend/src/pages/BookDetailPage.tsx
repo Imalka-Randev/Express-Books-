@@ -102,7 +102,7 @@ const BookDetailPage: FC = () => {
       {(() => {
         const isOwned = purchasedBooks.some(p => p._id === currentBook._id || (p.book && p.book._id === currentBook._id));
         const rentedItem = rentedBooks.find(r => r.book._id === currentBook._id);
-        const isRented = !!rentedItem;
+        const isRented = !!rentedItem && new Date(rentedItem.dueDate).getTime() > new Date().getTime();
 
         if (isOwned) {
           return (

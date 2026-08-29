@@ -74,11 +74,11 @@ const BookCard: FC<BookCardProps> = ({ book }) => {
               Owned
             </span>
           )}
-          {isRented && !isOwned && (
+          {isRented && !isOwned && daysLeft > 0 && (
             <div className="flex items-center bg-blue-500/90 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-sm shadow-md">
               <span className="material-symbols-outlined text-[12px] mr-0.5 animate-pulse">hourglass_empty</span>
               <span className="text-[9px] font-bold uppercase tracking-wider whitespace-nowrap">
-                {daysLeft > 0 ? `${daysLeft}d Left` : 'Overdue'}
+                {daysLeft}d Left
               </span>
             </div>
           )}
