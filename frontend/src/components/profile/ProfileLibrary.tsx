@@ -12,14 +12,14 @@ const ProfileLibrary: FC<ProfileLibraryProps> = ({ purchasedBooks }) => {
   return (
     <div className="w-full">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2 font-display-lg">My Library</h1>
-        <p className="text-gray-400">Access and manage all your purchased E-Books.</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-display-lg">My Library</h1>
+        <p className="text-gray-500 dark:text-gray-400">Access and manage all your purchased E-Books.</p>
       </header>
 
       {ownedBooks.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-400 bg-[#112240]/40 rounded-2xl border border-white/5">
+        <div className="flex flex-col items-center justify-center py-20 text-gray-500 dark:text-gray-400 bg-white dark:bg-[#112240]/40 rounded-2xl border border-white/5">
           <span className="material-symbols-outlined text-6xl mb-4 opacity-50">library_books</span>
-          <p className="text-lg font-bold text-white mb-2">Your library is empty</p>
+          <p className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your library is empty</p>
           <p className="text-sm max-w-md text-center mb-6">You haven't purchased any books yet. Browse our collection to start building your digital library.</p>
           <button 
             onClick={() => navigate('/')}
@@ -36,7 +36,7 @@ const ProfileLibrary: FC<ProfileLibraryProps> = ({ purchasedBooks }) => {
 
             return (
               <div key={book._id} className="group flex flex-col gap-3 cursor-pointer" onClick={() => navigate(`/book/${book._id}`)}>
-                <div className="relative aspect-[2/3] rounded-xl overflow-hidden shadow-lg border border-white/10 group-hover:border-primary-container/50 transition-colors">
+                <div className="relative aspect-[2/3] rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-white/10 group-hover:border-primary-container/50 transition-colors">
                   <img
                     src={book.coverImageUrl}
                     alt={book.title}
@@ -45,13 +45,13 @@ const ProfileLibrary: FC<ProfileLibraryProps> = ({ purchasedBooks }) => {
                   {/* Removed Owned tag as per request */}
                   {/* Hover overlay */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <button className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-full p-3 transition-colors">
+                    <button className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-gray-900 dark:text-white rounded-full p-3 transition-colors">
                       <span className="material-symbols-outlined text-[24px]">menu_book</span>
                     </button>
                   </div>
                 </div>
                 <div>
-                  <p className="font-bold text-sm text-gray-200 group-hover:text-primary-container transition-colors line-clamp-1">{book.title}</p>
+                  <p className="font-bold text-sm text-gray-700 dark:text-gray-200 group-hover:text-primary-container transition-colors line-clamp-1">{book.title}</p>
                   <p className="text-xs text-gray-500 line-clamp-1">{book.author}</p>
                 </div>
               </div>

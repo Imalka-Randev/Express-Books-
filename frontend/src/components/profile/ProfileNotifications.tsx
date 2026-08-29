@@ -72,8 +72,8 @@ const ProfileNotifications: FC = () => {
     <div className="w-full">
       <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2 font-display-lg">Notifications</h1>
-          <p className="text-gray-400">Stay updated on your rentals, purchases, and new arrivals.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-display-lg">Notifications</h1>
+          <p className="text-gray-500 dark:text-gray-400">Stay updated on your rentals, purchases, and new arrivals.</p>
         </div>
         {unreadCount > 0 && (
           <button 
@@ -91,9 +91,9 @@ const ProfileNotifications: FC = () => {
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-container border-t-transparent"></div>
         </div>
       ) : notifications.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-400 bg-[#112240]/40 rounded-2xl border border-white/5">
+        <div className="flex flex-col items-center justify-center py-20 text-gray-500 dark:text-gray-400 bg-white dark:bg-[#112240]/40 rounded-2xl border border-white/5">
           <span className="material-symbols-outlined text-6xl mb-4 opacity-50">notifications_off</span>
-          <p className="text-lg font-bold text-white mb-2">No notifications</p>
+          <p className="text-lg font-bold text-gray-900 dark:text-white mb-2">No notifications</p>
           <p className="text-sm max-w-md text-center mb-6">You're all caught up! We'll let you know when there are updates.</p>
         </div>
       ) : (
@@ -109,8 +109,8 @@ const ProfileNotifications: FC = () => {
                 key={notification._id} 
                 className={`p-4 rounded-xl border transition-all flex gap-4 ${
                   notification.isRead 
-                    ? 'bg-[#112240]/50 border-white/5 opacity-70' 
-                    : 'bg-[#112240] border-white/20 shadow-lg'
+                    ? 'bg-white dark:bg-[#112240]/50 border-white/5 opacity-70' 
+                    : 'bg-white dark:bg-[#112240] border-white/20 shadow-lg'
                 }`}
               >
                 <div className={`w-12 h-12 shrink-0 rounded-full flex items-center justify-center ${bg} ${color}`}>
@@ -119,19 +119,19 @@ const ProfileNotifications: FC = () => {
                 
                 <div className="flex-1">
                   <div className="flex justify-between items-start gap-4">
-                    <h4 className={`font-bold ${notification.isRead ? 'text-gray-300' : 'text-white'}`}>
+                    <h4 className={`font-bold ${notification.isRead ? 'text-gray-600 dark:text-gray-300' : 'text-gray-900 dark:text-white'}`}>
                       {notification.title}
                     </h4>
                     <span className="text-xs text-gray-500 whitespace-nowrap">{date}</span>
                   </div>
-                  <p className="text-sm text-gray-400 mt-1 leading-relaxed">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
                     {notification.message}
                   </p>
                   
                   {!notification.isRead && (
                     <button 
                       onClick={() => markAsRead(notification._id)}
-                      className="mt-3 text-xs font-bold text-gray-400 hover:text-white transition-colors"
+                      className="mt-3 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
                     >
                       Mark as read
                     </button>

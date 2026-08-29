@@ -105,7 +105,7 @@ const CommunitySection: FC = () => {
             <div className="h-48 w-full relative">
               <div 
                 className="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500" 
-                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&w=800&q=80')" }} 
+                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=800&q=80')" }} 
               />
 
             </div>

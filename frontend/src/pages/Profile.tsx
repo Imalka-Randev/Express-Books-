@@ -58,7 +58,7 @@ const Profile: FC = () => {
   };
 
   return (
-    <div className="bg-[#0a192f] text-gray-200 font-body-md min-h-screen flex selection:bg-primary-container selection:text-black">
+    <div className="bg-theme-light-bg dark:bg-[#0a192f] text-gray-900 dark:text-gray-200 font-body-md min-h-screen flex selection:bg-primary-container selection:text-black transition-colors duration-300">
       <ProfileSidebar 
         user={user} 
         activeTab={activeTab} 
