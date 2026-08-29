@@ -64,7 +64,7 @@ const SignupForm = () => {
         <div className="mt-8 text-center border-t border-gray-200 dark:border-white/10 pt-6">
           <p className="text-gray-600 dark:text-surface-dim">
             {t('signup.haveAccount')} 
-            <Link to="/login" onClick={(e) => { e.preventDefault(); navigate('/login'); }} className="text-blue-600 dark:text-primary-fixed hover:underline ml-2 font-bold">{t('signup.loginLink')}</Link>
+            <Link to="/login" onClick={(e) => { e.preventDefault(); navigate('/login'); }} className="text-primary hover:underline ml-2 font-bold">{t('signup.loginLink')}</Link>
           </p>
         </div>
       </div>

@@ -19,7 +19,7 @@ const LoginForm = () => {
       <div className="w-full max-w-md">
         <div className="text-center mb-10">
           <h1 className="font-headline-lg text-3xl text-primary-fixed mb-2">{t('login.title')}</h1>
-          <p className="font-body-md text-surface-dim">{t('login.subtitle')}</p>
+          <p className="font-body-md text-black dark:text-surface-dim">{t('login.subtitle')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -57,9 +57,9 @@ const LoginForm = () => {
           </button>
         </form>
 
-        <p className="mt-10 text-center font-body-md text-surface-dim">
+        <div className="mt-8 text-center text-sm font-label-md text-black dark:text-surface-dim">
           {t('login.noAccount')} <Link className="font-bold text-primary-fixed hover:text-primary-container transition-colors" to="/signup" onClick={(e) => { e.preventDefault(); navigate('/signup'); }}>{t('login.signupLink')}</Link>
-        </p>
+        </div>
       </div>
     </div>
   );

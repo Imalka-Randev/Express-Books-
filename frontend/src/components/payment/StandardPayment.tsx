@@ -124,7 +124,7 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
         <div className={`transition-all duration-300 flex flex-col gap-4 ${purchaseMode === 'rent' ? 'opacity-100 h-auto' : 'opacity-0 h-0 overflow-hidden pointer-events-none select-none m-0 p-0 border-0'}`}>
           <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-black/20">
             <span className="font-bold text-gray-900 dark:text-white">
-              <span className="text-yellow-500 dark:text-yellow-400">Extend</span> Return (+ Days)
+              <span className="text-primary">Extend</span> Return (+ Days)
             </span>
             <div className="flex items-center gap-4 bg-white dark:bg-[#112240] rounded-lg px-2 py-1 shadow-sm border border-gray-200 dark:border-white/10">
               <button 
@@ -176,7 +176,7 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
             <span className="material-symbols-outlined text-5xl text-gray-400 dark:text-gray-500">lock_person</span>
             <h4 className="text-xl font-bold text-gray-900 dark:text-white">Authentication Required</h4>
             <p className="text-gray-600 dark:text-gray-400 max-w-sm">
-              You are not logged in. Please <Link to="/login" className="text-primary hover:underline font-bold text-yellow-500 dark:text-yellow-400">log in</Link> or, if you don't have an account, <Link to="/signup" className="text-primary hover:underline font-bold text-yellow-500 dark:text-yellow-400">sign up</Link> to make a payment.
+              You are not logged in. Please <Link to="/login" className="text-primary hover:underline font-bold">log in</Link> or, if you don't have an account, <Link to="/signup" className="text-primary hover:underline font-bold">sign up</Link> to make a payment.
             </p>
           </div>
         )}

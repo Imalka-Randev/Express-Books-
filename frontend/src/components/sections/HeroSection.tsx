@@ -55,7 +55,7 @@ const HeroSection: FC = () => {
               </button>
               <button 
                 onClick={() => scrollToSection('library')}
-                className="w-full sm:flex-1 xl:flex-none xl:w-auto px-4 md:px-8 py-3 md:py-4 text-[14px] sm:text-sm md:text-base border-2 border-primary dark:border-secondary text-primary dark:text-secondary-fixed-dim font-bold rounded-xl hover:bg-primary/10 dark:hover:bg-secondary/10 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 active:scale-95 whitespace-nowrap"
+                className="w-full sm:flex-1 xl:flex-none xl:w-auto px-4 md:px-8 py-3 md:py-4 text-[14px] sm:text-sm md:text-base border-2 border-black text-black dark:border-white dark:text-white font-bold rounded-xl hover:bg-black/5 dark:hover:bg-white/10 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 active:scale-95 whitespace-nowrap"
               >
                 {t('home.heroBtnSecondary', 'Browse Library')}
               </button>

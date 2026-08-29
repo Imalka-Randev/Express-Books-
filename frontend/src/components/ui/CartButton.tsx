@@ -42,7 +42,7 @@ const CartButton: FC<CartButtonProps> = ({ book, type = 'rent', className = '', 
       <ShoppingCart
         size={iconSize}
         strokeWidth={2.5}
-        className={isInCart ? 'text-yellow-500 dark:text-yellow-400' : 'text-gray-700 dark:text-gray-300'}
+        className={isInCart ? 'text-primary' : 'text-gray-700 dark:text-gray-300'}
       />
     </button>
   );

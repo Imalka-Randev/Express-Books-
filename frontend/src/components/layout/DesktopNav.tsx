@@ -40,8 +40,8 @@ const DesktopNav: FC<DesktopNavProps> = ({
             onClick={() => handleScroll(link.id)}
             className={`font-label-md text-sm py-1 transition-colors ${
               activeSection === link.id && location.pathname === '/'
-                ? 'text-[#e9c400] dark:text-primary-container font-bold border-b-2 border-[#e9c400] dark:border-primary-container'
-                : 'text-gray-600 dark:text-on-tertiary-fixed-variant hover:text-[#e9c400] dark:hover:text-primary-fixed'
+                ? 'text-primary font-bold border-b-2 border-primary'
+                : 'text-gray-600 dark:text-on-tertiary-fixed-variant hover:text-primary'
             }`}
           >
             {link.name}

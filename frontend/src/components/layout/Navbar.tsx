@@ -69,7 +69,7 @@ const Navbar: FC = () => {
       <div className="absolute left-4 md:left-12 top-0 h-16 flex items-center">
         <Link
           to="/"
-          className="font-headline-lg text-xl md:text-2xl font-bold text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity"
+          className="font-headline-lg text-xl md:text-2xl font-bold text-black dark:text-white hover:opacity-80 transition-opacity"
         >
           Express Book
         </Link>

@@ -21,12 +21,12 @@ const ExpressLogo: FC<ExpressLogoProps> = ({
         className="italic font-bold"
         style={{ fontSize: textSize, lineHeight: '1' }}
       >
-        <span className="text-[#e9c400]">Express</span>{' '}
+        <span className="text-primary">Express</span>{' '}
         <span className="text-black dark:text-white">Books</span>
       </span>
       
        <span
-        className="material-symbols-outlined text-[#e9c400]"
+        className="material-symbols-outlined text-primary"
         style={{ fontSize: iconSize }}
       >
         menu_book

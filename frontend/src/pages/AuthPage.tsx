@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import ThemeLanguageToggle from '../components/ui/ThemeLanguageToggle';
 import AuthImageSidebar from '../components/ui/AuthImageSidebar';
 import LoginForm from '../components/auth/LoginForm';
@@ -12,6 +12,14 @@ const AuthPage = () => {
 
   return (
     <div className="bg-theme-light-bg dark:bg-theme-dark-bg min-h-screen text-gray-900 dark:text-white flex items-center justify-center p-4 md:p-8 transition-colors duration-300">
+      <Link 
+        to="/" 
+        className="absolute top-4 left-4 z-50 flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-fixed transition-colors font-bold group"
+      >
+        <span className="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
+        Home Page
+      </Link>
+
       <ThemeLanguageToggle className="absolute top-4 right-4 z-50 flex gap-4" />
 
       {/* Unified Glass Card Container */}

@@ -21,8 +21,8 @@ const CommunitySection: FC = () => {
         <div 
           className="relative w-full"
           style={{
-            maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)'
+            maskImage: 'linear-gradient(to right, transparent, black 1%, black 99%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 1%, black 99%, transparent)'
           }}
         >
           <div className="flex gap-3 overflow-x-auto pb-2 px-4 custom-scrollbar hide-scrollbar snap-x">

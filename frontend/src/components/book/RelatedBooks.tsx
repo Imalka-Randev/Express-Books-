@@ -19,8 +19,8 @@ const RelatedBooks: FC<RelatedBooksProps> = ({ books }) => {
       <div 
         className="relative w-full"
         style={{
-          maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)'
+          maskImage: 'linear-gradient(to right, transparent, black 1%, black 99%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 1%, black 99%, transparent)'
         }}
       >
         <div className="flex overflow-x-auto gap-6 pb-8 px-4 snap-x snap-mandatory custom-scrollbar hide-scrollbar">

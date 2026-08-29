@@ -93,8 +93,8 @@ const MobileNav: FC<MobileNavProps> = ({
               onClick={() => handleLinkClick(link.id)}
               className={`text-left py-3 px-4 rounded-xl text-base font-medium transition-all ${
                 activeSection === link.id && location.pathname === '/'
-                  ? 'text-[#e9c400] bg-[#e9c400]/10 font-bold'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#e9c400]'
+                  ? 'text-primary bg-primary/10 font-bold'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-primary'
               }`}
             >
               {link.name}

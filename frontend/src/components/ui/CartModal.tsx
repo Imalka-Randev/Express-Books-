@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store/store';
 import { setCartOpen, toggleItemType, removeItem, updateRentDays, clearCart } from '../../store/cartSlice';
 import { checkoutLibrary, fetchLibrary } from '../../store/librarySlice';
-import { X, Search, Trash2, Plus, Minus, CheckSquare, Square, ArrowLeft } from 'lucide-react';
+import { X, Search, Trash2, Plus, Minus, CheckSquare, Square, ArrowLeft, ArrowRight, ArrowRightLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import PaymentCard from '../payment/PaymentCard';
@@ -19,6 +19,10 @@ const CartModal: FC = () => {
   // State for toggling sections
   const [rentChecked, setRentChecked] = useState(true);
   const [buyChecked, setBuyChecked] = useState(true);
+
+  // Delete mode state
+  const [deleteMode, setDeleteMode] = useState(false);
+  const [selectedForDelete, setSelectedForDelete] = useState<string[]>([]);
 
   // Checkout state
   const [isCheckout, setIsCheckout] = useState(false);
@@ -55,8 +59,20 @@ const CartModal: FC = () => {
   };
 
   const handleUpdateDays = (id: string, currentDays: number, increment: number) => {
-    const newDays = Math.max(1, currentDays + increment); // Minimum 1 day
+    const newDays = Math.max(7, currentDays + increment); // Minimum 7 days
     dispatch(updateRentDays({ id, days: newDays }));
+  };
+
+  const handleToggleDelete = (id: string) => {
+    setSelectedForDelete(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
+
+  const handleConfirmDelete = () => {
+    selectedForDelete.forEach(id => dispatch(removeItem(id)));
+    setDeleteMode(false);
+    setSelectedForDelete([]);
   };
 
   // Price calculations
@@ -177,16 +193,16 @@ const CartModal: FC = () => {
               
               {/* RENT COLUMN */}
               <div className={`flex flex-col gap-4 transition-all duration-300 ${!rentChecked ? 'opacity-40 grayscale' : ''}`}>
-                <div className="flex items-center justify-between border-b-2 border-secondary pb-2">
+                <div className="flex items-center justify-between border-b-2 border-primary pb-2">
                   <div className="flex items-center gap-3">
-                    <button onClick={() => setRentChecked(!rentChecked)} className="text-secondary hover:text-secondary/80 transition-colors">
+                    <button onClick={() => setRentChecked(!rentChecked)} className="text-primary hover:text-primary/80 transition-colors">
                       {rentChecked ? <CheckSquare size={24} /> : <Square size={24} />}
                     </button>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white uppercase tracking-wider">
                       RENT BOOKS ({rentItems.length})
                     </h3>
                   </div>
-                  <span className="text-lg font-bold text-secondary">${rentTotal.toFixed(2)}</span>
+                  <span className="text-lg font-bold text-primary">${rentTotal.toFixed(2)}</span>
                 </div>
                 
                 {rentItems.length === 0 && (
@@ -197,54 +213,58 @@ const CartModal: FC = () => {
                   const days = item.rentDays || 7;
                   const price = getRentPrice(item.book.rentPrice, days);
                   return (
-                    <div key={item.book._id} className="flex gap-4 p-4 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                      <img src={item.book.coverImageUrl} alt={item.book.title} className="w-16 h-24 object-cover rounded-lg" />
-                      <div className="flex-1 flex flex-col justify-between">
+                    <div key={item.book._id} className="flex gap-4 p-4 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm hover:shadow-md transition-all relative min-h-[140px]">
+                      <img src={item.book.coverImageUrl} alt={item.book.title} className="w-20 h-28 object-cover rounded-lg" />
+                      <div className="flex-1 flex flex-col justify-between pr-8">
                         <div>
-                          <h4 className="font-bold text-gray-900 dark:text-white line-clamp-1">{item.book.title}</h4>
+                          <h4 className="font-bold text-gray-900 dark:text-white line-clamp-1 pr-6">{item.book.title}</h4>
                           <p className="text-sm text-gray-500">{item.book.author}</p>
+                        </div>
                           
-                          {/* Days Stepper */}
-                          <div className="flex items-center gap-3 mt-2">
+                        {/* Days Stepper and Price */}
+                        <div className="mt-auto flex items-center gap-4 pt-3">
+                          <div className="flex items-center gap-2">
                             <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Days:</span>
-                            <div className="flex items-center gap-2 bg-gray-100 dark:bg-black/40 rounded-lg p-1">
+                            <div className="flex items-center gap-1 bg-gray-100 dark:bg-black/40 rounded-lg p-1">
                               <button 
                                 disabled={!rentChecked}
                                 onClick={() => handleUpdateDays(item.book._id, days, -1)}
                                 className="p-1 rounded bg-white dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-700 dark:text-white disabled:opacity-50"
                               >
-                                <Minus size={14} />
+                                <Minus size={12} />
                               </button>
-                              <span className="font-bold text-sm w-6 text-center text-gray-900 dark:text-white">{days}</span>
+                              <span className="font-bold text-sm w-5 text-center text-gray-900 dark:text-white">{days}</span>
                               <button 
                                 disabled={!rentChecked}
                                 onClick={() => handleUpdateDays(item.book._id, days, 1)}
                                 className="p-1 rounded bg-white dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-700 dark:text-white disabled:opacity-50"
                               >
-                                <Plus size={14} />
+                                <Plus size={12} />
                               </button>
                             </div>
                           </div>
-
-                          <p className="text-lg font-bold text-secondary mt-1">${price.toFixed(2)}</p>
-                        </div>
-                        <div className="flex justify-between items-center mt-2">
-                          <button 
-                            disabled={!rentChecked}
-                            onClick={() => handleToggle(item.book._id)}
-                            className="text-xs font-bold text-primary dark:text-primary-container hover:underline disabled:opacity-50 disabled:no-underline cursor-pointer"
-                          >
-                            Switch to Buy
-                          </button>
-                          <button 
-                            disabled={!rentChecked}
-                            onClick={() => handleRemove(item.book._id)} 
-                            className="text-red-500 p-1 hover:bg-red-500/10 rounded-md disabled:opacity-50 disabled:bg-transparent cursor-pointer"
-                          >
-                            <Trash2 size={16} />
-                          </button>
+                          <p className="text-lg font-bold text-gray-900 dark:text-white">${price.toFixed(2)}</p>
                         </div>
                       </div>
+
+                      {/* Switch Button or Delete Checkbox - Middle Right */}
+                      {deleteMode ? (
+                        <button 
+                          onClick={() => handleToggleDelete(item.book._id)}
+                          className={`absolute top-1/2 -translate-y-1/2 right-3 w-8 h-8 rounded-full flex justify-center items-center transition-all shadow-md ${selectedForDelete.includes(item.book._id) ? 'bg-red-500 text-white' : 'bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-gray-400'}`}
+                        >
+                          {selectedForDelete.includes(item.book._id) ? <CheckSquare size={16} /> : <Square size={16} />}
+                        </button>
+                      ) : (
+                        <button 
+                          disabled={!rentChecked}
+                          onClick={() => handleToggle(item.book._id)}
+                          className="absolute top-1/2 -translate-y-1/2 right-3 w-8 h-8 bg-primary text-black rounded-full flex justify-center items-center hover:scale-110 active:scale-95 transition-all shadow-md disabled:opacity-50 disabled:hover:scale-100"
+                          title="Switch to Buy"
+                        >
+                          <ArrowRight size={16} />
+                        </button>
+                      )}
                     </div>
                   );
                 })}
@@ -252,16 +272,16 @@ const CartModal: FC = () => {
 
               {/* BUY COLUMN */}
               <div className={`flex flex-col gap-4 transition-all duration-300 ${!buyChecked ? 'opacity-40 grayscale' : ''}`}>
-                <div className="flex items-center justify-between border-b-2 border-primary-container pb-2">
+                <div className="flex items-center justify-between border-b-2 border-primary pb-2">
                   <div className="flex items-center gap-3">
-                    <button onClick={() => setBuyChecked(!buyChecked)} className="text-primary-container hover:text-primary-container/80 transition-colors">
+                    <button onClick={() => setBuyChecked(!buyChecked)} className="text-primary hover:text-primary/80 transition-colors">
                       {buyChecked ? <CheckSquare size={24} /> : <Square size={24} />}
                     </button>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white uppercase tracking-wider">
                       BUY BOOKS ({buyItems.length})
                     </h3>
                   </div>
-                  <span className="text-lg font-bold text-primary dark:text-primary-fixed-dim">${buyTotal.toFixed(2)}</span>
+                  <span className="text-lg font-bold text-primary">${buyTotal.toFixed(2)}</span>
                 </div>
 
                 {buyItems.length === 0 && (
@@ -272,13 +292,15 @@ const CartModal: FC = () => {
                   const { isRented, discountAmount, finalPrice } = getBuyPriceInfo(item);
                   
                   return (
-                    <div key={item.book._id} className="flex gap-4 p-4 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                      <img src={item.book.coverImageUrl} alt={item.book.title} className="w-16 h-24 object-cover rounded-lg" />
-                      <div className="flex-1 flex flex-col justify-between">
+                    <div key={item.book._id} className="flex gap-4 p-4 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm hover:shadow-md transition-all relative min-h-[140px]">
+                      <img src={item.book.coverImageUrl} alt={item.book.title} className="w-20 h-28 object-cover rounded-lg" />
+                      <div className="flex-1 flex flex-col justify-between pr-8">
                         <div>
-                          <h4 className="font-bold text-gray-900 dark:text-white line-clamp-1">{item.book.title}</h4>
+                          <h4 className="font-bold text-gray-900 dark:text-white line-clamp-1 pr-6">{item.book.title}</h4>
                           <p className="text-sm text-gray-500">{item.book.author}</p>
-                          <p className="text-lg font-bold text-primary dark:text-primary-fixed-dim mt-4 flex items-center gap-2 flex-wrap">
+                        </div>
+                        <div className="mt-auto flex items-center pt-3 h-[40px]"> {/* Matches the height of the rent card's stepper */}
+                          <p className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2 flex-wrap">
                             ${finalPrice.toFixed(2)}
                             {isRented && (
                               <span className="text-[10px] bg-green-500/10 text-green-600 dark:text-green-400 px-2 py-0.5 rounded-md border border-green-500/20 font-bold whitespace-nowrap">
@@ -287,23 +309,26 @@ const CartModal: FC = () => {
                             )}
                           </p>
                         </div>
-                        <div className="flex justify-between items-center mt-2">
-                          <button 
-                            disabled={!buyChecked}
-                            onClick={() => handleToggle(item.book._id)}
-                            className="text-xs font-bold text-secondary hover:underline disabled:opacity-50 disabled:no-underline cursor-pointer"
-                          >
-                            Switch to Rent
-                          </button>
-                          <button 
-                            disabled={!buyChecked}
-                            onClick={() => handleRemove(item.book._id)} 
-                            className="text-red-500 p-1 hover:bg-red-500/10 rounded-md disabled:opacity-50 disabled:bg-transparent cursor-pointer"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        </div>
                       </div>
+
+                      {/* Switch Button or Delete Checkbox - Middle Right */}
+                      {deleteMode ? (
+                        <button 
+                          onClick={() => handleToggleDelete(item.book._id)}
+                          className={`absolute top-1/2 -translate-y-1/2 right-3 w-8 h-8 rounded-full flex justify-center items-center transition-all shadow-md ${selectedForDelete.includes(item.book._id) ? 'bg-red-500 text-white' : 'bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-gray-400'}`}
+                        >
+                          {selectedForDelete.includes(item.book._id) ? <CheckSquare size={16} /> : <Square size={16} />}
+                        </button>
+                      ) : (
+                        <button 
+                          disabled={!buyChecked}
+                          onClick={() => handleToggle(item.book._id)}
+                          className="absolute top-1/2 -translate-y-1/2 right-3 w-8 h-8 bg-primary text-black rounded-full flex justify-center items-center hover:scale-110 active:scale-95 transition-all shadow-md disabled:opacity-50 disabled:hover:scale-100"
+                          title="Switch to Rent"
+                        >
+                          <ArrowLeft size={16} />
+                        </button>
+                      )}
                     </div>
                   );
                 })}
@@ -312,29 +337,62 @@ const CartModal: FC = () => {
             </div>
 
             {/* Footer / Total */}
-            <div className="p-6 border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 flex flex-col md:flex-row justify-end items-center gap-6">
-              <div className="flex items-center gap-4 text-gray-500 font-bold uppercase text-sm">
-                <span>Rent ({rentChecked ? rentItems.length : 0})</span>
-                <span className="text-gray-400">+</span>
-                <span>Buy ({buyChecked ? buyItems.length : 0})</span>
-                <span className="text-gray-400">=</span>
-                <span className="text-gray-900 dark:text-white">
-                  {(rentChecked ? rentItems.length : 0) + (buyChecked ? buyItems.length : 0)} Items
-                </span>
+            <div className="p-6 border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+              
+              <div className="flex items-center gap-6 w-full md:w-auto overflow-x-auto custom-scrollbar pb-2 md:pb-0">
+                {deleteMode ? (
+                  <div className="flex items-center gap-3">
+                    <button 
+                      onClick={() => { setDeleteMode(false); setSelectedForDelete([]); }} 
+                      className="px-4 py-2 rounded-xl font-bold text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/20 transition-all"
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      onClick={handleConfirmDelete} 
+                      disabled={selectedForDelete.length === 0} 
+                      className="px-4 py-2 rounded-xl font-bold text-white bg-red-500 hover:bg-red-600 transition-all disabled:opacity-50"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ) : (
+                  <button 
+                    onClick={() => setDeleteMode(true)} 
+                    className="text-red-500 hover:text-red-600 font-bold flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-red-500/10 transition-colors shrink-0"
+                  >
+                    <Trash2 size={18} /> Clear Cart
+                  </button>
+                )}
+                
+                {!deleteMode && (
+                  <div className="flex items-center gap-3 text-gray-500 font-bold uppercase text-sm whitespace-nowrap border-l border-gray-300 dark:border-gray-700 pl-6">
+                    <span>Rent ({rentChecked ? rentItems.length : 0})</span>
+                    <span className="text-gray-400">+</span>
+                    <span>Buy ({buyChecked ? buyItems.length : 0})</span>
+                    <span className="text-gray-400">=</span>
+                    <span className="text-gray-900 dark:text-white">
+                      {(rentChecked ? rentItems.length : 0) + (buyChecked ? buyItems.length : 0)} Items
+                    </span>
+                  </div>
+                )}
               </div>
-              {isAuthenticated ? (
-                <button 
-                  onClick={() => setIsCheckout(true)}
-                  disabled={finalTotal === 0}
-                  className="px-8 py-4 bg-primary-container text-black font-bold text-lg rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center gap-2"
-                >
-                  Checkout <span className="opacity-80">(${finalTotal.toFixed(2)})</span>
-                </button>
-              ) : (
-                <div className="px-6 py-4 bg-gray-100 dark:bg-black/20 rounded-xl text-gray-700 dark:text-gray-300 font-medium border border-gray-200 dark:border-white/10">
-                  Please <Link to="/login" onClick={handleClose} className="text-yellow-500 hover:underline font-bold mx-1">log in</Link> to checkout your cart.
-                </div>
-              )}
+
+              <div className="w-full md:w-auto">
+                {isAuthenticated ? (
+                  <button 
+                    onClick={() => setIsCheckout(true)}
+                    disabled={finalTotal === 0 || deleteMode}
+                    className="w-full md:w-auto px-8 py-4 bg-primary-container text-black font-bold text-lg rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
+                  >
+                    Checkout <span className="opacity-80">(${finalTotal.toFixed(2)})</span>
+                  </button>
+                ) : (
+                  <div className="px-6 py-4 bg-gray-100 dark:bg-black/20 rounded-xl text-gray-700 dark:text-gray-300 font-medium border border-gray-200 dark:border-white/10 w-full text-center">
+                    Please <Link to="/login" onClick={handleClose} className="text-primary hover:underline font-bold mx-1">log in</Link> to checkout your cart.
+                  </div>
+                )}
+              </div>
             </div>
           </>
         ) : (

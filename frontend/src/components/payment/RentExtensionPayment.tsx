@@ -54,7 +54,7 @@ const RentExtensionPayment: FC<RentExtensionPaymentProps> = ({ bookId, onSuccess
 
         <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-black/20">
           <span className="font-bold text-gray-900 dark:text-white">
-            <span className="text-yellow-500 dark:text-yellow-400">Extend</span> Return (+ Days)
+            <span className="text-primary">Extend</span> Return (+ Days)
           </span>
           <div className="flex items-center gap-4 bg-white dark:bg-[#112240] rounded-lg px-2 py-1 shadow-sm border border-gray-200 dark:border-white/10">
             <button 
