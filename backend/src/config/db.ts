@@ -14,7 +14,9 @@ const connectDB = async () => {
     if (!mongoUri) {
       throw new Error('FATAL: MONGO_URI environment variable not set');
     }
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri, {
+      maxPoolSize: 1
+    });
     isConnected = true;
     console.log('✅ Successfully connected to MongoDB');
   } catch (error) {
