@@ -3,9 +3,11 @@ import type { CartItem } from './cartSlice';
 import apiClient from '../api/axiosConfig';
 import { type RootState } from './store';
 
+import type { Book } from './bookSlice';
+
 interface LibraryState {
-  purchasedBooks: any[]; // Changed from CartItem[] because backend populates book details
-  rentedBooks: { book: any; dueDate: string }[];
+  purchasedBooks: Book[]; 
+  rentedBooks: { book: Book; dueDate: string }[];
   isLoading: boolean;
   error: string | null;
 }
@@ -22,13 +24,7 @@ export const fetchLibrary = createAsyncThunk(
   'library/fetchLibrary',
   async (_, { getState, rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-      if (!token) return rejectWithValue('No token found');
-
-      const response = await apiClient.get('/library', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await apiClient.get('/library');
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch library');
@@ -38,25 +34,39 @@ export const fetchLibrary = createAsyncThunk(
 
 export const checkoutLibrary = createAsyncThunk(
   'library/checkoutLibrary',
-  async (items: CartItem[], { getState, rejectWithValue }) => {
+  async (
+    payload: { items: CartItem[]; amount: number }, 
+    { getState, rejectWithValue }
+  ) => {
     try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-      if (!token) return rejectWithValue('No token found');
+      const { items, amount } = payload;
 
-      // Separate into purchased and rented
+      // 1. Create Payment Intent
+      const intentPayload = items.map(i => ({
+        bookId: i.book._id,
+        type: i.type,
+        rentDays: i.rentDays
+      }));
+      
+      const intentRes = await apiClient.post('/payment/create-intent', 
+        { items: intentPayload, amount }
+      );
+      
+      const paymentIntentId = intentRes.data.paymentIntentId;
+
+      // 2. Separate into purchased and rented for checkout endpoint
       const purchasedBooks = items.filter(i => i.type === 'buy').map(i => i.book._id);
       const rentedBooks = items.filter(i => i.type === 'rent').map(i => ({
         bookId: i.book._id,
         rentDays: i.rentDays || 7
       }));
 
+      // 3. Confirm Checkout with Intent ID
       const response = await apiClient.post('/library/checkout', 
-        { purchasedBooks, rentedBooks },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { purchasedBooks, rentedBooks, paymentIntentId }
       );
       
-      return response.data; // Will re-fetch or rely on the returned data
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to checkout');
     }
@@ -67,13 +77,8 @@ export const extendRentalAction = createAsyncThunk(
   'library/extendRental',
   async ({ bookId, daysToExtend }: { bookId: string, daysToExtend: number }, { getState, rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-      if (!token) return rejectWithValue('No token found');
-
       const response = await apiClient.post('/library/extend', 
-        { bookId, daysToExtend },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { bookId, daysToExtend }
       );
       
       return { bookId, newDueDate: response.data.newDueDate };

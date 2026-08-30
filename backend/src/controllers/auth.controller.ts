@@ -150,7 +150,10 @@ export const updatePassword = async (req: AuthRequest, res: Response): Promise<v
 
 // --- Helper for generating tokens ---
 const generateTokens = (userId: string) => {
-  const jwtSecret = process.env.JWT_SECRET || 'fallback_secret_key';
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    throw new Error('FATAL: JWT_SECRET environment variable not set');
+  }
   
   // Access Token (short-lived: 15 minutes)
   const accessToken = jwt.sign({ userId }, jwtSecret, { expiresIn: '15m' });
@@ -183,7 +186,10 @@ export const refresh = async (req: Request, res: Response): Promise<void> => {
 
     // Optional: You can rotate the refresh token here by generating a new one
     // We will just issue a new Access Token to keep it simple, letting the Refresh Token live for its full 7 days.
-    const jwtSecret = process.env.JWT_SECRET || 'fallback_secret_key';
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error('FATAL: JWT_SECRET environment variable not set');
+    }
     const newAccessToken = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '15m' });
 
     res.status(200).json({ token: newAccessToken });

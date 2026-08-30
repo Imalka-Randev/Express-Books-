@@ -20,8 +20,8 @@ interface AuthState {
 const storedUser = localStorage.getItem('user');
 const initialState: AuthState = {
   user: storedUser ? JSON.parse(storedUser) : null,
-  token: localStorage.getItem('token') || null,
-  isAuthenticated: !!localStorage.getItem('token'),
+  token: null, // Token only lives in memory now!
+  isAuthenticated: !!storedUser,
 };
 
 // Async Thunk for logging out and revoking the refresh token
@@ -49,7 +49,6 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isAuthenticated = true;
-      localStorage.setItem('token', action.payload.token);
       localStorage.setItem('user', JSON.stringify(action.payload.user));
     },
     
@@ -58,7 +57,6 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
-      localStorage.removeItem('token');
       localStorage.removeItem('user');
     },
   },

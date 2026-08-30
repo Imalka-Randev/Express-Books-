@@ -17,7 +17,7 @@ const CartButton: FC<CartButtonProps> = ({ book, type = 'rent', className = '', 
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const { purchasedBooks } = useSelector((state: RootState) => state.library);
 
-  const isOwned = purchasedBooks.some(p => p._id === book._id || (p.book && p.book._id === book._id));
+  const isOwned = purchasedBooks.some(p => p._id === book._id || ((p as any).book && (p as any).book._id === book._id));
   const isInCart = cartItems.some((item) => item.book._id === book._id);
 
   if (isOwned) {

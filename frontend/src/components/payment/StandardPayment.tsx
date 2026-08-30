@@ -30,6 +30,7 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
 
   const handlePaySecurely = async () => {
     if (window.confirm(`Confirm payment of $${totalPrice.toFixed(2)}?`)) {
+      alert("Demo Mode: This is a simulated checkout. No real charges will be made.");
       setIsProcessing(true);
       
       const itemToPurchase = {
@@ -39,11 +40,11 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
       };
 
       try {
-        await dispatch(checkoutLibrary([itemToPurchase])).unwrap();
+        await dispatch(checkoutLibrary({ items: [itemToPurchase], amount: totalPrice })).unwrap();
         await dispatch(fetchLibrary()).unwrap();
         if (onSuccess) onSuccess();
-      } catch (error) {
-        alert("Failed to process payment.");
+      } catch (error: any) {
+        alert("Failed to process payment: " + (error?.message || error));
       } finally {
         setIsProcessing(false);
       }

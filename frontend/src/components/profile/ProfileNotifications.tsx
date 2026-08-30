@@ -21,9 +21,7 @@ const ProfileNotifications: FC = () => {
     const fetchNotifications = async () => {
       if (!token) return;
       try {
-        const response = await apiClient.get('/notifications', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const response = await apiClient.get('/notifications');
         setNotifications(response.data);
       } catch (error) {
         console.error('Failed to fetch notifications', error);
@@ -37,9 +35,7 @@ const ProfileNotifications: FC = () => {
 
   const markAsRead = async (id: string) => {
     try {
-      await apiClient.put(`/notifications/${id}/read`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await apiClient.put(`/notifications/${id}/read`);
       setNotifications(prev => prev.map(n => n._id === id ? { ...n, isRead: true } : n));
     } catch (error) {
       console.error('Failed to mark as read', error);
@@ -48,9 +44,7 @@ const ProfileNotifications: FC = () => {
 
   const markAllAsRead = async () => {
     try {
-      await apiClient.put('/notifications/read-all', {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await apiClient.put('/notifications/read-all');
       setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
     } catch (error) {
       console.error('Failed to mark all as read', error);

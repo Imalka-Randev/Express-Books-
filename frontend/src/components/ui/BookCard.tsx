@@ -20,7 +20,7 @@ const BookCard: FC<BookCardProps> = ({ book }) => {
   const { purchasedBooks, rentedBooks } = useSelector((state: RootState) => state.library);
   const cartItems = useSelector((state: RootState) => state.cart.items);
   
-  const isOwned = purchasedBooks.some(p => p._id === book._id || (p.book && p.book._id === book._id));
+  const isOwned = purchasedBooks.some(p => p._id === book._id || ((p as any).book && (p as any).book._id === book._id));
   const rentedItem = rentedBooks.find(r => r.book._id === book._id);
   const isRented = !!rentedItem;
   

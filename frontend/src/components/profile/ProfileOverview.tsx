@@ -1,6 +1,5 @@
 import { type FC, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { type RootState } from '../../store/store';
+
 import apiClient from '../../api/axiosConfig';
 
 interface ProfileOverviewProps {
@@ -18,7 +17,6 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
   const [message, setMessage] = useState({ type: '', text: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const token = useSelector((state: RootState) => state.auth.token);
 
   const handlePasswordUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +32,6 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
       const response = await apiClient.put('/auth/update-password', {
         oldPassword: oldPassword,
         newPassword: newPassword
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
       });
 
       setMessage({ type: 'success', text: response.data.message });

@@ -23,6 +23,10 @@ export interface IBook extends Document {
   coverImageUrl: string;
   spineImageUrl: string;
   openPagesImageUrl: string;
+  pageCount: number;
+  publisher: string;
+  isbn: string;
+  language: string;
   averageRating: number;
   totalReviews: number;
   // We can even define nested arrays of objects!
@@ -55,6 +59,10 @@ const bookSchema: Schema = new Schema({
   coverImageUrl: { type: String, required: true },
   spineImageUrl: { type: String },
   openPagesImageUrl: { type: String },
+  pageCount: { type: Number, default: 300 },
+  publisher: { type: String, default: 'Express Publishing House' },
+  isbn: { type: String, default: '978-0-00-000000-0' },
+  language: { type: String, default: 'English' },
   averageRating: { type: Number, default: 0 },
   totalReviews: { type: Number, default: 0 },
   
@@ -69,6 +77,9 @@ const bookSchema: Schema = new Schema({
   // Mongoose automatically adds 'createdAt' and 'updatedAt' timestamps to every book
   timestamps: true 
 });
+
+bookSchema.index({ title: 'text' });
+bookSchema.index({ genres: 1 });
 
 /* =========================================================================
    PART 3: THE MODEL (The Tool)

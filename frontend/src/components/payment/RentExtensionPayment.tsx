@@ -34,10 +34,10 @@ const RentExtensionPayment: FC<RentExtensionPaymentProps> = ({ bookId, onSuccess
   };
 
   return (
-    <section className="bg-white dark:bg-[#112240] p-6 md:p-12 rounded-3xl border border-gray-200 dark:border-white/10 shadow-2xl w-full flex flex-col md:flex-row my-12 animate-fade-in-up">
+    <section className="bg-white dark:bg-[#112240] p-6 md:p-8 rounded-3xl border border-gray-200 dark:border-white/10 shadow-2xl w-full flex flex-col my-12 animate-fade-in-up gap-8">
       
       {/* Left Column: Extension Info */}
-      <div className="flex-1 w-full order-2 md:order-1 flex flex-col gap-6 md:pr-12 md:border-r border-gray-200 dark:border-white/10">
+      <div className="flex-1 w-full flex flex-col gap-6">
         <div className="flex justify-between items-center">
           <h3 className="font-headline-md text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <span className="material-symbols-outlined text-primary dark:text-primary-fixed">update</span> Extend Rental
@@ -94,7 +94,7 @@ const RentExtensionPayment: FC<RentExtensionPaymentProps> = ({ bookId, onSuccess
       </div>
 
       {/* Right Column: Payment Form */}
-      <div className="md:pl-12 flex-1 w-full order-1 md:order-2 flex flex-col justify-center">
+      <div className="flex-1 w-full flex flex-col justify-center">
         <PaymentForm onPaySecurely={handlePaySecurely} isProcessing={isProcessing} />
       </div>
 

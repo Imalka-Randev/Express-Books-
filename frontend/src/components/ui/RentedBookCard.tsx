@@ -62,7 +62,7 @@ const RentedBookCard: FC<RentedBookCardProps> = ({ item, onExtend, isHistory = f
       </div>
 
       {/* Book Details */}
-      <div className="flex-1 flex flex-col justify-center min-w-0 pr-2 md:pr-0 mt-1 md:mt-0">
+      <div className="flex-1 flex flex-col justify-center min-w-0 mt-3 md:mt-2">
         {/* Due Date (Moved up to replace Rented tag) */}
         <div className="mb-1">
           <span className="text-xs font-bold text-gray-500 dark:text-gray-400">
@@ -72,12 +72,12 @@ const RentedBookCard: FC<RentedBookCardProps> = ({ item, onExtend, isHistory = f
         
         {/* Title & Author */}
         <h3 
-          className="font-bold text-lg text-gray-900 dark:text-white cursor-pointer hover:underline line-clamp-1 pr-16 md:pr-0"
+          className="font-bold text-lg text-gray-900 dark:text-white cursor-pointer hover:underline line-clamp-1 pr-20 md:pr-[120px]"
           onClick={() => navigate(`/book/${book._id}`)}
         >
           {book.title}
         </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-1 pr-16 md:pr-0">{book.author}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-1 pr-20 md:pr-[120px]">{book.author}</p>
 
         {/* Remaining Time Section */}
         {!isHistory && (

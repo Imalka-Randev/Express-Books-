@@ -7,7 +7,6 @@ interface BookInfoProps {
 }
 
 const BookInfo: FC<BookInfoProps> = ({ book }) => {
-  const totalReviews = (book as any).totalReviews || Math.floor(Math.random() * 500) + 50;
 
   return (
     <div className="lg:col-span-7 flex flex-col h-full gap-6">
@@ -39,7 +38,7 @@ const BookInfo: FC<BookInfoProps> = ({ book }) => {
           ))}
         </div>
         <span className="text-gray-600 dark:text-gray-300 font-label-md ml-2 font-medium">
-          {book.averageRating || '4.8'} ({totalReviews.toLocaleString()} reviews)
+          {book.averageRating || '4.8'} ({book.totalReviews ? book.totalReviews.toLocaleString() : '0'} reviews)
         </span>
       </div>
 
@@ -53,27 +52,25 @@ const BookInfo: FC<BookInfoProps> = ({ book }) => {
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <span className="text-gray-500 dark:text-gray-400 block mb-1">Publisher</span>
-              <span className="font-medium text-gray-900 dark:text-white">Express Publishing House</span>
+              <span className="font-medium text-gray-900 dark:text-white">{book.publisher || 'Express Publishing House'}</span>
             </div>
             <div>
               <span className="text-gray-500 dark:text-gray-400 block mb-1">Publication Date</span>
-              <span className="font-medium text-gray-900 dark:text-white">October 15, 2023</span>
+              <span className="font-medium text-gray-900 dark:text-white">
+                {book.publishedDate ? new Date(book.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Unknown'}
+              </span>
             </div>
             <div>
               <span className="text-gray-500 dark:text-gray-400 block mb-1">Print Length</span>
-              <span className="font-medium text-gray-900 dark:text-white">{(book as any).pageCount || 342} pages</span>
+              <span className="font-medium text-gray-900 dark:text-white">{book.pageCount || 300} pages</span>
             </div>
             <div>
               <span className="text-gray-500 dark:text-gray-400 block mb-1">Language</span>
-              <span className="font-medium text-gray-900 dark:text-white">English</span>
+              <span className="font-medium text-gray-900 dark:text-white">{book.language || 'English'}</span>
             </div>
             <div>
-              <span className="text-gray-500 dark:text-gray-400 block mb-1">Dimensions</span>
-              <span className="font-medium text-gray-900 dark:text-white">6.14 x 0.77 x 9.21 inches</span>
-            </div>
-            <div>
-              <span className="text-gray-500 dark:text-gray-400 block mb-1">ISBN-13</span>
-              <span className="font-medium text-gray-900 dark:text-white">978-3-16-148410-0</span>
+              <span className="text-gray-500 dark:text-gray-400 block mb-1">ISBN</span>
+              <span className="font-medium text-gray-900 dark:text-white">{book.isbn || '978-0-00-000000-0'}</span>
             </div>
           </div>
         </div>

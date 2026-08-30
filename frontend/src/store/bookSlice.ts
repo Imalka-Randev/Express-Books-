@@ -13,7 +13,14 @@ export interface Book {
   publishedDate: string;
   deliveryInfo: string;
   coverImageUrl: string;
+  spineImageUrl: string;
+  openPagesImageUrl: string;
+  pageCount?: number;
+  publisher?: string;
+  isbn?: string;
+  language?: string;
   averageRating: number;
+  totalReviews?: number;
 }
 
 interface BookState {

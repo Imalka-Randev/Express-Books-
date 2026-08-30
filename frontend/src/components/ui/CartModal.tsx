@@ -7,6 +7,7 @@ import { X, Search, Trash2, Plus, Minus, CheckSquare, Square, ArrowLeft, ArrowRi
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import PaymentCard from '../payment/PaymentCard';
+import { usePaymentForm } from '../../hooks/usePaymentForm';
 
 const CartModal: FC = () => {
   const { t } = useTranslation();
@@ -26,13 +27,14 @@ const CartModal: FC = () => {
 
   // Checkout state
   const [isCheckout, setIsCheckout] = useState(false);
-  const [focusedField, setFocusedField] = useState<'number' | 'name' | 'expiry' | 'cvv' | null>(null);
-  const [cardData, setCardData] = useState({
-    number: '',
-    name: '',
-    expiry: '',
-    cvv: ''
-  });
+  const {
+    focusedField,
+    setFocusedField,
+    cardData,
+    handleInputChange,
+    isValidExpiry,
+    isFormValid
+  } = usePaymentForm();
 
   if (!isOpen) return null;
 
@@ -98,11 +100,13 @@ const CartModal: FC = () => {
 
   const handlePay = () => {
     if (window.confirm(`Confirm payment of $${finalTotal.toFixed(2)}?`)) {
+      alert("Demo Mode: This is a simulated checkout. No real charges will be made.");
+      
       const itemsToPurchase = [];
       if (rentChecked) itemsToPurchase.push(...rentItems);
       if (buyChecked) itemsToPurchase.push(...buyItems);
       
-      dispatch(checkoutLibrary(itemsToPurchase) as any)
+      dispatch(checkoutLibrary({ items: itemsToPurchase, amount: finalTotal }) as any)
         .unwrap()
         .then(() => {
           dispatch(fetchLibrary() as any);
@@ -118,10 +122,7 @@ const CartModal: FC = () => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCardData(prev => ({ ...prev, [name]: value }));
-  };
+
 
   const copyrightNotice = (
     <div className="bg-red-50 dark:bg-red-900/10 p-4 rounded-xl border border-red-100 dark:border-red-900/20 mt-2">
@@ -446,19 +447,24 @@ const CartModal: FC = () => {
                   <input 
                     type="text" 
                     name="number"
+                    value={cardData.number}
                     placeholder="0000 0000 0000 0000" 
                     maxLength={19}
-                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all font-mono"
+                    className={`w-full bg-gray-50 dark:bg-white/5 border rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all font-mono ${cardData.number.length > 0 && cardData.number.replace(/\s/g, '').length !== 16 ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 dark:border-white/10'}`}
                     onFocus={() => setFocusedField('number')}
                     onBlur={() => setFocusedField(null)}
                     onChange={handleInputChange}
                   />
+                  {cardData.number.length > 0 && cardData.number.replace(/\s/g, '').length !== 16 && (
+                    <p className="text-red-500 text-xs mt-1">Card number must be exactly 16 digits.</p>
+                  )}
                 </div>
                 <div className="col-span-2">
                   <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">Cardholder Name</label>
                   <input 
                     type="text" 
                     name="name"
+                    value={cardData.name}
                     placeholder="JOHN DOE" 
                     className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all uppercase font-mono"
                     onFocus={() => setFocusedField('name')}
@@ -471,19 +477,24 @@ const CartModal: FC = () => {
                   <input 
                     type="text" 
                     name="expiry"
+                    value={cardData.expiry}
                     placeholder="MM/YY" 
                     maxLength={5}
-                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all font-mono"
+                    className={`w-full bg-gray-50 dark:bg-white/5 border rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all font-mono ${cardData.expiry.length === 5 && !isValidExpiry(cardData.expiry) ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 dark:border-white/10'}`}
                     onFocus={() => setFocusedField('expiry')}
                     onBlur={() => setFocusedField(null)}
                     onChange={handleInputChange}
                   />
+                  {cardData.expiry.length === 5 && !isValidExpiry(cardData.expiry) && (
+                    <p className="text-red-500 text-xs mt-1">Invalid expiry date.</p>
+                  )}
                 </div>
                 <div>
                   <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">CVV</label>
                   <input 
-                    type="text" 
+                    type="password" 
                     name="cvv"
+                    value={cardData.cvv}
                     placeholder="123" 
                     maxLength={3}
                     className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all font-mono"
@@ -497,7 +508,8 @@ const CartModal: FC = () => {
               <div className="flex justify-end mt-4">
                 <button 
                   onClick={handlePay}
-                  className="w-full sm:w-auto px-12 bg-primary hover:bg-primary/90 dark:bg-primary-fixed text-white dark:text-gray-900 font-bold py-4 rounded-xl transition-all active:scale-[0.98] shadow-md flex justify-center items-center gap-2 text-lg"
+                  disabled={!isFormValid}
+                  className="w-full sm:w-auto px-12 bg-primary hover:bg-primary/90 dark:bg-primary-fixed text-white dark:text-gray-900 font-bold py-4 rounded-xl transition-all active:scale-[0.98] shadow-md flex justify-center items-center gap-2 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span className="material-symbols-outlined text-[20px]">lock</span> Pay Securely (${finalTotal.toFixed(2)})
                 </button>

@@ -1,13 +1,22 @@
 import { type Response } from 'express';
 import User from '../models/User.js';
+import Transaction from '../models/Transaction.js';
 import type { AuthRequest } from '../middleware/auth.middleware.js';
+import { verifyAndConsumeIntent } from './payment.controller.js';
 
 export const checkout = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { purchasedBooks, rentedBooks } = req.body;
+    const { purchasedBooks, rentedBooks, paymentIntentId } = req.body;
     
     if (!req.user) {
       res.status(401).json({ message: "Not authorized." });
+      return;
+    }
+
+    // Verify Payment Intent (Best practice payment gateway pattern)
+    const intentCheck = verifyAndConsumeIntent(paymentIntentId, req.user._id.toString());
+    if (!intentCheck.valid) {
+      res.status(400).json({ message: intentCheck.reason });
       return;
     }
 
@@ -16,6 +25,8 @@ export const checkout = async (req: AuthRequest, res: Response): Promise<void> =
       res.status(404).json({ message: "User not found." });
       return;
     }
+
+    const transactions: any[] = [];
 
     // Process purchases
     if (purchasedBooks && Array.isArray(purchasedBooks)) {
@@ -27,6 +38,12 @@ export const checkout = async (req: AuthRequest, res: Response): Promise<void> =
         
         // Remove from rentedBooks if they decided to purchase it
         user.rentedBooks = user.rentedBooks.filter(r => r.book.toString() !== bookId);
+        
+        transactions.push({
+          userId: user._id,
+          bookId: bookId,
+          transactionType: 'Purchase',
+        });
       });
     }
 
@@ -41,23 +58,38 @@ export const checkout = async (req: AuthRequest, res: Response): Promise<void> =
         // Check if already rented
         const existingRent = user.rentedBooks.find(r => r.book.toString() === rentItem.bookId);
         
+        let finalDueDate: Date;
+
         if (existingRent) {
           // If already rented, extend the due date
           existingRent.dueDate.setDate(existingRent.dueDate.getDate() + rentItem.rentDays);
+          finalDueDate = existingRent.dueDate;
         } else {
           // New rental
-          const dueDate = new Date();
-          dueDate.setDate(dueDate.getDate() + rentItem.rentDays);
+          finalDueDate = new Date();
+          finalDueDate.setDate(finalDueDate.getDate() + rentItem.rentDays);
           
           user.rentedBooks.push({
             book: rentItem.bookId as any,
-            dueDate: dueDate
+            dueDate: finalDueDate
           });
         }
+        
+        transactions.push({
+          userId: user._id,
+          bookId: rentItem.bookId,
+          transactionType: 'Rent',
+          dueDate: finalDueDate
+        });
       });
     }
 
     await user.save();
+    
+    // Create Audit Trail
+    if (transactions.length > 0) {
+      await Transaction.insertMany(transactions);
+    }
 
     res.status(200).json({ 
       message: "Checkout successful", 
@@ -89,9 +121,16 @@ export const getLibrary = async (req: AuthRequest, res: Response): Promise<void>
 
     // Filter out rented books that are already purchased (self-healing for bad data)
     const purchasedIds = user.purchasedBooks.map((b: any) => b._id.toString());
-    const validRentedBooks = user.rentedBooks.filter((r: any) => !purchasedIds.includes(r.book._id.toString()));
+    const now = new Date();
     
-    // If we found corrupted duplicates, heal the database silently
+    // Also filter out expired rentals
+    const validRentedBooks = user.rentedBooks.filter((r: any) => {
+      const isNotPurchased = !purchasedIds.includes(r.book._id.toString());
+      const isNotExpired = new Date(r.dueDate) > now;
+      return isNotPurchased && isNotExpired;
+    });
+    
+    // If we found corrupted duplicates or expired books, heal the database silently
     if (validRentedBooks.length !== user.rentedBooks.length) {
        user.rentedBooks = validRentedBooks as any;
        await user.save();

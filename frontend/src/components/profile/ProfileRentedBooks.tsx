@@ -17,7 +17,7 @@ const ProfileRentedBooks: FC<ProfileRentedBooksProps> = ({ rentedBooks }) => {
   const activeRentals: any[] = [];
   const rentalHistory: any[] = [];
 
-  const isOwned = (bookId: string) => purchasedBooks.some(p => (p._id || p.book?._id) === bookId);
+  const isOwned = (bookId: string) => purchasedBooks.some(p => (p._id || (p as any).book?._id) === bookId);
 
   rentedBooks.forEach(item => {
     const bookId = item.book._id || item.book;

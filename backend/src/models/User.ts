@@ -42,4 +42,6 @@ const userSchema: Schema = new Schema({
   timestamps: true 
 });
 
+userSchema.index({ 'rentedBooks.book': 1 });
+
 export default mongoose.model<IUser>('User', userSchema);

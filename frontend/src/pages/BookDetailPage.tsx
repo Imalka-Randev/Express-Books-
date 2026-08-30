@@ -100,7 +100,7 @@ const BookDetailPage: FC = () => {
 
       {/* Payment Section Conditionally Rendered */}
       {(() => {
-        const isOwned = purchasedBooks.some(p => p._id === currentBook._id || (p.book && p.book._id === currentBook._id));
+        const isOwned = purchasedBooks.some(p => p._id === currentBook._id || ((p as any).book && (p as any).book._id === currentBook._id));
         const rentedItem = rentedBooks.find(r => r.book._id === currentBook._id);
         const isRented = !!rentedItem && new Date(rentedItem.dueDate).getTime() > new Date().getTime();
 

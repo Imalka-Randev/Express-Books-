@@ -5,7 +5,21 @@ import Profile from './pages/Profile';
 import BookDetailPage from './pages/BookDetailPage';
 import Layout from './components/layout/Layout';
 
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchLibrary } from './store/librarySlice';
+import { type RootState, type AppDispatch } from './store/store';
+
 function App() {
+  const dispatch = useDispatch<AppDispatch>();
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchLibrary());
+    }
+  }, [isAuthenticated, dispatch]);
+
   return (
     <BrowserRouter>
       <div className="font-body-md">

@@ -1,5 +1,13 @@
 import axios from 'axios';
 
+import type { Store } from '@reduxjs/toolkit';
+
+// We inject the store later to avoid circular dependency
+let store: Store | null = null;
+export const injectStore = (_store: Store) => {
+  store = _store;
+};
+
 // 1. Create a custom Axios instance
 const apiClient = axios.create({
   // This is the URL of our Express backend, loaded from the .env file
@@ -13,8 +21,8 @@ const apiClient = axios.create({
 // 2. Set up the Interceptor (The Security Guard)
 apiClient.interceptors.request.use(
   (config) => {
-    // Before the request leaves, check if we have a token saved
-    const token = localStorage.getItem('token');
+    // Before the request leaves, check if we have a token in Redux
+    const token = store ? (store.getState() as any).auth.token : null;
     
     // If we have a token, attach it to the Authorization header
     if (token && config.headers) {
@@ -42,8 +50,14 @@ apiClient.interceptors.response.use(
         // Try to get a new access token using the secure HttpOnly refresh cookie
         const res = await axios.post(`${apiClient.defaults.baseURL}/auth/refresh`, {}, { withCredentials: true });
         
-        // Save the new short-lived access token
-        localStorage.setItem('token', res.data.token);
+        // Save the new short-lived access token by dispatching to store
+        if (store) {
+          const user = (store.getState() as any).auth.user;
+          store.dispatch({
+            type: 'auth/loginSuccess',
+            payload: { user, token: res.data.token }
+          });
+        }
         
         // Update the failed request with the new token and retry it
         originalRequest.headers.Authorization = `Bearer ${res.data.token}`;
@@ -51,7 +65,9 @@ apiClient.interceptors.response.use(
         
       } catch (refreshError) {
         // If refresh fails (e.g. refresh token expired or revoked), force logout
-        localStorage.removeItem('token');
+        if (store) {
+           store.dispatch({ type: 'auth/logout' });
+        }
         window.location.href = '/auth'; // Redirect to login page
         return Promise.reject(refreshError);
       }

@@ -42,7 +42,7 @@ const PaymentCard: FC<PaymentCardProps> = ({
 
           {/* Bottom Row: Name and Expiry */}
           <div className="flex justify-between items-end mt-2">
-            <div className={`flex flex-col flex-1 p-2 rounded -mx-2 transition-all ${
+            <div className={`flex flex-col p-2 rounded -mx-2 mr-auto transition-all ${
               focusedField === 'name' ? 'ring-2 ring-primary/60 bg-white/5' : ''
             }`}>
               <span className="text-[10px] uppercase opacity-60 tracking-wider">Card Holder</span>
@@ -73,7 +73,7 @@ const PaymentCard: FC<PaymentCardProps> = ({
             <span className="text-[10px] uppercase opacity-60 tracking-wider mb-1 pr-1">CVV</span>
             <div className="w-full h-10 bg-white/90 rounded text-gray-900 flex items-center justify-end px-3">
               <span className="text-sm italic mr-auto opacity-50">Authorized Signature</span>
-              <span className="font-bold tracking-widest">{cardCvv || '•••'}</span>
+              <span className="font-bold tracking-widest">{cardCvv ? '•'.repeat(cardCvv.length) : '•••'}</span>
             </div>
           </div>
           

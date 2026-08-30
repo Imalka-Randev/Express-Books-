@@ -10,7 +10,10 @@ const connectDB = async () => {
     return; // Already connected
   }
   try {
-    const mongoUri = process.env.MONGO_URI as string;
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+      throw new Error('FATAL: MONGO_URI environment variable not set');
+    }
     await mongoose.connect(mongoUri);
     isConnected = true;
     console.log('✅ Successfully connected to MongoDB');
