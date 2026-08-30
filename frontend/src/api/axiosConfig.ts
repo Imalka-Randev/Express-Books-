@@ -43,7 +43,12 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config;
     
     // If the error is 401 (Unauthorized) and we haven't already tried to refresh
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // AND the original request was NOT a login request (where 401 means wrong password)
+    if (
+      error.response?.status === 401 && 
+      !originalRequest._retry && 
+      !originalRequest.url?.includes('/auth/login')
+    ) {
       originalRequest._retry = true;
       
       try {
@@ -68,7 +73,7 @@ apiClient.interceptors.response.use(
         if (store) {
            store.dispatch({ type: 'auth/logout' });
         }
-        window.location.href = '/auth'; // Redirect to login page
+        window.location.href = '/login'; // Redirect to login page
         return Promise.reject(refreshError);
       }
     }
