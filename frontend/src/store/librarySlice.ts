@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { CartItem } from './cartSlice';
 import apiClient from '../api/axiosConfig';
-import { type RootState } from './store';
 
 import type { Book } from './bookSlice';
 
@@ -22,7 +21,7 @@ const initialState: LibraryState = {
 // Async Thunks
 export const fetchLibrary = createAsyncThunk(
   'library/fetchLibrary',
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await apiClient.get('/library');
       return response.data;
@@ -36,7 +35,7 @@ export const checkoutLibrary = createAsyncThunk(
   'library/checkoutLibrary',
   async (
     payload: { items: CartItem[]; amount: number }, 
-    { getState, rejectWithValue }
+    { rejectWithValue }
   ) => {
     try {
       const { items, amount } = payload;
@@ -75,7 +74,7 @@ export const checkoutLibrary = createAsyncThunk(
 
 export const extendRentalAction = createAsyncThunk(
   'library/extendRental',
-  async ({ bookId, daysToExtend }: { bookId: string, daysToExtend: number }, { getState, rejectWithValue }) => {
+  async ({ bookId, daysToExtend }: { bookId: string, daysToExtend: number }, { rejectWithValue }) => {
     try {
       const response = await apiClient.post('/library/extend', 
         { bookId, daysToExtend }
