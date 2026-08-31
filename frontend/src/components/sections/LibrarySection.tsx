@@ -53,7 +53,7 @@ const LibrarySection: FC = () => {
                   : 'bg-gray-100 dark:bg-[#1a2b40] text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#2d435e] border border-gray-300 dark:border-[#2d435e]'
               }`}
             >
-              {filter}
+              {filter === 'All' ? t('library.all', 'All') : filter}
             </button>
           ))}
         </div>
@@ -109,7 +109,7 @@ const LibrarySection: FC = () => {
                   onClick={() => setShowAllGenres(!showAllGenres)}
                   className="px-8 py-3 rounded-full border-2 border-primary dark:border-secondary text-primary dark:text-secondary-fixed-dim font-bold hover:bg-primary/10 transition-colors"
                 >
-                  {showAllGenres ? 'Show Less Categories' : 'Show More Categories'}
+                  {showAllGenres ? t('library.showLess', 'Show Less Categories') : t('library.showMore', 'Show More Categories')}
                 </button>
               </div>
             )}

@@ -1,31 +1,33 @@
 import { type FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface ProfileLibraryProps {
   purchasedBooks: any[];
 }
 
 const ProfileLibrary: FC<ProfileLibraryProps> = ({ purchasedBooks }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const ownedBooks = purchasedBooks;
 
   return (
     <div className="w-full">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-display-lg">My Library</h1>
-        <p className="text-gray-500 dark:text-gray-400">Access and manage all your purchased E-Books.</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-display-lg">{t('profile.library.title', 'My Library')}</h1>
+        <p className="text-gray-500 dark:text-gray-400">{t('profile.library.subtitle', 'Access and manage all your purchased E-Books.')}</p>
       </header>
 
       {ownedBooks.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-gray-500 dark:text-gray-400 bg-white dark:bg-[#112240]/40 rounded-2xl border border-white/5">
           <span className="material-symbols-outlined text-6xl mb-4 opacity-50">library_books</span>
-          <p className="text-lg font-bold text-gray-900 dark:text-white mb-2">Your library is empty</p>
-          <p className="text-sm max-w-md text-center mb-6">You haven't purchased any books yet. Browse our collection to start building your digital library.</p>
+          <p className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t('profile.library.empty', 'Your library is empty')}</p>
+          <p className="text-sm max-w-md text-center mb-6">{t('profile.library.emptyDesc', "You haven't purchased any books yet. Browse our collection to start building your digital library.")}</p>
           <button 
             onClick={() => navigate('/')}
             className="px-6 py-2.5 bg-primary-container text-black font-bold rounded-full hover:bg-inverse-primary transition-all active:scale-95 shadow-lg shadow-primary-container/20"
           >
-            Browse Books
+            {t('profile.library.browse', 'Browse Books')}
           </button>
         </div>
       ) : (

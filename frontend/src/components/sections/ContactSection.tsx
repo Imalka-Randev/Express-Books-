@@ -20,15 +20,15 @@ const ContactSection: FC = () => {
           {/* Contact Details & Map */}
           <div className="flex flex-col gap-6">
             <div className="bg-white dark:bg-[#16273b] p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-white/10">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Contact Information</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t('contact.infoTitle', 'Contact Information')}</h3>
               <div className="flex flex-col gap-6">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-primary/10 dark:bg-primary-container/20 text-primary dark:text-primary-container rounded-xl flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined">location_on</span>
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white mb-1">Our Location</h4>
-                    <p className="text-gray-600 dark:text-gray-300">123 Express Books HQ<br/>Colombo 00100<br/>Sri Lanka</p>
+                    <h4 className="font-bold text-gray-900 dark:text-white mb-1">{t('contact.locationTitle', 'Our Location')}</h4>
+                    <p className="text-gray-600 dark:text-gray-300" dangerouslySetInnerHTML={{ __html: t('contact.locationValue', '123 Express Books HQ<br/>Colombo 00100<br/>Sri Lanka') }}></p>
                   </div>
                 </div>
                 
@@ -37,8 +37,8 @@ const ContactSection: FC = () => {
                     <span className="material-symbols-outlined">call</span>
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white mb-1">Phone</h4>
-                    <p className="text-gray-600 dark:text-gray-300">+94 11 234 5678<br/>Mon-Fri, 9am - 6pm</p>
+                    <h4 className="font-bold text-gray-900 dark:text-white mb-1">{t('contact.phoneTitle', 'Phone')}</h4>
+                    <p className="text-gray-600 dark:text-gray-300" dangerouslySetInnerHTML={{ __html: t('contact.phoneValue', '+94 11 234 5678<br/>Mon-Fri, 9am - 6pm') }}></p>
                   </div>
                 </div>
                 
@@ -47,8 +47,8 @@ const ContactSection: FC = () => {
                     <span className="material-symbols-outlined">mail</span>
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white mb-1">Email</h4>
-                    <p className="text-gray-600 dark:text-gray-300">hello@expressbooks.lk<br/>support@expressbooks.lk</p>
+                    <h4 className="font-bold text-gray-900 dark:text-white mb-1">{t('contact.emailTitle', 'Email')}</h4>
+                    <p className="text-gray-600 dark:text-gray-300" dangerouslySetInnerHTML={{ __html: t('contact.emailValue', 'hello@expressbooks.lk<br/>support@expressbooks.lk') }}></p>
                   </div>
                 </div>
               </div>
@@ -70,10 +70,10 @@ const ContactSection: FC = () => {
 
           {/* Form */}
           <form className="bg-white dark:bg-[#16273b] p-6 md:p-8 rounded-3xl shadow-2xl border border-gray-200 dark:border-white/10 w-full h-full flex flex-col">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Send us a message</h3>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t('contact.formTitle', 'Send us a message')}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">First Name</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('contact.fName', 'First Name')}</label>
                 <input 
                   type="text" 
                   className="w-full h-12 px-4 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all dark:text-white"
@@ -81,7 +81,7 @@ const ContactSection: FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Last Name</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('contact.lName', 'Last Name')}</label>
                 <input 
                   type="text" 
                   className="w-full h-12 px-4 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all dark:text-white"
@@ -92,7 +92,7 @@ const ContactSection: FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('contact.emailAddress', 'Email Address')}</label>
                 <input 
                   type="email" 
                   className="w-full h-11 px-4 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all dark:text-white"
@@ -100,7 +100,7 @@ const ContactSection: FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Mobile Number</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('contact.mobile', 'Mobile Number')}</label>
                 <input 
                   type="tel" 
                   className="w-full h-11 px-4 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all dark:text-white"
@@ -110,10 +110,10 @@ const ContactSection: FC = () => {
             </div>
 
             <div className="mb-6 flex-1 flex flex-col">
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Message</label>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('contact.message', 'Message')}</label>
               <textarea 
                 className="w-full flex-1 min-h-[100px] p-4 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none dark:text-white"
-                placeholder="How can we help you today?"
+                placeholder={t('contact.messagePlaceholder', 'How can we help you today?')}
               ></textarea>
             </div>
 
@@ -121,7 +121,7 @@ const ContactSection: FC = () => {
               type="button" 
               className="w-full py-3 bg-primary-container text-black font-bold rounded-xl shadow-lg hover:opacity-90 transition-opacity active:scale-95 mt-auto"
             >
-              Send Message
+              {t('contact.send', 'Send Message')}
             </button>
           </form>
         </div>

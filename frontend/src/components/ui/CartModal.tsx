@@ -127,12 +127,12 @@ const CartModal: FC = () => {
   const copyrightNotice = (
     <div className="bg-red-50 dark:bg-red-900/10 p-4 rounded-xl border border-red-100 dark:border-red-900/20 mt-2">
       <h4 className="font-bold text-red-800 dark:text-red-400 mb-2 flex items-center gap-2 text-sm">
-        <span className="material-symbols-outlined text-[18px]">gavel</span> Copyright Notice
+        <span className="material-symbols-outlined text-[18px]">gavel</span> {t('checkout.copyrightTitle', 'Copyright Notice')}
       </h4>
       <ul className="text-xs text-red-700/80 dark:text-red-400/80 leading-relaxed list-disc pl-4 space-y-1">
-        <li>Copying or distributing this e-book is strictly prohibited.</li>
-        <li>Unauthorized sharing will lead to immediate account suspension.</li>
-        <li>Violators face legal prosecution under copyright laws.</li>
+        <li>{t('checkout.copyrightDesc1', 'Copying or distributing this e-book is strictly prohibited.')}</li>
+        <li>{t('checkout.copyrightDesc2', 'Unauthorized sharing will lead to immediate account suspension.')}</li>
+        <li>{t('checkout.copyrightDesc3', 'Violators face legal prosecution under copyright laws.')}</li>
       </ul>
     </div>
   );
@@ -160,7 +160,7 @@ const CartModal: FC = () => {
               </button>
             )}
             <h2 className="text-3xl font-headline-lg font-bold text-gray-900 dark:text-white">
-              {isCheckout ? 'Secure Checkout' : t('cart.title', 'Your Cart')}
+              {isCheckout ? t('cart.secureCheckout', 'Secure Checkout') : t('cart.title', 'Your Cart')}
             </h2>
           </div>
           <button 
@@ -198,14 +198,14 @@ const CartModal: FC = () => {
                       {rentChecked ? <CheckSquare size={24} /> : <Square size={24} />}
                     </button>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white uppercase tracking-wider">
-                      RENT BOOKS ({rentItems.length})
+                      {t('cart.rentBooks', 'RENT BOOKS')} ({rentItems.length})
                     </h3>
                   </div>
                   <span className="text-lg font-bold text-primary">${rentTotal.toFixed(2)}</span>
                 </div>
                 
                 {rentItems.length === 0 && (
-                  <p className="text-gray-500 dark:text-gray-400 italic text-sm py-4">No books selected for rent.</p>
+                  <p className="text-gray-500 dark:text-gray-400 italic text-sm py-4">{t('cart.noRentBooks', 'No books selected for rent.')}</p>
                 )}
 
                 {rentItems.map(item => {
@@ -223,7 +223,7 @@ const CartModal: FC = () => {
                         {/* Days Stepper and Price */}
                         <div className="mt-auto flex items-center gap-4 pt-3">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Days:</span>
+                            <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">{t('cart.days', 'Days:')}</span>
                             <div className="flex items-center gap-1 bg-gray-100 dark:bg-black/40 rounded-lg p-1">
                               <button 
                                 disabled={!rentChecked}
@@ -277,14 +277,14 @@ const CartModal: FC = () => {
                       {buyChecked ? <CheckSquare size={24} /> : <Square size={24} />}
                     </button>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white uppercase tracking-wider">
-                      BUY BOOKS ({buyItems.length})
+                      {t('cart.buyBooks', 'BUY BOOKS')} ({buyItems.length})
                     </h3>
                   </div>
                   <span className="text-lg font-bold text-primary">${buyTotal.toFixed(2)}</span>
                 </div>
 
                 {buyItems.length === 0 && (
-                  <p className="text-gray-500 dark:text-gray-400 italic text-sm py-4">No books selected to buy.</p>
+                  <p className="text-gray-500 dark:text-gray-400 italic text-sm py-4">{t('cart.noBuyBooks', 'No books selected to buy.')}</p>
                 )}
 
                 {buyItems.map(item => {
@@ -303,7 +303,7 @@ const CartModal: FC = () => {
                             ${finalPrice.toFixed(2)}
                             {isRented && (
                               <span className="text-[10px] bg-green-500/10 text-green-600 dark:text-green-400 px-2 py-0.5 rounded-md border border-green-500/20 font-bold whitespace-nowrap">
-                                50% Rent Rebate (-${discountAmount.toFixed(2)})
+                                {t('cart.rentRebate', '50% Rent Rebate')} (-${discountAmount.toFixed(2)})
                               </span>
                             )}
                           </p>
@@ -345,14 +345,14 @@ const CartModal: FC = () => {
                       onClick={() => { setDeleteMode(false); setSelectedForDelete([]); }} 
                       className="px-4 py-2 rounded-xl font-bold text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/20 transition-all"
                     >
-                      Cancel
+                      {t('cart.cancel', 'Cancel')}
                     </button>
                     <button 
                       onClick={handleConfirmDelete} 
                       disabled={selectedForDelete.length === 0} 
                       className="px-4 py-2 rounded-xl font-bold text-white bg-red-500 hover:bg-red-600 transition-all disabled:opacity-50"
                     >
-                      Remove
+                      {t('cart.remove', 'Remove')}
                     </button>
                   </div>
                 ) : (
@@ -360,18 +360,18 @@ const CartModal: FC = () => {
                     onClick={() => setDeleteMode(true)} 
                     className="text-red-500 hover:text-red-600 font-bold flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-red-500/10 transition-colors shrink-0"
                   >
-                    <Trash2 size={18} /> Clear Cart
+                    <Trash2 size={18} /> {t('cart.clearCart', 'Clear Cart')}
                   </button>
                 )}
                 
                 {!deleteMode && (
                   <div className="flex items-center gap-3 text-gray-500 font-bold uppercase text-sm whitespace-nowrap border-l border-gray-300 dark:border-gray-700 pl-6">
-                    <span>Rent ({rentChecked ? rentItems.length : 0})</span>
+                    <span>{t('cart.rentCount', { count: rentChecked ? rentItems.length : 0, defaultValue: `Rent (${rentChecked ? rentItems.length : 0})` })}</span>
                     <span className="text-gray-400">+</span>
-                    <span>Buy ({buyChecked ? buyItems.length : 0})</span>
+                    <span>{t('cart.buyCount', { count: buyChecked ? buyItems.length : 0, defaultValue: `Buy (${buyChecked ? buyItems.length : 0})` })}</span>
                     <span className="text-gray-400">=</span>
                     <span className="text-gray-900 dark:text-white">
-                      {(rentChecked ? rentItems.length : 0) + (buyChecked ? buyItems.length : 0)} Items
+                      {t('cart.itemsCount', { count: (rentChecked ? rentItems.length : 0) + (buyChecked ? buyItems.length : 0), defaultValue: `${(rentChecked ? rentItems.length : 0) + (buyChecked ? buyItems.length : 0)} Items` })}
                     </span>
                   </div>
                 )}
@@ -384,11 +384,13 @@ const CartModal: FC = () => {
                     disabled={finalTotal === 0 || deleteMode}
                     className="w-full md:w-auto px-8 py-4 bg-primary-container text-black font-bold text-lg rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
                   >
-                    Checkout <span className="opacity-80">(${finalTotal.toFixed(2)})</span>
+                    {t('cart.checkoutBtn', 'Checkout')} <span className="opacity-80">(${finalTotal.toFixed(2)})</span>
                   </button>
                 ) : (
                   <div className="px-6 py-4 bg-gray-100 dark:bg-black/20 rounded-xl text-gray-700 dark:text-gray-300 font-medium border border-gray-200 dark:border-white/10 w-full text-center">
-                    Please <Link to="/login" onClick={handleClose} className="text-primary hover:underline font-bold mx-1">log in</Link> to checkout your cart.
+                    {t('cart.pleaseLogin', 'Please log in to checkout your cart.').split('log in')[0]} 
+                    <Link to="/login" onClick={handleClose} className="text-primary hover:underline font-bold mx-1">{t('cart.logIn', 'log in')}</Link> 
+                    {t('cart.pleaseLogin', 'Please log in to checkout your cart.').split('log in')[1]}
                   </div>
                 )}
               </div>
@@ -400,16 +402,16 @@ const CartModal: FC = () => {
             <div className="flex-1 flex flex-col gap-4 pr-0 md:pr-8 md:border-r border-gray-200 dark:border-white/10">
               <div className="bg-gray-50 dark:bg-black/20 p-4 rounded-xl border border-gray-200 dark:border-white/10">
                 <h4 className="font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2 text-sm">
-                  <span className="material-symbols-outlined text-[18px]">verified_user</span> Refund Policy
+                  <span className="material-symbols-outlined text-[18px]">verified_user</span> {t('checkout.refundTitle', 'Refund Policy')}
                 </h4>
                 <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-3">
-                  You can return these e-books for a full refund within 7 days of purchase, provided you have read less than 20% of the book. Audio books are non-refundable once downloaded.
+                  {t('checkout.refundDesc', 'You can return these e-books for a full refund within 7 days of purchase, provided you have read less than 20% of the book. Audio books are non-refundable once downloaded.')}
                 </p>
                 <div className="bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 p-3 rounded-lg text-xs font-medium">
                   <p className="font-bold mb-1 flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[14px]">sell</span> Rent-to-Own Rebate
+                    <span className="material-symbols-outlined text-[14px]">sell</span> {t('checkout.rentRebateTitle', 'Rent-to-Own Rebate')}
                   </p>
-                  <p>If you purchase a book you are currently renting, 50% of the rental price is automatically deducted from your purchase price!</p>
+                  <p>{t('checkout.rentRebateDesc', 'If you purchase a book you are currently renting, 50% of the rental price is automatically deducted from your purchase price!')}</p>
                 </div>
               </div>
 
@@ -418,9 +420,9 @@ const CartModal: FC = () => {
                   <div className="flex items-start gap-3">
                     <span className="material-symbols-outlined text-lg">info</span>
                     <div>
-                      <p className="mb-1">Base rent time is 1 week (7 days).</p>
-                      <p className="mb-1">Each additional day adds $0.50 per book.</p>
-                      <p>If not extended, it will be automatically removed from your private library.</p>
+                      <p className="mb-1">{t('checkout.baseRentTime', 'Base rent time is 1 week (7 days).')}</p>
+                      <p className="mb-1">{t('checkout.extraDayCost', 'Each additional day adds $0.50 per book.')}</p>
+                      <p>{t('checkout.autoRemove', 'If not extended, it will be automatically removed from your private library.')}</p>
                     </div>
                   </div>
                 </div>
@@ -443,7 +445,7 @@ const CartModal: FC = () => {
 
               <div className="grid grid-cols-2 gap-5 w-full">
                 <div className="col-span-2">
-                  <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">Card Number</label>
+                  <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">{t('checkout.cardNumber', 'Card Number')}</label>
                   <input 
                     type="text" 
                     name="number"
@@ -456,11 +458,11 @@ const CartModal: FC = () => {
                     onChange={handleInputChange}
                   />
                   {cardData.number.length > 0 && cardData.number.replace(/\s/g, '').length !== 16 && (
-                    <p className="text-red-500 text-xs mt-1">Card number must be exactly 16 digits.</p>
+                    <p className="text-red-500 text-xs mt-1">{t('checkout.invalidCard', 'Card number must be exactly 16 digits.')}</p>
                   )}
                 </div>
                 <div className="col-span-2">
-                  <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">Cardholder Name</label>
+                  <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">{t('checkout.cardName', 'Cardholder Name')}</label>
                   <input 
                     type="text" 
                     name="name"
@@ -473,7 +475,7 @@ const CartModal: FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">Expiry</label>
+                  <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">{t('checkout.expiry', 'Expiry')}</label>
                   <input 
                     type="text" 
                     name="expiry"
@@ -486,11 +488,11 @@ const CartModal: FC = () => {
                     onChange={handleInputChange}
                   />
                   {cardData.expiry.length === 5 && !isValidExpiry(cardData.expiry) && (
-                    <p className="text-red-500 text-xs mt-1">Invalid expiry date.</p>
+                    <p className="text-red-500 text-xs mt-1">{t('checkout.invalidExpiry', 'Invalid expiry date.')}</p>
                   )}
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">CVV</label>
+                  <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">{t('checkout.cvv', 'CVV')}</label>
                   <input 
                     type="password" 
                     name="cvv"
@@ -511,7 +513,7 @@ const CartModal: FC = () => {
                   disabled={!isFormValid}
                   className="w-full sm:w-auto px-12 bg-primary hover:bg-primary/90 dark:bg-primary-fixed text-white dark:text-gray-900 font-bold py-4 rounded-xl transition-all active:scale-[0.98] shadow-md flex justify-center items-center gap-2 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <span className="material-symbols-outlined text-[20px]">lock</span> Pay Securely (${finalTotal.toFixed(2)})
+                  <span className="material-symbols-outlined text-[20px]">lock</span> {t('checkout.paySecurely', 'Pay Securely')} (${finalTotal.toFixed(2)})
                 </button>
               </div>
             </div>

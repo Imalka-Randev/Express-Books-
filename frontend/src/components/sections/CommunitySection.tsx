@@ -26,10 +26,10 @@ const CommunitySection: FC = () => {
           }}
         >
           <div className="flex gap-3 overflow-x-auto pb-2 px-4 custom-scrollbar hide-scrollbar snap-x">
-            <button className="whitespace-nowrap snap-start px-4 py-2 rounded-full border-2 border-primary-container bg-primary-container/10 text-primary-fixed dark:text-primary-container font-label-sm font-bold shadow-sm transition-all hover:bg-primary-container hover:text-black">Trending Now</button>
-            <button className="whitespace-nowrap snap-start px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 bg-white dark:bg-[#16273b] text-gray-700 dark:text-white font-label-sm shadow-sm transition-all hover:bg-gray-50 dark:hover:bg-[#2d435e]">Fast Readers</button>
-            <button className="whitespace-nowrap snap-start px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 bg-white dark:bg-[#16273b] text-gray-700 dark:text-white font-label-sm shadow-sm transition-all hover:bg-gray-50 dark:hover:bg-[#2d435e]">Classic Literature</button>
-            <button className="whitespace-nowrap snap-start px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 bg-white dark:bg-[#16273b] text-gray-700 dark:text-white font-label-sm shadow-sm transition-all hover:bg-gray-50 dark:hover:bg-[#2d435e]">Sci-Fi Enthusiasts</button>
+            <button className="whitespace-nowrap snap-start px-4 py-2 rounded-full border-2 border-primary-container bg-primary-container/10 text-primary-fixed dark:text-primary-container font-label-sm font-bold shadow-sm transition-all hover:bg-primary-container hover:text-black">{t('community.trending', 'Trending Now')}</button>
+            <button className="whitespace-nowrap snap-start px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 bg-white dark:bg-[#16273b] text-gray-700 dark:text-white font-label-sm shadow-sm transition-all hover:bg-gray-50 dark:hover:bg-[#2d435e]">{t('community.fastReaders', 'Fast Readers')}</button>
+            <button className="whitespace-nowrap snap-start px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 bg-white dark:bg-[#16273b] text-gray-700 dark:text-white font-label-sm shadow-sm transition-all hover:bg-gray-50 dark:hover:bg-[#2d435e]">{t('community.classics', 'Classic Literature')}</button>
+            <button className="whitespace-nowrap snap-start px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 bg-white dark:bg-[#16273b] text-gray-700 dark:text-white font-label-sm shadow-sm transition-all hover:bg-gray-50 dark:hover:bg-[#2d435e]">{t('community.sciFi', 'Sci-Fi Enthusiasts')}</button>
           </div>
         </div>
 
@@ -47,13 +47,13 @@ const CommunitySection: FC = () => {
             </div>
             <div className="p-6 flex flex-col flex-1 gap-4">
               <div>
-                <h3 className="font-bold text-xl text-gray-900 dark:text-white mb-2">Sci-Fi Speed Readers</h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">Exploring the vastness of space, one rapid page turn at a time. Weekly deep dives into hard sci-fi.</p>
+                <h3 className="font-bold text-xl text-gray-900 dark:text-white mb-2">{t('community.club1Title', 'Sci-Fi Speed Readers')}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">{t('community.club1Desc', 'Exploring the vastness of space, one rapid page turn at a time. Weekly deep dives into hard sci-fi.')}</p>
               </div>
               <div className="flex items-center gap-4 mt-auto pt-4 border-t border-gray-100 dark:border-[#2d435e]">
                 <div className="flex items-center gap-1 text-gray-500">
                   <span className="material-symbols-outlined text-[18px]">group</span>
-                  <span className="text-xs font-bold">1.2k Members</span>
+                  <span className="text-xs font-bold">1.2k {t('community.members', 'Members')}</span>
                 </div>
                 <div className="flex -space-x-2 ml-auto">
                   <img className="w-8 h-8 rounded-full border-2 border-white dark:border-[#16273b] object-cover ring-2 ring-transparent group-hover:ring-primary-container transition-all" alt="Avatar 1" src="https://i.pravatar.cc/150?u=1" />
@@ -62,8 +62,8 @@ const CommunitySection: FC = () => {
                 </div>
               </div>
               <div className="flex gap-2 pt-2">
-                <button className="flex-1 bg-transparent border-2 border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-300 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">Details</button>
-                <button className="flex-1 bg-primary-container text-black py-2 rounded-xl text-sm font-bold hover:bg-inverse-primary transition-colors">Join Club</button>
+                <button className="flex-1 bg-transparent border-2 border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-300 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">{t('community.details', 'Details')}</button>
+                <button className="flex-1 bg-primary-container text-black py-2 rounded-xl text-sm font-bold hover:bg-inverse-primary transition-colors">{t('community.join', 'Join Club')}</button>
               </div>
             </div>
           </article>
@@ -79,13 +79,13 @@ const CommunitySection: FC = () => {
             </div>
             <div className="p-6 flex flex-col flex-1 gap-4">
               <div>
-                <h3 className="font-bold text-xl text-gray-900 dark:text-white mb-2">The Classics Collective</h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">Savoring the foundational texts of modern literature. A slow-paced, thoughtful community for purists.</p>
+                <h3 className="font-bold text-xl text-gray-900 dark:text-white mb-2">{t('community.club2Title', 'The Classics Collective')}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">{t('community.club2Desc', 'Savoring the foundational texts of modern literature. A slow-paced, thoughtful community for purists.')}</p>
               </div>
               <div className="flex items-center gap-4 mt-auto pt-4 border-t border-gray-100 dark:border-[#2d435e]">
                 <div className="flex items-center gap-1 text-gray-500">
                   <span className="material-symbols-outlined text-[18px]">group</span>
-                  <span className="text-xs font-bold">850 Members</span>
+                  <span className="text-xs font-bold">850 {t('community.members', 'Members')}</span>
                 </div>
                 <div className="flex -space-x-2 ml-auto">
                   <img className="w-8 h-8 rounded-full border-2 border-white dark:border-[#16273b] object-cover ring-2 ring-transparent group-hover:ring-primary-container transition-all" alt="Avatar 3" src="https://i.pravatar.cc/150?u=3" />
@@ -94,8 +94,8 @@ const CommunitySection: FC = () => {
                 </div>
               </div>
               <div className="flex gap-2 pt-2">
-                <button className="flex-1 bg-transparent border-2 border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-300 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">Details</button>
-                <button className="flex-1 bg-primary-container text-black py-2 rounded-xl text-sm font-bold hover:bg-inverse-primary transition-colors">Join Club</button>
+                <button className="flex-1 bg-transparent border-2 border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-300 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">{t('community.details', 'Details')}</button>
+                <button className="flex-1 bg-primary-container text-black py-2 rounded-xl text-sm font-bold hover:bg-inverse-primary transition-colors">{t('community.join', 'Join Club')}</button>
               </div>
             </div>
           </article>
@@ -111,13 +111,13 @@ const CommunitySection: FC = () => {
             </div>
             <div className="p-6 flex flex-col flex-1 gap-4">
               <div>
-                <h3 className="font-bold text-xl text-gray-900 dark:text-white mb-2">Digital Nomads Library</h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">Reading on the go. Focus on business, self-improvement, and tech-forward non-fiction.</p>
+                <h3 className="font-bold text-xl text-gray-900 dark:text-white mb-2">{t('community.club3Title', 'Digital Nomads Library')}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">{t('community.club3Desc', 'Reading on the go. Focus on business, self-improvement, and tech-forward non-fiction.')}</p>
               </div>
               <div className="flex items-center gap-4 mt-auto pt-4 border-t border-gray-100 dark:border-[#2d435e]">
                 <div className="flex items-center gap-1 text-gray-500">
                   <span className="material-symbols-outlined text-[18px]">group</span>
-                  <span className="text-xs font-bold">3.4k Members</span>
+                  <span className="text-xs font-bold">3.4k {t('community.members', 'Members')}</span>
                 </div>
                 <div className="flex -space-x-2 ml-auto">
                   <img className="w-8 h-8 rounded-full border-2 border-white dark:border-[#16273b] object-cover ring-2 ring-transparent group-hover:ring-primary-container transition-all" alt="Avatar 5" src="https://i.pravatar.cc/150?u=5" />
@@ -126,8 +126,8 @@ const CommunitySection: FC = () => {
                 </div>
               </div>
               <div className="flex gap-2 pt-2">
-                <button className="flex-1 bg-transparent border-2 border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-300 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">Details</button>
-                <button className="flex-1 bg-primary-container text-black py-2 rounded-xl text-sm font-bold hover:bg-inverse-primary transition-colors">Join Club</button>
+                <button className="flex-1 bg-transparent border-2 border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-300 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">{t('community.details', 'Details')}</button>
+                <button className="flex-1 bg-primary-container text-black py-2 rounded-xl text-sm font-bold hover:bg-inverse-primary transition-colors">{t('community.join', 'Join Club')}</button>
               </div>
             </div>
           </article>

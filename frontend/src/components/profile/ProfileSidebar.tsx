@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { logoutUser } from '../../store/authSlice';
 import type { AppDispatch } from '../../store/store';
 
@@ -15,6 +16,7 @@ interface ProfileSidebarProps {
 const ProfileSidebar: FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab }) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -23,11 +25,11 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab
   };
 
   const navItems: { id: ProfileTab; label: string; icon: string }[] = [
-    { id: 'overview', label: 'Profile', icon: 'person' },
-    { id: 'library', label: 'My Library', icon: 'library_books' },
-    { id: 'rented', label: 'Rented Books', icon: 'history_edu' },
-    { id: 'notifications', label: 'Notifications', icon: 'notifications' },
-    { id: 'community', label: 'Community', icon: 'groups' },
+    { id: 'overview', label: t('profile.sidebar.overview', 'Profile'), icon: 'person' },
+    { id: 'library', label: t('profile.sidebar.library', 'My Library'), icon: 'library_books' },
+    { id: 'rented', label: t('profile.sidebar.rented', 'Rented Books'), icon: 'history_edu' },
+    { id: 'notifications', label: t('profile.sidebar.notifications', 'Notifications'), icon: 'notifications' },
+    { id: 'community', label: t('profile.sidebar.community', 'Community'), icon: 'groups' },
   ];
 
   const getInitials = (name: string) => {
@@ -96,7 +98,7 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab
             className="flex items-center gap-3 py-3 px-4 rounded-xl text-base font-medium text-red-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-red-500 transition-all"
           >
             <span className="material-symbols-outlined">logout</span>
-            Logout
+            {t('profile.sidebar.logout', 'Logout')}
           </button>
         </nav>
       </div>
@@ -157,7 +159,7 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab
                 className="w-full flex items-center gap-3 px-4 py-2 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors text-sm"
               >
                 <span className="material-symbols-outlined text-[20px]">home</span>
-                <span>Home</span>
+                <span>{t('profile.sidebar.home', 'Home')}</span>
               </button>
             </li>
             <li>
@@ -166,7 +168,7 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab
                 className="w-full flex items-center gap-3 px-4 py-2 text-gray-500 dark:text-gray-400 hover:text-red-500 transition-colors text-sm group"
               >
                 <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">logout</span>
-                <span>Logout</span>
+                <span>{t('profile.sidebar.logout', 'Logout')}</span>
               </button>
             </li>
           </ul>

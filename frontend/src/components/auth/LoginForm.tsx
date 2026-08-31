@@ -53,7 +53,7 @@ const LoginForm = () => {
           </div>
 
           <button type="submit" disabled={isLoading} className="flex mx-auto w-[50%] justify-center rounded-xl bg-inverse-primary px-4 py-3 font-bold text-[#0a192f] shadow-sm hover:bg-primary-container transition-all disabled:opacity-50">
-            {isLoading ? 'Logging in...' : t('login.button')}
+            {isLoading ? t('login.loggingIn', 'Logging in...') : t('login.button')}
           </button>
         </form>
 

@@ -1,12 +1,14 @@
 import { type FC } from 'react';
 import { type Book } from '../../store/bookSlice';
 import CartButton from '../ui/CartButton';
+import { useTranslation } from 'react-i18next';
 
 interface BookInfoProps {
   book: Book;
 }
 
 const BookInfo: FC<BookInfoProps> = ({ book }) => {
+  const { t } = useTranslation();
 
   return (
     <div className="lg:col-span-7 flex flex-col h-full gap-6">
@@ -17,7 +19,7 @@ const BookInfo: FC<BookInfoProps> = ({ book }) => {
             {book.title}
           </h1>
           <p className="font-title-md text-xl text-gray-600 dark:text-gray-300 font-medium">
-            by {book.author}
+            {t('bookInfo.by', 'by')} {book.author}
           </p>
         </div>
         <CartButton 
@@ -38,7 +40,7 @@ const BookInfo: FC<BookInfoProps> = ({ book }) => {
           ))}
         </div>
         <span className="text-gray-600 dark:text-gray-300 font-label-md ml-2 font-medium">
-          {book.averageRating || '4.8'} ({book.totalReviews ? book.totalReviews.toLocaleString() : '0'} reviews)
+          {book.averageRating || '4.8'} ({book.totalReviews ? book.totalReviews.toLocaleString() : '0'} {t('bookInfo.reviews', 'reviews')})
         </span>
       </div>
 
@@ -48,28 +50,28 @@ const BookInfo: FC<BookInfoProps> = ({ book }) => {
 
         {/* Extra Book Details to balance the layout */}
         <div className="mt-8 pt-6 border-t border-gray-200 dark:border-white/10">
-          <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">Product Details</h3>
+          <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">{t('bookInfo.productDetails', 'Product Details')}</h3>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-gray-500 dark:text-gray-400 block mb-1">Publisher</span>
+              <span className="text-gray-500 dark:text-gray-400 block mb-1">{t('bookInfo.publisher', 'Publisher')}</span>
               <span className="font-medium text-gray-900 dark:text-white">{book.publisher || 'Express Publishing House'}</span>
             </div>
             <div>
-              <span className="text-gray-500 dark:text-gray-400 block mb-1">Publication Date</span>
+              <span className="text-gray-500 dark:text-gray-400 block mb-1">{t('bookInfo.publicationDate', 'Publication Date')}</span>
               <span className="font-medium text-gray-900 dark:text-white">
-                {book.publishedDate ? new Date(book.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Unknown'}
+                {book.publishedDate ? new Date(book.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : t('bookInfo.unknown', 'Unknown')}
               </span>
             </div>
             <div>
-              <span className="text-gray-500 dark:text-gray-400 block mb-1">Print Length</span>
-              <span className="font-medium text-gray-900 dark:text-white">{book.pageCount || 300} pages</span>
+              <span className="text-gray-500 dark:text-gray-400 block mb-1">{t('bookInfo.printLength', 'Print Length')}</span>
+              <span className="font-medium text-gray-900 dark:text-white">{book.pageCount || 300} {t('bookInfo.pages', 'pages')}</span>
             </div>
             <div>
-              <span className="text-gray-500 dark:text-gray-400 block mb-1">Language</span>
-              <span className="font-medium text-gray-900 dark:text-white">{book.language || 'English'}</span>
+              <span className="text-gray-500 dark:text-gray-400 block mb-1">{t('bookInfo.language', 'Language')}</span>
+              <span className="font-medium text-gray-900 dark:text-white">{book.language || t('bookInfo.english', 'English')}</span>
             </div>
             <div>
-              <span className="text-gray-500 dark:text-gray-400 block mb-1">ISBN</span>
+              <span className="text-gray-500 dark:text-gray-400 block mb-1">{t('bookInfo.isbn', 'ISBN')}</span>
               <span className="font-medium text-gray-900 dark:text-white">{book.isbn || '978-0-00-000000-0'}</span>
             </div>
           </div>

@@ -6,7 +6,8 @@
     "passwordPlaceholder": "Password",
     "button": "Log In",
     "noAccount": "Not a member?",
-    "signupLink": "Sign up now"
+    "signupLink": "Sign up now",
+    "loggingIn": "Logging in..."
   },
   "signup": {
     "title": "Create Account",
@@ -20,13 +21,16 @@
     "passwordHint": "Must be at least 8 characters.",
     "button": "Create Account",
     "haveAccount": "Already have an account?",
-    "loginLink": "Log in"
+    "loginLink": "Log in",
+    "creating": "Creating..."
   },
   "nav": {
     "home": "Home",
+    "about": "About",
     "search": "Search",
     "library": "Library",
-    "community": "Community"
+    "community": "Community",
+    "contact": "Contact"
   },
   "home": {
     "heroTitle": "Your Private Library,",
@@ -36,10 +40,276 @@
     "heroBtnSecondary": "Browse Library",
     "searchPlaceholder": "Search by title, author, or genre...",
     "noBooks": "No books found. Try a different search.",
+    "noBooksFound": "No books found. Try adjusting your search.",
     "byAuthor": "by {{author}}",
-    "rentButton": "Rent"
+    "rentButton": "Rent",
+    "trustedPartners": "Our Trusted Partners"
+  },
+  "about": {
+    "title": "About Express Books",
+    "subtitle": "We bridge the gap between traditional reading and modern convenience. Instantly access the E-Books and Audiobooks you love.",
+    "missionTitle": "Our Mission",
+    "missionDesc": "To make literature universally accessible through a seamless digital experience — eliminating the wait between discovering a book and turning its first page.",
+    "missionList": [
+      "Zero delivery wait time",
+      "Available on all devices",
+      "Curated for every reader",
+      "Affordable memberships"
+    ],
+    "missionStat": "10,000+ books delivered",
+    "visionTitle": "Our Vision",
+    "visionDesc": "A world where communities are hyper-connected through shared digital libraries — where every book you desire is minutes away, in any language, on any device.",
+    "visionList": [
+      "Global reader community",
+      "Multilingual support",
+      "Decentralized library system",
+      "AI-powered recommendations"
+    ],
+    "visionStat": "5,000+ active members",
+    "termsTitle": "Terms & Conditions",
+    "termsDesc": "We are committed to a safe, transparent, and respectful environment for all members of our growing digital community.",
+    "termsList": [
+      "Fair usage policy",
+      "No hidden charges",
+      "Your data stays private",
+      "Cancel anytime, no fees"
+    ],
+    "termsLink": "Read full policy"
+  },
+  "community": {
+    "title": "Discover Communities",
+    "subtitle": "Experience curated speed, together. Join reading clubs to share insights, discover rare titles faster, and connect with minds that match your pace.",
+    "trending": "Trending Now",
+    "fastReaders": "Fast Readers",
+    "classics": "Classic Literature",
+    "sciFi": "Sci-Fi Enthusiasts",
+    "club1Title": "Sci-Fi Speed Readers",
+    "club1Desc": "Exploring the vastness of space, one rapid page turn at a time. Weekly deep dives into hard sci-fi.",
+    "club2Title": "The Classics Collective",
+    "club2Desc": "Savoring the foundational texts of modern literature. A slow-paced, thoughtful community for purists.",
+    "club3Title": "Digital Nomads Library",
+    "club3Desc": "Reading on the go. Focus on business, self-improvement, and tech-forward non-fiction.",
+    "members": "Members",
+    "details": "Details",
+    "join": "Join Club"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Have questions about a book, your membership, or a community club? We are here to help.",
+    "infoTitle": "Contact Information",
+    "locationTitle": "Our Location",
+    "locationValue": "123 Express Books HQ<br/>Colombo 00100<br/>Sri Lanka",
+    "phoneTitle": "Phone",
+    "phoneValue": "+94 11 234 5678<br/>Mon-Fri, 9am - 6pm",
+    "emailTitle": "Email",
+    "emailValue": "hello@expressbooks.lk<br/>support@expressbooks.lk",
+    "formTitle": "Send us a message",
+    "fName": "First Name",
+    "lName": "Last Name",
+    "emailAddress": "Email Address",
+    "mobile": "Mobile Number",
+    "message": "Message",
+    "messagePlaceholder": "How can we help you today?",
+    "send": "Send Message"
+  },
+  "profile": {
+    "sidebar": {
+      "overview": "Profile",
+      "library": "My Library",
+      "rented": "Rented Books",
+      "notifications": "Notifications",
+      "community": "Community",
+      "home": "Home",
+      "logout": "Logout"
+    },
+    "overview": {
+      "title": "My Profile",
+      "subtitle": "Manage your account settings and view your reading journey.",
+      "booksPurchased": "Books Purchased",
+      "booksRented": "Books Rented",
+      "readingTime": "Reading Time",
+      "completed": "Completed",
+      "personalInfo": "Personal Information",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "oldPassword": "Old Password",
+      "newPassword": "New Password",
+      "cancel": "Cancel",
+      "updatePassword": "Update Password"
+    },
+    "rented": {
+      "title": "Rented Books",
+      "subtitle": "Track your active rentals, due dates, and return books.",
+      "noRentals": "No active rentals",
+      "noRentalsDesc": "You don't have any books currently rented. Need something to read for a short time?",
+      "explore": "Explore Rentals",
+      "history": "Rental History",
+      "extend": "Extend Due Date"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "subtitle": "Stay updated on your rentals, purchases, and new arrivals.",
+      "markAll": "Mark all as read",
+      "noNotifications": "No notifications",
+      "noNotificationsDesc": "You're all caught up! We'll let you know when there are updates.",
+      "markAsRead": "Mark as read"
+    },
+    "library": {
+      "title": "My Library",
+      "subtitle": "Access and manage all your purchased E-Books.",
+      "empty": "Your library is empty",
+      "emptyDesc": "You haven't purchased any books yet. Browse our collection to start building your digital library.",
+      "browse": "Browse Books"
+    }
+  },
+  "book": {
+    "notFound": "Book not found",
+    "goBack": "Go Back Home",
+    "owned": "You own this book!",
+    "ownedDesc": "It is available in your private library.",
+    "renting": "You are currently renting this book.",
+    "dueDate": "Due date: ",
+    "extendDate": "Extend Due Date"
   },
   "common": {
     "loading": "Loading..."
+  },
+  "payment": {
+    "secureCheckout": "Secure Checkout",
+    "rent": "Rent",
+    "buyNow": "Buy Now",
+    "addAudioBook": "Add Audio Book",
+    "audioBookDesc": "Get the professionally narrated audio version to listen on the go.",
+    "refundPolicy": "Refund Policy",
+    "refundDesc": "You can return this e-book for a full refund within 7 days of purchase, provided you have read less than 20% of the book. Audio books are non-refundable once downloaded.",
+    "copyrightNotice": "Copyright Notice",
+    "copyrightDesc1": "Copying or distributing this e-book is strictly prohibited.",
+    "copyrightDesc2": "Unauthorized sharing will lead to immediate account suspension.",
+    "copyrightDesc3": "Violators face legal prosecution under copyright laws.",
+    "extendReturn": "Extend Return (+ Days)",
+    "baseRentInfo1": "Base rent time is 1 week (7 days).",
+    "baseRentInfo2": "Each additional day adds zsh.50.",
+    "baseRentInfo3": "If not extended, it will be automatically removed from your private library.",
+    "total": "Total",
+    "rentDays": "Rent ({{days}} Days)",
+    "authRequired": "Authentication Required",
+    "authRequiredDesc1": "You are not logged in. Please ",
+    "authRequiredDesc2": "log in",
+    "authRequiredDesc3": " or, if you don't have an account, ",
+    "authRequiredDesc4": "sign up",
+    "authRequiredDesc5": " to make a payment.",
+    "extendRental": "Extend Rental",
+    "extendInfo2": "Your new due date will be automatically updated upon successful payment.",
+    "extensionTotal": "Extension Total"
+  },
+  "footer": {
+    "desc": "Your private library, instantly accessible anywhere. Build your ultimate digital collection with curated E-Books and Audiobooks.",
+    "quickLinks": "Quick Links",
+    "legal": "Legal",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "cookie": "Cookie Policy",
+    "rights": "Express Books. All rights reserved.",
+    "madeWith": "Made with",
+    "inSL": "in Sri Lanka"
+  },
+  "library": {
+    "all": "All",
+    "showLess": "Show Less Categories",
+    "showMore": "Show More Categories"
+  },
+  "bookCard": {
+    "owned": "Owned",
+    "daysLeft": "{{days}}d Left",
+    "buyPrice": "Buy Price",
+    "rentPrice": "Rent Price",
+    "rent": "Rent",
+    "buy": "Buy",
+    "removeFromCart": "Remove from cart",
+    "addToCart": "Add to cart"
+  },
+  "cart": {
+    "secureCheckout": "Secure Checkout",
+    "filterPlaceholder": "Filter cart items...",
+    "rentBooks": "RENT BOOKS",
+    "noRentBooks": "No books selected for rent.",
+    "days": "Days:",
+    "buyBooks": "BUY BOOKS",
+    "noBuyBooks": "No books selected to buy.",
+    "rentRebate": "50% Rent Rebate",
+    "cancel": "Cancel",
+    "remove": "Remove",
+    "clearCart": "Clear Cart",
+    "rentCount": "Rent ({{count}})",
+    "buyCount": "Buy ({{count}})",
+    "itemsCount": "{{count}} Items",
+    "checkoutBtn": "Checkout",
+    "pleaseLogin": "Please log in to checkout your cart.",
+    "logIn": "log in"
+  },
+  "checkout": {
+    "refundTitle": "Refund Policy",
+    "refundDesc": "You can return these e-books for a full refund within 7 days of purchase, provided you have read less than 20% of the book. Audio books are non-refundable once downloaded.",
+    "rentRebateTitle": "Rent-to-Own Rebate",
+    "rentRebateDesc": "If you purchase a book you are currently renting, 50% of the rental price is automatically deducted from your purchase price!",
+    "baseRentTime": "Base rent time is 1 week (7 days).",
+    "extraDayCost": "Each additional day adds zsh.50 per book.",
+    "autoRemove": "If not extended, it will be automatically removed from your private library.",
+    "copyrightTitle": "Copyright Notice",
+    "copyrightDesc1": "Copying or distributing this e-book is strictly prohibited.",
+    "copyrightDesc2": "Unauthorized sharing will lead to immediate account suspension.",
+    "copyrightDesc3": "Violators face legal prosecution under copyright laws.",
+    "cardNumber": "Card Number",
+    "cardName": "Cardholder Name",
+    "expiry": "Expiry",
+    "cvv": "CVV",
+    "invalidCard": "Card number must be exactly 16 digits.",
+    "invalidExpiry": "Invalid expiry date.",
+    "paySecurely": "Pay Securely"
+  },
+  "rentedBookCard": {
+    "extend": "Extend",
+    "extendRental": "Extend Rental",
+    "returned": "Returned:",
+    "due": "Due:",
+    "daysLeft": "{{days}}D LEFT",
+    "overdue": "OVERDUE"
+  },
+  "categories": {
+    "fantasy": "Fantasy",
+    "scifi": "Sci-Fi",
+    "classic": "Classic",
+    "biography": "Biography"
+  },
+  "auth": {
+    "homePage": "Home Page",
+    "loginTitle": "Discover worlds together.",
+    "loginSubtitle": "Premium library access delivered at the speed of thought.",
+    "signupTitle": "Join the Exchange.",
+    "signupSubtitle": "Connect with a global community of readers. Share stories, discover new worlds."
+  },
+  "bookInfo": {
+    "by": "by",
+    "reviews": "reviews",
+    "productDetails": "Product Details",
+    "publisher": "Publisher",
+    "publicationDate": "Publication Date",
+    "unknown": "Unknown",
+    "printLength": "Print Length",
+    "pages": "pages",
+    "language": "Language",
+    "english": "English",
+    "isbn": "ISBN"
+  },
+  "reviews": {
+    "title": "Reader Reviews",
+    "topContributor": "Top Contributor",
+    "readAll": "Read all reviews",
+    "review1": "A truly transformative read. The way the author structures the narrative makes complex concepts completely accessible. I couldn't put it down and have already recommended it to all my colleagues!",
+    "review2": "The Express Book delivery was incredible—arrived just 45 minutes after I ordered. The book itself is a masterpiece of modern literature, providing insights that are rarely found in this genre.",
+    "review3": "Beautiful edition with the gold foil spine. The physical quality of the book matches the brilliance of the words inside. A must-have for any serious collector's library!"
+  },
+  "relatedBooks": {
+    "title": "Related by Author & Genre"
   }
 }

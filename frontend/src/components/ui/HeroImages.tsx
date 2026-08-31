@@ -1,4 +1,5 @@
 import { type FC, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const books = [
   { id: 1, title: 'A Game of Thrones', cover: '/images/books/game-of-thrones.jpg', category: 'Fantasy' },
@@ -9,6 +10,7 @@ const books = [
 ];
 
 const HeroImages: FC = () => {
+  const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Automatic right-to-left rotation every 5 seconds
@@ -104,7 +106,7 @@ const HeroImages: FC = () => {
               ${index === activeIndex ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6 pointer-events-none'}
             `}
           >
-            {book.category}
+            {t(`categories.${book.category.toLowerCase().replace('-', '')}`, book.category)}
           </p>
         ))}
       </div>

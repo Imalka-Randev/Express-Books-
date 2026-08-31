@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface RentedBookCardProps {
   item: {
@@ -11,6 +12,7 @@ interface RentedBookCardProps {
 }
 
 const RentedBookCard: FC<RentedBookCardProps> = ({ item, onExtend, isHistory = false }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const book = item.book || item; // Fallback just in case
 
@@ -39,8 +41,8 @@ const RentedBookCard: FC<RentedBookCardProps> = ({ item, onExtend, isHistory = f
             onClick={() => onExtend(book._id)}
             className="px-3 md:px-4 py-1.5 md:py-2 bg-[#FFD700] hover:bg-[#FFC000] text-black text-xs md:text-sm font-bold rounded-lg transition-colors shadow-md"
           >
-            <span className="md:hidden">Extend</span>
-            <span className="hidden md:inline">Extend Rental</span>
+            <span className="md:hidden">{t('rentedBookCard.extend', 'Extend')}</span>
+            <span className="hidden md:inline">{t('rentedBookCard.extendRental', 'Extend Rental')}</span>
           </button>
         </div>
       )}
@@ -66,7 +68,7 @@ const RentedBookCard: FC<RentedBookCardProps> = ({ item, onExtend, isHistory = f
         {/* Due Date (Moved up to replace Rented tag) */}
         <div className="mb-1">
           <span className="text-xs font-bold text-gray-500 dark:text-gray-400">
-            {isHistory ? 'Returned:' : 'Due:'} {formattedDate}
+            {isHistory ? t('rentedBookCard.returned', 'Returned:') : t('rentedBookCard.due', 'Due:')} {formattedDate}
           </span>
         </div>
         
@@ -87,7 +89,7 @@ const RentedBookCard: FC<RentedBookCardProps> = ({ item, onExtend, isHistory = f
               : 'bg-primary/10 border-primary/20 text-primary-fixed-dim dark:bg-[#FFD700]/10 dark:border-[#FFD700]/20 dark:text-[#FFD700]'
           } font-bold text-xs md:text-sm`}>
             <span className="material-symbols-outlined text-[14px] md:text-[16px]">hourglass_empty</span>
-            {daysLeft > 0 ? `${daysLeft}D LEFT` : 'OVERDUE'}
+            {daysLeft > 0 ? t('rentedBookCard.daysLeft', { days: daysLeft, defaultValue: '{{days}}D LEFT' }) : t('rentedBookCard.overdue', 'OVERDUE')}
           </div>
         )}
       </div>

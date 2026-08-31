@@ -71,14 +71,14 @@ const BookCard: FC<BookCardProps> = ({ book }) => {
         <div className="absolute top-2 right-2 z-10 flex flex-col gap-1 items-end">
           {isOwned && (
             <span className="bg-green-500 text-white px-2 py-0.5 text-[10px] font-bold rounded-sm uppercase shadow-sm">
-              Owned
+              {t('bookCard.owned', 'Owned')}
             </span>
           )}
           {isRented && !isOwned && daysLeft > 0 && (
             <div className="flex items-center bg-blue-500/90 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-sm shadow-md">
               <span className="material-symbols-outlined text-[12px] mr-0.5 animate-pulse">hourglass_empty</span>
               <span className="text-[9px] font-bold uppercase tracking-wider whitespace-nowrap">
-                {daysLeft}d Left
+                {t('bookCard.daysLeft', { days: daysLeft, defaultValue: '{{days}}d Left' })}
               </span>
             </div>
           )}
@@ -95,7 +95,7 @@ const BookCard: FC<BookCardProps> = ({ book }) => {
         <div className="flex justify-between items-center mt-2">
           <div className="flex flex-col">
             <span className="text-xs text-gray-500 font-bold uppercase tracking-wide">
-              {showBuyPrice ? 'Buy Price' : 'Rent Price'}
+              {showBuyPrice ? t('bookCard.buyPrice', 'Buy Price') : t('bookCard.rentPrice', 'Rent Price')}
             </span>
             <span className="font-bold text-lg text-primary dark:text-primary-fixed-dim">
               ${showBuyPrice ? (book?.buyPrice?.toFixed(2) || '0.00') : (book?.rentPrice?.toFixed(2) || '0.00')}
@@ -111,7 +111,7 @@ const BookCard: FC<BookCardProps> = ({ book }) => {
                   : 'text-gray-500 hover:text-gray-700 dark:text-gray-400'
               }`}
             >
-              Rent
+              {t('bookCard.rent', 'Rent')}
             </button>
             <button
               onClick={(e) => handleTogglePrice('buy', e)}
@@ -121,7 +121,7 @@ const BookCard: FC<BookCardProps> = ({ book }) => {
                   : 'text-gray-500 hover:text-gray-700 dark:text-gray-400'
               }`}
             >
-              Buy
+              {t('bookCard.buy', 'Buy')}
             </button>
           </div>
         </div>

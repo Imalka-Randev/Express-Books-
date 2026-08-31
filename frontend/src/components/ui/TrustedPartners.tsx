@@ -1,4 +1,5 @@
 import { type FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const partners = [
   "Penguin Random House", "HarperCollins", "Macmillan", "Simon & Schuster", 
@@ -8,10 +9,11 @@ const partners = [
 ];
 
 const TrustedPartners: FC = () => {
+  const { t } = useTranslation();
   return (
     <div className="w-full overflow-hidden flex flex-col items-center">
       <p className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-8">
-        Our Trusted Partners
+        {t('home.trustedPartners', 'Our Trusted Partners')}
       </p>
       
       {/* Marquee Container */}

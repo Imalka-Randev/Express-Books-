@@ -4,6 +4,7 @@ import { addItem, removeItem } from '../../store/cartSlice';
 import { type RootState } from '../../store/store';
 import { ShoppingCart } from 'lucide-react';
 import { type Book } from '../../store/bookSlice';
+import { useTranslation } from 'react-i18next';
 
 interface CartButtonProps {
   book: Book;
@@ -13,6 +14,7 @@ interface CartButtonProps {
 }
 
 const CartButton: FC<CartButtonProps> = ({ book, type = 'rent', className = '', iconSize = 18 }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const { purchasedBooks } = useSelector((state: RootState) => state.library);
@@ -37,7 +39,7 @@ const CartButton: FC<CartButtonProps> = ({ book, type = 'rent', className = '', 
     <button
       onClick={handleToggleCart}
       className={`flex items-center justify-center transition-all ${className}`}
-      title={isInCart ? 'Remove from cart' : 'Add to cart'}
+      title={isInCart ? t('bookCard.removeFromCart', 'Remove from cart') : t('bookCard.addToCart', 'Add to cart')}
     >
       <ShoppingCart
         size={iconSize}

@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import RentedBookCard from '../ui/RentedBookCard';
 import RentExtensionPayment from '../payment/RentExtensionPayment';
 import { useSelector } from 'react-redux';
@@ -10,6 +11,7 @@ interface ProfileRentedBooksProps {
 }
 
 const ProfileRentedBooks: FC<ProfileRentedBooksProps> = ({ rentedBooks }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [extendingBookId, setExtendingBookId] = useState<string | null>(null);
   const { purchasedBooks } = useSelector((state: RootState) => state.library);
@@ -47,20 +49,20 @@ const ProfileRentedBooks: FC<ProfileRentedBooksProps> = ({ rentedBooks }) => {
   return (
     <div className="w-full">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-display-lg">Rented Books</h1>
-        <p className="text-gray-500 dark:text-gray-400">Track your active rentals, due dates, and return books.</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-display-lg">{t('profile.rented.title', 'Rented Books')}</h1>
+        <p className="text-gray-500 dark:text-gray-400">{t('profile.rented.subtitle', 'Track your active rentals, due dates, and return books.')}</p>
       </header>
 
       {activeRentals.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-gray-500 dark:text-gray-400 bg-white dark:bg-[#112240]/40 rounded-2xl border border-white/5 mb-12">
           <span className="material-symbols-outlined text-6xl mb-4 opacity-50">history_edu</span>
-          <p className="text-lg font-bold text-gray-900 dark:text-white mb-2">No active rentals</p>
-          <p className="text-sm max-w-md text-center mb-6">You don't have any books currently rented. Need something to read for a short time?</p>
+          <p className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t('profile.rented.noRentals', 'No active rentals')}</p>
+          <p className="text-sm max-w-md text-center mb-6">{t('profile.rented.noRentalsDesc', "You don't have any books currently rented. Need something to read for a short time?")}</p>
           <button 
             onClick={() => navigate('/')}
             className="px-6 py-2.5 bg-blue-600 text-gray-900 dark:text-white font-bold rounded-full hover:bg-blue-500 transition-all active:scale-95 shadow-lg shadow-blue-500/20"
           >
-            Explore Rentals
+            {t('profile.rented.explore', 'Explore Rentals')}
           </button>
         </div>
       ) : (
@@ -90,7 +92,7 @@ const ProfileRentedBooks: FC<ProfileRentedBooksProps> = ({ rentedBooks }) => {
         <div className="mt-12">
           <header className="mb-6 flex items-center gap-2">
             <span className="material-symbols-outlined text-gray-500 dark:text-gray-400">history</span>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white font-display-lg">Rental History</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white font-display-lg">{t('profile.rented.history', 'Rental History')}</h2>
           </header>
           <div className="flex flex-wrap gap-6 opacity-70">
             {rentalHistory.map((item, idx) => (

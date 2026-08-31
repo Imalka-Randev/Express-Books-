@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 import PaymentForm from './PaymentForm';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { extendRentalAction, fetchLibrary } from '../../store/librarySlice';
 import { type AppDispatch } from '../../store/store';
 
@@ -11,6 +12,7 @@ interface RentExtensionPaymentProps {
 }
 
 const RentExtensionPayment: FC<RentExtensionPaymentProps> = ({ bookId, onSuccess, onCancel }) => {
+  const { t } = useTranslation();
   const [extraRentDays, setExtraRentDays] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
@@ -40,7 +42,7 @@ const RentExtensionPayment: FC<RentExtensionPaymentProps> = ({ bookId, onSuccess
       <div className="flex-1 w-full flex flex-col gap-6">
         <div className="flex justify-between items-center">
           <h3 className="font-headline-md text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary dark:text-primary-fixed">update</span> Extend Rental
+            <span className="material-symbols-outlined text-primary dark:text-primary-fixed">update</span> {t('payment.extendRental', 'Extend Rental')}
           </h3>
           {onCancel && (
             <button 
@@ -54,7 +56,7 @@ const RentExtensionPayment: FC<RentExtensionPaymentProps> = ({ bookId, onSuccess
 
         <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-black/20">
           <span className="font-bold text-gray-900 dark:text-white">
-            <span className="text-primary">Extend</span> Return (+ Days)
+            {t('payment.extendReturn', 'Extend Return (+ Days)')}
           </span>
           <div className="flex items-center gap-4 bg-white dark:bg-[#112240] rounded-lg px-2 py-1 shadow-sm border border-gray-200 dark:border-white/10">
             <button 
@@ -77,15 +79,15 @@ const RentExtensionPayment: FC<RentExtensionPaymentProps> = ({ bookId, onSuccess
           <div className="flex items-start gap-3">
             <span className="material-symbols-outlined text-lg">info</span>
             <div>
-              <p className="mb-1">Each additional day adds $0.50.</p>
-              <p>Your new due date will be automatically updated upon successful payment.</p>
+              <p className="mb-1">{t('payment.baseRentInfo2', 'Each additional day adds $0.50.')}</p>
+              <p>{t('payment.extendInfo2', 'Your new due date will be automatically updated upon successful payment.')}</p>
             </div>
           </div>
         </div>
 
         <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-white/10 mt-auto pt-6">
           <span className="font-title-md text-xl font-bold text-gray-900 dark:text-white">
-            Extension Total
+            {t('payment.extensionTotal', 'Extension Total')}
           </span>
           <span className="font-headline-lg text-3xl font-bold text-primary dark:text-primary-fixed">
             ${totalPrice.toFixed(2)}

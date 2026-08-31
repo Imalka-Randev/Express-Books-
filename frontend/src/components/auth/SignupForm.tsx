@@ -55,7 +55,7 @@ const SignupForm = () => {
 
           <div className="pt-4">
             <button disabled={isLoading} type="submit" className="w-full bg-primary-container text-black font-bold py-3.5 rounded-lg hover:bg-inverse-primary transition-all flex items-center justify-center gap-2 disabled:opacity-50">
-              {isLoading ? 'Creating...' : t('signup.button')}
+              {isLoading ? t('signup.creating', 'Creating...') : t('signup.button')}
               <span className="material-symbols-outlined text-sm font-bold">arrow_forward</span>
             </button>
           </div>

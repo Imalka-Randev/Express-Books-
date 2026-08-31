@@ -1,6 +1,7 @@
 import { type FC, useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { type AppDispatch, type RootState } from '../store/store';
 import { fetchBookById, fetchBooks } from '../store/bookSlice';
 
@@ -16,6 +17,7 @@ const BookDetailPage: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation();
 
   const defaultPaymentType = location.state?.defaultPaymentType || 'rent';
 
@@ -49,13 +51,13 @@ const BookDetailPage: FC = () => {
     return (
       <div className="flex-1 flex flex-col items-center justify-center min-h-[50vh] gap-4">
         <span className="material-symbols-outlined text-error text-5xl">error</span>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-surface">Book not found</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-surface">{t('book.notFound', 'Book not found')}</h2>
         <p className="text-gray-600 dark:text-surface-variant">{error}</p>
         <button 
           onClick={() => navigate('/')}
           className="mt-4 px-6 py-2 bg-primary dark:bg-primary-fixed text-white dark:text-on-primary-fixed rounded-lg font-bold"
         >
-          Go Back Home
+          {t('book.goBack', 'Go Back Home')}
         </button>
       </div>
     );
@@ -88,7 +90,7 @@ const BookDetailPage: FC = () => {
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed transition-colors font-bold text-sm uppercase tracking-wider"
         >
-          <span className="material-symbols-outlined">arrow_back</span> Back
+          <span className="material-symbols-outlined">arrow_back</span> {t('book.goBack', 'Back')}
         </button>
       </div>
 
@@ -109,8 +111,8 @@ const BookDetailPage: FC = () => {
             <div className="bg-green-500/10 border border-green-500/20 text-green-700 dark:text-green-400 p-6 rounded-2xl flex items-center justify-center gap-3">
               <span className="material-symbols-outlined text-3xl">check_circle</span>
               <div>
-                <h3 className="font-bold text-lg">You own this book!</h3>
-                <p className="text-sm opacity-80">It is available in your private library.</p>
+                <h3 className="font-bold text-lg">{t('book.owned', 'You own this book!')}</h3>
+                <p className="text-sm opacity-80">{t('book.ownedDesc', 'It is available in your private library.')}</p>
               </div>
             </div>
           );
@@ -124,8 +126,8 @@ const BookDetailPage: FC = () => {
                 <div className="flex items-center gap-3">
                   <span className="material-symbols-outlined text-3xl">hourglass_empty</span>
                   <div>
-                    <h3 className="font-bold text-lg">You are currently renting this book.</h3>
-                    <p className="text-sm opacity-80">Due date: {dueDate.toLocaleDateString()}</p>
+                    <h3 className="font-bold text-lg">{t('book.renting', 'You are currently renting this book.')}</h3>
+                    <p className="text-sm opacity-80">{t('book.dueDate', 'Due date: ')} {dueDate.toLocaleDateString()}</p>
                   </div>
                 </div>
                 {!showExtension && (
@@ -133,7 +135,7 @@ const BookDetailPage: FC = () => {
                     onClick={() => setShowExtension(true)}
                     className="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-colors"
                   >
-                    Extend Due Date
+                    {t('book.extendDate', 'Extend Due Date')}
                   </button>
                 )}
               </div>

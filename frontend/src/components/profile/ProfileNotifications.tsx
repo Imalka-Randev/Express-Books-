@@ -1,5 +1,6 @@
 import { type FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import apiClient from '../../api/axiosConfig';
 import { type RootState } from '../../store/store';
 
@@ -13,6 +14,7 @@ interface Notification {
 }
 
 const ProfileNotifications: FC = () => {
+  const { t } = useTranslation();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const { token } = useSelector((state: RootState) => state.auth);
@@ -66,8 +68,8 @@ const ProfileNotifications: FC = () => {
     <div className="w-full">
       <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-display-lg">Notifications</h1>
-          <p className="text-gray-500 dark:text-gray-400">Stay updated on your rentals, purchases, and new arrivals.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-display-lg">{t('profile.notifications.title', 'Notifications')}</h1>
+          <p className="text-gray-500 dark:text-gray-400">{t('profile.notifications.subtitle', 'Stay updated on your rentals, purchases, and new arrivals.')}</p>
         </div>
         {unreadCount > 0 && (
           <button 
@@ -75,7 +77,7 @@ const ProfileNotifications: FC = () => {
             className="text-sm text-blue-400 hover:text-blue-300 font-bold transition-colors flex items-center gap-1"
           >
             <span className="material-symbols-outlined text-[18px]">done_all</span>
-            Mark all as read
+            {t('profile.notifications.markAll', 'Mark all as read')}
           </button>
         )}
       </header>
@@ -87,8 +89,8 @@ const ProfileNotifications: FC = () => {
       ) : notifications.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-gray-500 dark:text-gray-400 bg-white dark:bg-[#112240]/40 rounded-2xl border border-white/5">
           <span className="material-symbols-outlined text-6xl mb-4 opacity-50">notifications_off</span>
-          <p className="text-lg font-bold text-gray-900 dark:text-white mb-2">No notifications</p>
-          <p className="text-sm max-w-md text-center mb-6">You're all caught up! We'll let you know when there are updates.</p>
+          <p className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t('profile.notifications.noNotifications', 'No notifications')}</p>
+          <p className="text-sm max-w-md text-center mb-6">{t('profile.notifications.noNotificationsDesc', "You're all caught up! We'll let you know when there are updates.")}</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -127,7 +129,7 @@ const ProfileNotifications: FC = () => {
                       onClick={() => markAsRead(notification._id)}
                       className="mt-3 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
                     >
-                      Mark as read
+                      {t('profile.notifications.markAsRead', 'Mark as read')}
                     </button>
                   )}
                 </div>

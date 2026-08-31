@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { type Book } from '../../store/bookSlice';
 import PaymentForm from './PaymentForm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +14,7 @@ interface StandardPaymentProps {
 }
 
 const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPaymentType = 'rent' }) => {
+  const { t } = useTranslation();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [purchaseMode, setPurchaseMode] = useState<'buy' | 'rent'>(defaultPaymentType);
   const [addAudioBook, setAddAudioBook] = useState(false);
@@ -54,12 +56,12 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
   const copyrightNotice = (
     <div className="bg-red-50 dark:bg-red-900/10 p-4 rounded-xl border border-red-100 dark:border-red-900/20 mt-2">
       <h4 className="font-bold text-red-800 dark:text-red-400 mb-2 flex items-center gap-2 text-sm">
-        <span className="material-symbols-outlined text-[18px]">gavel</span> Copyright Notice
+        <span className="material-symbols-outlined text-[18px]">gavel</span> {t('payment.copyrightNotice', 'Copyright Notice')}
       </h4>
       <ul className="text-xs text-red-700/80 dark:text-red-400/80 leading-relaxed list-disc pl-4 space-y-1">
-        <li>Copying or distributing this e-book is strictly prohibited.</li>
-        <li>Unauthorized sharing will lead to immediate account suspension.</li>
-        <li>Violators face legal prosecution under copyright laws.</li>
+        <li>{t('payment.copyrightDesc1', 'Copying or distributing this e-book is strictly prohibited.')}</li>
+        <li>{t('payment.copyrightDesc2', 'Unauthorized sharing will lead to immediate account suspension.')}</li>
+        <li>{t('payment.copyrightDesc3', 'Violators face legal prosecution under copyright laws.')}</li>
       </ul>
     </div>
   );
@@ -70,7 +72,7 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
       {/* Left Column: Toggle & Info */}
       <div className="flex-1 w-full flex flex-col gap-6 md:pr-12 md:border-r border-gray-200 dark:border-white/10">
         <h3 className="font-headline-md text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <span className="material-symbols-outlined text-primary dark:text-primary-fixed">lock</span> Secure Checkout
+          <span className="material-symbols-outlined text-primary dark:text-primary-fixed">lock</span> {t('payment.secureCheckout', 'Secure Checkout')}
         </h3>
         
         {/* Toggle Buy / Rent */}
@@ -79,13 +81,13 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
             onClick={() => setPurchaseMode('rent')}
             className={`flex-1 py-3 font-bold rounded-md transition-colors ${purchaseMode === 'rent' ? 'bg-white dark:bg-white/10 shadow text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}
           >
-            Rent
+            {t('payment.rent', 'Rent')}
           </button>
           <button 
             onClick={() => setPurchaseMode('buy')}
             className={`flex-1 py-3 font-bold rounded-md transition-colors ${purchaseMode === 'buy' ? 'bg-white dark:bg-white/10 shadow text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}
           >
-            Buy Now
+            {t('payment.buyNow', 'Buy Now')}
           </button>
         </div>
 
@@ -102,19 +104,19 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
             </div>
             <div>
               <div className="flex justify-between items-center mb-1">
-                <span className="font-bold text-gray-900 dark:text-white">Add Audio Book</span>
+                <span className="font-bold text-gray-900 dark:text-white">{t('payment.addAudioBook', 'Add Audio Book')}</span>
                 <span className="font-bold text-primary dark:text-primary-fixed">+$9.99</span>
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Get the professionally narrated audio version to listen on the go.</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('payment.audioBookDesc', 'Get the professionally narrated audio version to listen on the go.')}</p>
             </div>
           </label>
           
           <div className="bg-gray-50 dark:bg-black/20 p-4 rounded-xl border border-gray-200 dark:border-white/10">
             <h4 className="font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2 text-sm">
-              <span className="material-symbols-outlined text-[18px]">verified_user</span> Refund Policy
+              <span className="material-symbols-outlined text-[18px]">verified_user</span> {t('payment.refundPolicy', 'Refund Policy')}
             </h4>
             <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-              You can return this e-book for a full refund within 7 days of purchase, provided you have read less than 20% of the book. Audio books are non-refundable once downloaded.
+              {t('payment.refundDesc', 'You can return this e-book for a full refund within 7 days of purchase, provided you have read less than 20% of the book. Audio books are non-refundable once downloaded.')}
             </p>
           </div>
 
@@ -125,7 +127,7 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
         <div className={`transition-all duration-300 flex flex-col gap-4 ${purchaseMode === 'rent' ? 'opacity-100 h-auto' : 'opacity-0 h-0 overflow-hidden pointer-events-none select-none m-0 p-0 border-0'}`}>
           <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-black/20">
             <span className="font-bold text-gray-900 dark:text-white">
-              <span className="text-primary">Extend</span> Return (+ Days)
+              {t('payment.extendReturn', 'Extend Return (+ Days)')}
             </span>
             <div className="flex items-center gap-4 bg-white dark:bg-[#112240] rounded-lg px-2 py-1 shadow-sm border border-gray-200 dark:border-white/10">
               <button 
@@ -148,9 +150,9 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
             <div className="flex items-start gap-3">
               <span className="material-symbols-outlined text-lg">info</span>
               <div>
-                <p className="mb-1">Base rent time is 1 week (7 days).</p>
-                <p className="mb-1">Each additional day adds $0.50.</p>
-                <p>If not extended, it will be automatically removed from your private library.</p>
+                <p className="mb-1">{t('payment.baseRentInfo1', 'Base rent time is 1 week (7 days).')}</p>
+                <p className="mb-1">{t('payment.baseRentInfo2', 'Each additional day adds $0.50.')}</p>
+                <p>{t('payment.baseRentInfo3', 'If not extended, it will be automatically removed from your private library.')}</p>
               </div>
             </div>
           </div>
@@ -160,7 +162,7 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
 
         <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-white/10 mt-auto pt-6">
           <span className="font-title-md text-xl font-bold text-gray-900 dark:text-white">
-            {purchaseMode === 'buy' ? 'Total' : `Rent (${7 + extraRentDays} Days)`}
+            {purchaseMode === 'buy' ? t('payment.total', 'Total') : t('payment.rentDays', 'Rent ({{days}} Days)', { days: 7 + extraRentDays })}
           </span>
           <span className="font-headline-lg text-3xl font-bold text-primary dark:text-primary-fixed">
             ${totalPrice.toFixed(2)}
@@ -175,9 +177,9 @@ const StandardPayment: FC<StandardPaymentProps> = ({ book, onSuccess, defaultPay
         ) : (
           <div className="bg-gray-50 dark:bg-black/20 p-8 rounded-2xl border border-gray-200 dark:border-white/10 text-center flex flex-col items-center justify-center gap-4 h-full">
             <span className="material-symbols-outlined text-5xl text-gray-400 dark:text-gray-500">lock_person</span>
-            <h4 className="text-xl font-bold text-gray-900 dark:text-white">Authentication Required</h4>
+            <h4 className="text-xl font-bold text-gray-900 dark:text-white">{t('payment.authRequired', 'Authentication Required')}</h4>
             <p className="text-gray-600 dark:text-gray-400 max-w-sm">
-              You are not logged in. Please <Link to="/login" className="text-primary hover:underline font-bold">log in</Link> or, if you don't have an account, <Link to="/signup" className="text-primary hover:underline font-bold">sign up</Link> to make a payment.
+              {t('payment.authRequiredDesc1', 'You are not logged in. Please ')}<Link to="/login" className="text-primary hover:underline font-bold">{t('payment.authRequiredDesc2', 'log in')}</Link>{t('payment.authRequiredDesc3', " or, if you don't have an account, ")}<Link to="/signup" className="text-primary hover:underline font-bold">{t('payment.authRequiredDesc4', 'sign up')}</Link>{t('payment.authRequiredDesc5', ' to make a payment.')}
             </p>
           </div>
         )}

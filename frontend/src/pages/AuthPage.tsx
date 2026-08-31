@@ -3,8 +3,10 @@ import ThemeLanguageToggle from '../components/ui/ThemeLanguageToggle';
 import AuthImageSidebar from '../components/ui/AuthImageSidebar';
 import LoginForm from '../components/auth/LoginForm';
 import SignupForm from '../components/auth/SignupForm';
+import { useTranslation } from 'react-i18next';
 
 const AuthPage = () => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   // Mode derived directly from URL
@@ -17,7 +19,7 @@ const AuthPage = () => {
         className="absolute top-4 left-4 z-50 flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-fixed transition-colors font-bold group"
       >
         <span className="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
-        Home Page
+        {t('auth.homePage', 'Home Page')}
       </Link>
 
       <ThemeLanguageToggle className="absolute top-4 right-4 z-50 flex gap-4" />
@@ -31,8 +33,8 @@ const AuthPage = () => {
           {/* STATIC LEFT PAGE (Login Image) */}
           <div className="w-1/2 h-full absolute left-0 top-0 overflow-hidden rounded-l-[2rem]">
             <AuthImageSidebar 
-              title="Discover worlds together."
-              subtitle="Premium library access delivered at the speed of thought."
+              title={t('auth.loginTitle', 'Discover worlds together.')}
+              subtitle={t('auth.loginSubtitle', 'Premium library access delivered at the speed of thought.')}
               imageUrl="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1000&auto=format&fit=crop"
               imageAlt="Family reading together"
               className="w-full h-full"
@@ -60,8 +62,8 @@ const AuthPage = () => {
             {/* BACK FACE: Signup Image (Faces Left, revealed when flipped) */}
             <div className={`absolute inset-0 [-webkit-backface-visibility:hidden] [backface-visibility:hidden] rotate-y-180 overflow-hidden rounded-l-[2rem] border-r border-gray-200 dark:border-white/10 bg-gray-900 shadow-[inset_-20px_0_50px_rgba(0,0,0,0.5)] transition-opacity duration-0 delay-[750ms] ${isSignup ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                <AuthImageSidebar 
-                 title="Join the Exchange."
-                 subtitle="Connect with a global community of readers. Share stories, discover new worlds."
+                 title={t('auth.signupTitle', 'Join the Exchange.')}
+                 subtitle={t('auth.signupSubtitle', 'Connect with a global community of readers. Share stories, discover new worlds.')}
                  imageUrl="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1000&auto=format&fit=crop"
                  imageAlt="Community book sharing"
                  className="w-full h-full"

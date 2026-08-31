@@ -1,4 +1,5 @@
 import { type FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import apiClient from '../../api/axiosConfig';
 
@@ -9,6 +10,7 @@ interface ProfileOverviewProps {
 }
 
 const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rentedBooks }) => {
+  const { t } = useTranslation();
   const booksPurchased = purchasedBooks.length;
   const booksRented = rentedBooks.length;
 
@@ -52,8 +54,8 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
       <div className="flex flex-col gap-8">
         {/* Page Header */}
         <header>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-display-lg">My Profile</h1>
-          <p className="text-gray-500 dark:text-gray-400">Manage your account settings and view your reading journey.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 font-display-lg">{t('profile.overview.title', 'My Profile')}</h1>
+          <p className="text-gray-500 dark:text-gray-400">{t('profile.overview.subtitle', 'Manage your account settings and view your reading journey.')}</p>
         </header>
 
         {/* Stats Bento Grid */}
@@ -62,7 +64,7 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
           <div className="bg-white dark:bg-[#112240]/70 backdrop-blur-md rounded-xl p-6 flex flex-col justify-between items-start relative overflow-hidden group hover:-translate-y-1 transition-transform border border-gray-200 dark:border-white/10 shadow-lg">
             <span className="material-symbols-outlined text-primary-container mb-4 text-3xl">shopping_bag</span>
             <div>
-              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold mb-1">Books Purchased</p>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold mb-1">{t('profile.overview.booksPurchased', 'Books Purchased')}</p>
               <p className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">{booksPurchased}</p>
             </div>
           </div>
@@ -71,7 +73,7 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
           <div className="bg-white dark:bg-[#112240]/70 backdrop-blur-md rounded-xl p-6 flex flex-col justify-between items-start relative overflow-hidden group hover:-translate-y-1 transition-transform border border-gray-200 dark:border-white/10 shadow-lg">
             <span className="material-symbols-outlined text-blue-400 mb-4 text-3xl">book</span>
             <div>
-              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold mb-1">Books Rented</p>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold mb-1">{t('profile.overview.booksRented', 'Books Rented')}</p>
               <p className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">{booksRented}</p>
             </div>
           </div>
@@ -80,7 +82,7 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
           <div className="bg-white dark:bg-[#112240]/70 backdrop-blur-md rounded-xl p-6 flex flex-col justify-between items-start relative overflow-hidden group hover:-translate-y-1 transition-transform border border-gray-200 dark:border-white/10 shadow-lg">
             <span className="material-symbols-outlined text-green-400 mb-4 text-3xl">schedule</span>
             <div>
-              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold mb-1">Reading Time</p>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold mb-1">{t('profile.overview.readingTime', 'Reading Time')}</p>
               <p className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">0h</p>
             </div>
           </div>
@@ -89,7 +91,7 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
           <div className="bg-white dark:bg-[#112240]/70 backdrop-blur-md rounded-xl p-6 flex flex-col justify-between items-start relative overflow-hidden group hover:-translate-y-1 transition-transform border border-gray-200 dark:border-white/10 shadow-lg">
             <span className="material-symbols-outlined text-purple-400 mb-4 text-3xl">task_alt</span>
             <div>
-              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold mb-1">Completed</p>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold mb-1">{t('profile.overview.completed', 'Completed')}</p>
               <p className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">0</p>
             </div>
           </div>
@@ -97,7 +99,7 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
 
         {/* User Details & Settings Form */}
         <section className="bg-white dark:bg-[#112240]/70 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-gray-200 dark:border-white/10 shadow-lg">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-200 dark:border-white/10 pb-4">Personal Information</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-200 dark:border-white/10 pb-4">{t('profile.overview.personalInfo', 'Personal Information')}</h3>
           
           {message.text && (
             <div className={`p-4 mb-6 rounded-lg text-sm font-bold ${message.type === 'error' ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-green-500/10 text-green-400 border border-green-500/20'}`}>
@@ -109,7 +111,7 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Input Group */}
               <div>
-                <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-2">Full Name</label>
+                <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-2">{t('profile.overview.fullName', 'Full Name')}</label>
                 <input 
                   className="w-full bg-gray-50 dark:bg-[#0a192f] border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white rounded-lg px-4 py-2 opacity-70 cursor-not-allowed outline-none" 
                   type="text" 
@@ -119,7 +121,7 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
               </div>
               {/* Input Group */}
               <div>
-                <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-2">Email Address</label>
+                <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-2">{t('profile.overview.email', 'Email Address')}</label>
                 <input 
                   className="w-full bg-gray-50 dark:bg-[#0a192f] border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white rounded-lg px-4 py-2 opacity-70 cursor-not-allowed outline-none" 
                   type="email" 
@@ -129,22 +131,22 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
               </div>
               {/* Input Group */}
               <div>
-                <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-2">Old Password</label>
+                <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-2">{t('profile.overview.oldPassword', 'Old Password')}</label>
                 <input 
                   className="w-full bg-gray-50 dark:bg-[#0a192f] border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all outline-none" 
                   type="password" 
-                  placeholder="Enter old password"
+                  placeholder={t('profile.overview.oldPassword', 'Enter old password')}
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
                 />
               </div>
               {/* Input Group */}
               <div>
-                <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-2">New Password</label>
+                <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-2">{t('profile.overview.newPassword', 'New Password')}</label>
                 <input 
                   className="w-full bg-gray-50 dark:bg-[#0a192f] border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all outline-none" 
                   type="password" 
-                  placeholder="Enter new password"
+                  placeholder={t('profile.overview.newPassword', 'Enter new password')}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
@@ -161,7 +163,7 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
                   setMessage({ type: '', text: '' });
                 }}
               >
-                Cancel
+                {t('profile.overview.cancel', 'Cancel')}
               </button>
               <button 
                 className="px-6 py-2.5 rounded-full bg-primary text-black font-bold text-sm shadow-sm hover:shadow-md hover:bg-primary-container transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2" 
@@ -171,9 +173,9 @@ const ProfileOverview: FC<ProfileOverviewProps> = ({ user, purchasedBooks, rente
                 {isSubmitting ? (
                   <>
                     <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></span>
-                    Updating...
+                    {t('common.loading', 'Updating...')}
                   </>
-                ) : 'Update Password'}
+                ) : t('profile.overview.updatePassword', 'Update Password')}
               </button>
             </div>
           </form>
