@@ -36,7 +36,6 @@ const Profile: FC = () => {
   // Auto-redirect to login to re-authenticate and populate user
   if (!user) {
     dispatch(logoutUser());
-    navigate('/login');
     return null;
   }
 

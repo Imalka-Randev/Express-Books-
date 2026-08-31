@@ -244,7 +244,7 @@
     "buyCount": "මිලදී ගැනීම ({{count}})",
     "itemsCount": "අයිතම {{count}} යි",
     "checkoutBtn": "මුදල් ගෙවන්න",
-    "pleaseLogin": "කරුණාකර කරත්තය සඳහා මුදල් ගෙවීමට පුරන්න.",
+    "pleaseLogin": "කරුණාකර මුදල් ගෙවීම සඳහා.",
     "logIn": "පුරන්න"
   },
   "checkout": {

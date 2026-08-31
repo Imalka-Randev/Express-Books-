@@ -21,7 +21,6 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    navigate('/');
   };
 
   const navItems: { id: ProfileTab; label: string; icon: string }[] = [

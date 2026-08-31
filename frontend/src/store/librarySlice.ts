@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { CartItem } from './cartSlice';
 import apiClient from '../api/axiosConfig';
+import { logoutUser } from './authSlice';
 
 import type { Book } from './bookSlice';
 
@@ -114,6 +115,11 @@ const librarySlice = createSlice({
       if (rentItem) {
         rentItem.dueDate = newDueDate;
       }
+    });
+
+    // --- Industry Standard: Reset library state on logout ---
+    builder.addCase(logoutUser.fulfilled, () => {
+      return initialState;
     });
   }
 });

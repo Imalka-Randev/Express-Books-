@@ -33,8 +33,11 @@ export const logoutUser = createAsyncThunk(
     } catch (error) {
       console.error("Failed to hit logout endpoint", error);
     } finally {
-      // Regardless of server success, clean up local state
+      // 1. Clear auth state and localStorage
       dispatch(authSlice.actions.logout());
+      // 2. Hard redirect — clears ALL in-memory React/Redux state instantly
+      //    This is the industry-standard approach: no stale owned/rented badges
+      window.location.href = '/';
     }
   }
 );

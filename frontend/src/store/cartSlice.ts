@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { Book } from './bookSlice';
+import { logoutUser } from './authSlice';
 
 export interface CartItem {
   book: Book;
@@ -88,6 +89,14 @@ const cartSlice = createSlice({
       saveCartToStorage(state.items);
     }
   },
+  extraReducers: (builder) => {
+    // --- Industry Standard: Clear cart and localStorage on logout ---
+    builder.addCase(logoutUser.fulfilled, (state) => {
+      state.items = [];
+      state.isOpen = false;
+      localStorage.removeItem('expressBooks_cart');
+    });
+  }
 });
 
 export const { setCartOpen, addItem, removeItem, toggleItemType, updateRentDays, clearCart } = cartSlice.actions;
